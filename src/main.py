@@ -35,8 +35,11 @@ def GP(X, Y):
     if Y.ndim != 2:
         Y = Y[:, None]
 
-    kernel = GPy.kern.RBF(1)
+    kernel = GPy.kern.MLP(1) + GPy.kern.Bias(1)
     m = GPy.models.GPRegression(X, Y, kernel)
+    m['.*Gaussian_noise'] = .05
+    m['.*noise'].unconstrain()
+    m['.*noise'].fix()
     m.optimize(messages=True, max_f_eval=1000)
     return m
 
@@ -51,8 +54,8 @@ def readData(filename):
 
 
 files = os.listdir('data')
-targetFile = files[1]
-X, Y = readData('data/'+targetFile)
+targetFile = files[2]
+X, Y = readData('data/' + targetFile)
 
 fig1 = plt.figure(num=1)
 plt.plot(X, Y[:, 0], 'bx', alpha=0.2)
