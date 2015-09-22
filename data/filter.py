@@ -39,7 +39,7 @@ def unix_time_millis(dt):
     
 def process(headers, lines):
     outputMatrix = getOutputMatrix(headers, lines)
-    #mapField(convertDateTime, outputMatrix, 'SNAPSHOT_TIMESTAMP')
+    mapField(convertDateTime, outputMatrix, 'SNAPSHOT_TIMESTAMP')
     #mapField(int, outputMatrix, 'USERID')
     #mapField(float, outputMatrix, 'LONGITUDE')
     #mapField(float, outputMatrix, 'LATITUDE')
@@ -59,20 +59,20 @@ def process(headers, lines):
     #csvPrint(filterHeaders)
     #print(' '.join(map(str,[x2-x1,y2-y1])))
     
-    #sortBy(outputMatrix, 'TIMESTAMP')
-    sortBy(outputMatrix, 'TAG_ID')
+    sortBy(outputMatrix, 'SNAPSHOT_TIMESTAMP')
+    #sortBy(outputMatrix, 'TAG_ID')
     outputMatrix = filterRows(hasAllEntries, outputMatrix)
     
     currTag = -1
-    f = None
+    f = open('conf/LOL.csv', 'w+')
     for row in outputMatrix:
         if currTag != row[1]:
             currTag = row[1]
-            if f != None:
-                f.close()
-                f = None
-            f = open('conf/' + currTag + '.csv', 'w+')
-            filePrint(headers, f)
+            #if f != None:
+                #f.close()
+                #f = None
+            #f = open('conf/' + currTag + '.csv', 'w+')
+            #filePrint(headers, f)
         filePrint(row, f)
         
     if f != None:
