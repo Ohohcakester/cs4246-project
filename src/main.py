@@ -54,7 +54,9 @@ def readData(filename):
 
 
 files = os.listdir('data')
+files.sort()
 targetFile = files[2]
+print targetFile
 X, Y = readData('data/' + targetFile)
 
 fig1 = plt.figure(num=1)
