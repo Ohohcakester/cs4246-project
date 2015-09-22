@@ -4,6 +4,7 @@ import os
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from PIL import Image, ImageDraw
+import random
 
 top = 980
 left = 145
@@ -35,27 +36,41 @@ def drawLines(t, x, y, im):
     
         
 def main():
-    data = pd.read_csv('../data/trainingData_Filtered.csv')
-    data_filtered = data[['USERID', 'LONGITUDE', 'LATITUDE', 'FLOOR', 'BUILDINGID', 'TIMESTAMP']]
+    #data = pd.read_csv('../data/trainingData_Filtered.csv')
+    #data_filtered = data[['USERID', 'LONGITUDE', 'LATITUDE', 'FLOOR', 'BUILDINGID', 'TIMESTAMP']]
 
-    im = loadImage()
-    userIds = data_filtered['USERID'].unique()
+    #im = loadImage()
+    #userIds = data_filtered['USERID'].unique()
+    userIds = os.listdir('data')
     userIds.sort()
-    for userId in userIds:
-        user_data = data_filtered[data_filtered.USERID == userId]
-        X = np.array(user_data['TIMESTAMP'])[:, None]
+    #random.shuffle(userIds)
+    for userId in userIds[2:3]:
+        userId = '3252.csv'
+        
+        #user_data = data_filtered[data_filtered.USERID == userId]
+        data = pd.read_csv('data/' + userId)
+        data = data.sort('SNAPSHOT_TIMESTAMP')
+        
+        t = np.array(data['SNAPSHOT_TIMESTAMP'])[:, None]
+        x = np.array(data['X'])[:, None]
+        y = np.array(data['Y'])[:, None]
+        t = np.transpose(t)[0]
+        x = np.transpose(x)[0]
+        y = np.transpose(y)[0]
         
         #print(np.min(X))
-        X -= np.min(X)
-        Y = np.array(user_data[['LONGITUDE', 'LATITUDE']])
-        t = np.transpose(X)[0]
-        x = np.transpose(Y)[0]
-        y = np.transpose(Y)[1]
+        #X -= np.min(X)
+        #Y = np.array(data[['X', 'Y']])
+        #t = np.transpose(X)[0]
+        #x = np.transpose(Y)[0]
+        #y = np.transpose(Y)[1]
+     
+        print 'Plotting: ' + userId
+        plotGraph(t, x, y)
+        #drawLines(t, x, y, im)
         
-        drawLines(t, x, y, im)
-        
-    im.save('output.png', 'PNG')
-    os.startfile('output.png')
+    #im.save('output.png', 'PNG')
+    #os.startfile('output.png')
 
 
 
