@@ -6,7 +6,7 @@ import climin
 
 def SVGP(X, Y):
     Z = np.random.rand(20, 1)
-    batchsize = 10
+    batchsize = 20
     m = GPy.core.SVGP(X, Y, Z,
                       GPy.kern.RBF(1) + GPy.kern.White(1),
                       GPy.likelihoods.Gaussian(), batchsize=batchsize)
@@ -30,7 +30,8 @@ def SVGP(X, Y):
 def GP(X, Y):
     if Y.ndim != 2:
         Y = Y[:, None]
-    m = GPy.models.GPRegression(X, Y, GPy.kern.Matern52(1, 0.5, 0.2))
+    kernel = GPy.kern.Matern52(1)
+    m = GPy.models.GPRegression(X, Y, kernel)
     m.optimize(messages=True, max_f_eval=1000)
     return m
 
@@ -58,10 +59,12 @@ def readData():
 
 X, Y = readData()
 
+'''
 N = len(X)
 Y1 = np.sin(6*X) + 0.1*np.random.randn(N, 1)
 Y2 = np.sin(3*X) + 0.1*np.random.randn(N, 1)
 Y = np.hstack((Y1, Y2))
+'''
 
 fig1 = plt.figure(num=1)
 plt.plot(X, Y[:, 0], 'bx', alpha=0.2)
@@ -69,5 +72,5 @@ plt.xlabel('Time')
 plt.ylabel('LONGITUDE')
 plt.title('SVI LONGITUDE prediction with data')
 
-m = SVGP(X, Y)
+m = GP(X, Y[:, 0])
 _ = m.plot(which_data_ycols=[0], plot_limits=(X.min(), X.max()), fignum=1)
