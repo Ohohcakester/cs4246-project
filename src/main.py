@@ -52,7 +52,7 @@ def readData(filename):
     converted = user['SNAPSHOT_TIMESTAMP'].apply(timestampToMs)
     X = np.array(converted)[:, None].astype(float)
     X -= np.min(X)
-    Y = np.array(user[['X', 'Y', 'Z']])
+    Y = np.array(user[['X', 'Y', 'Z']]).astype(float)
 
     return (X, Y)
 
@@ -60,10 +60,10 @@ def readData(filename):
 X, Y = readData('first_user.csv')
 
 fig1 = plt.figure(num=1)
-plt.plot(X, Y[:, 1], 'bx', alpha=0.2)
+plt.plot(X, Y[:, 0], 'bx', alpha=0.2)
 plt.xlabel('Time')
 plt.ylabel('X')
 plt.title('X prediction with data')
 
-m = GP(X, Y[:, 1])
-_ = m.plot(which_data_ycols=[0], plot_limits=(X.min(), X.max()), fignum=1)
+#m = GP(X, Y[:, 1])
+#_ = m.plot(which_data_ycols=[0], plot_limits=(X.min(), X.max()), fignum=1)
