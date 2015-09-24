@@ -52,19 +52,32 @@ def readData(filename):
 
     return (X, Y)
 
+def run(X, Y, dimension, targetFile):
+    if (dimension == 'X'):
+        col = 0
+    elif (dimension == 'Y'):
+        col = 1
+    elif (dimension == 'Z'):
+        col = 2
+
+    plt.figure()
+    plt.plot(X, Y[:, col], 'bx', alpha=0.2)
+    plt.xlabel('Time')
+    plt.ylabel(dimension)
+    plt.title(dimension + ' prediction with data')
+
+    m = GP(X, Y[:, col])
+    _ = m.plot(which_data_ycols=[0], plot_limits=(X.min(), X.max()))
+    plt.savefig('./fig/' + targetFile + '_' + dimension + '.png')
+    plt.clf()
+    #plt.show()
+
 
 files = os.listdir('data')
-files.sort()
-targetFile = files[2]
-print targetFile
-X, Y = readData('data/' + targetFile)
-
-fig1 = plt.figure(num=1)
-plt.plot(X, Y[:, 0], 'bx', alpha=0.2)
-plt.xlabel('Time')
-plt.ylabel('X')
-plt.title('X prediction with data')
-
-m = GP(X, Y[:, 0])
-_ = m.plot(which_data_ycols=[0], plot_limits=(X.min(), X.max()), fignum=1)
-plt.show()
+#files.sort()
+for targetFile in files:
+    print targetFile
+    X, Y = readData('data/' + targetFile)
+    run(X, Y, 'X', targetFile)
+    run(X, Y, 'Y', targetFile)
+    run(X, Y, 'Z', targetFile)
