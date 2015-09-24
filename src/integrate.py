@@ -35,7 +35,10 @@ def multivariateGaussian(mean_x, mean_y, mean_z, cov_matrix):
         return const*np.exp(-0.5*np.dot(np.transpose(v),np.dot(inv_matrix,v)))
     return f
     
+def multivariateIndepGaussian(mean_x, mean_y, mean_z, var_x, var_y, var_z):
+    return multivariateGaussian(mean_x,mean_y,mean_z,np.array([[var_x,0,0],[0,var_y,0],[0,0,var_z]]))
+    
 # Testing code
 if __name__ == '__main__':
-    f = multivariateGaussian(0,0,0,np.array([[1,0,0],[0,1,0],[0,0,0.001]]))
+    f = multivariateIndepGaussian(0,0,0,1,1,0.0001)
     cylinderIntegrate(0,0,10,-1,1,f)
