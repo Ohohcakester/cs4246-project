@@ -24,8 +24,16 @@ def cylinderIntegrate(cx, cy, r, zMin, zMax, f):
     print 'Error: ' + str(err)
 
 
+def multivariateGaussian(mean_x, mean_y, mean_z, cov_matrix):
+    inv_matrix = np.linalg.inv(cov_matrix)
+    det = np.linalg.det(cov_matrix)
+    const = 1 / (((2*np.pi)**3 * det)**0.5)
+    def f(x,y,z):
+        v = np.array([[x-mean_x],[y-mean_y],[z-mean_z]])
+        return const*np.exp(-0.5*np.dot(np.transpose(v),np.dot(inv_matrix,v)))
+    return f
+    
 # Testing code
 if __name__ == '__main__':
-    def f(x,y,z):
-        return 1
-    cylinderIntegrate(0,0,1,-1,1,f)
+    f = multivariateGaussian(0,0,0,np.array([[1,0,0],[0,1,0],[0,0,0.001]]))
+    cylinderIntegrate(0,0,10,-1,1,f)
