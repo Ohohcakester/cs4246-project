@@ -23,7 +23,9 @@ def cylinderIntegrate(cx, cy, r, zMin, zMax, f):
     print 'Result: ' + str(res)
     print 'Error: ' + str(err)
 
-
+# Returns a multivariate gaussian pdf using the parameters given.
+# cov_matrix is a 3-d np.array. Should be symmetric, positive definite.
+# example: np.array([[1,0,0],[0,1,0],[0,0,1]])
 def multivariateGaussian(mean_x, mean_y, mean_z, cov_matrix):
     inv_matrix = np.linalg.inv(cov_matrix)
     det = np.linalg.det(cov_matrix)
