@@ -52,6 +52,18 @@ def readData(filename):
 
     return (X, Y)
 
+def plot_graph(X, Y, m, dimension, targetFile):
+    plt.figure()
+    plt.plot(X, Y, 'bx', alpha=0.2)
+    plt.xlabel('Time')
+    plt.ylabel(dimension)
+    plt.title(dimension + ' prediction with data')
+
+    _ = m.plot(which_data_ycols=[0], plot_limits=(X.min(), X.max()))
+    #plt.savefig('./fig/' + targetFile + '_' + dimension + '.png')
+    plt.clf()
+    #plt.show()
+
 def run(X, Y, dimension, targetFile):
     if (dimension == 'X'):
         col = 0
@@ -60,24 +72,27 @@ def run(X, Y, dimension, targetFile):
     elif (dimension == 'Z'):
         col = 2
 
-    plt.figure()
-    plt.plot(X, Y[:, col], 'bx', alpha=0.2)
-    plt.xlabel('Time')
-    plt.ylabel(dimension)
-    plt.title(dimension + ' prediction with data')
-
     m = GP(X, Y[:, col])
-    _ = m.plot(which_data_ycols=[0], plot_limits=(X.min(), X.max()))
-    plt.savefig('./fig/' + targetFile + '_' + dimension + '.png')
-    plt.clf()
-    #plt.show()
+    plot_graph(X, Y[:, col], m, dimension, targetFile)
+
+    mu, var = m.predict(X)
+
+    return mu, var
 
 
 files = os.listdir('data')
-#files.sort()
 for targetFile in files:
     print targetFile
     X, Y = readData('data/' + targetFile)
-    run(X, Y, 'X', targetFile)
-    run(X, Y, 'Y', targetFile)
-    run(X, Y, 'Z', targetFile)
+    mu_X, var_X = run(X, Y, 'X', targetFile)
+    mu_Y, var_Y = run(X, Y, 'Y', targetFile)
+    mu_Z, var_Z = run(X, Y, 'Z', targetFile)
+    df = pd.DataFrame({'mu_X': mu_X.flatten(), 
+                        'var_X': var_X.flatten(),
+                        'mu_Y': mu_Y.flatten(),
+                        'var_Y': var_Y.flatten(),
+                        'mu_Z': mu_Z.flatten(),
+                        'var_Z': var_Z.flatten()},
+                        index = X.flatten().astype(int))
+    df.to_csv('./stat/stat_' + targetFile)
+
