@@ -47,10 +47,11 @@ def readData(filename):
     user = pd.read_csv(filename)
 
     X = np.array(user['SNAPSHOT_TIMESTAMP'])[:, None].astype(float)
-    X -= np.min(X)
+    minTime = np.min(X)
+    X -= minTime
     Y = np.array(user[['X', 'Y', 'Z']]).astype(float)
 
-    return (X, Y)
+    return (X, Y, minTime)
 
 def plot_graph(X, Y, m, dimension, targetFile):
     plt.figure()
@@ -73,27 +74,31 @@ def run(X, Y, dimension, testTimes, targetFile):
         col = 2
 
     m = GP(X, Y[:, col])
-    plot_graph(X, Y[:, col], m, dimension, targetFile)
+    #plot_graph(X, Y[:, col], m, dimension, targetFile)
 
-    mu, var = m.predict(X)
+    mu, var = m.predict(testTimes)
 
     return mu, var
 
-times = pd.read_csv('test_times.csv')
+def readTimes():
+    times = pd.read_csv('test_times.csv')
+    return np.array(times['TIME'])[:, None].astype(float)
 
+times = readTimes()
 files = os.listdir('data')
-for targetFile in files:
+for targetFile in files[1:]:
     print targetFile
-    X, Y = readData('data/' + targetFile)
-    mu_X, var_X = run(X, Y, 'X', times, targetFile)
-    mu_Y, var_Y = run(X, Y, 'Y', times, targetFile)
-    mu_Z, var_Z = run(X, Y, 'Z', times, targetFile)
+    X, Y, minTime = readData('data/' + targetFile)
+    relativeTimes = times - minTime
+    mu_X, var_X = run(X, Y, 'X', relativeTimes, targetFile)
+    mu_Y, var_Y = run(X, Y, 'Y', relativeTimes, targetFile)
+    mu_Z, var_Z = run(X, Y, 'Z', relativeTimes, targetFile)
     df = pd.DataFrame({'mu_X': mu_X.flatten(), 
                         'var_X': var_X.flatten(),
                         'mu_Y': mu_Y.flatten(),
                         'var_Y': var_Y.flatten(),
                         'mu_Z': mu_Z.flatten(),
                         'var_Z': var_Z.flatten()},
-                        index = X.flatten().astype(int))
+                        index = times.flatten().astype(int))
     df.to_csv('./stat/stat_' + targetFile)
 

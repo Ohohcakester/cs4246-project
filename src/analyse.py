@@ -109,6 +109,6 @@ outputDf.to_csv('true_densities.csv')
 """
 X bounds: [-0.84, 0.54] --> [-0.9,0.7] -> 8 points
 Y bounds: [-0.62, 0.62] --> [-0.7,0.7] -> 7 points
-Points: {0..7} x {0..6} x {0,1} => 50 points
+Points: {0..7} x {0..6} x {0,1} => 112 points
 Each point: -0.8+0.2*x + -0.6+0.2*y, r = 0.1
 """
