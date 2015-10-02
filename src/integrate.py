@@ -23,6 +23,18 @@ def cylinderIntegrate(cx, cy, r, zMin, zMax, f):
     print 'Result: ' + str(res)
     print 'Error: ' + str(err)
 
+# f is a function (probability distribution) of x, y, z.
+# Integrates over a cylinder at (cx,cy), radius r, from z = zMin to z = zMax
+def boxIntegrate(cx, cy, r, zMin, zMax, f):
+    yTop = lambda x : cy + r
+    yBot = lambda x : cy - r
+    zTop = lambda x, y : zMax
+    zBot = lambda x, y : zMin
+    
+    res, err = integrate.tplquad(f, cx - r, cy + r, yBot, yTop, zBot, zTop)
+    print 'Result: ' + str(res)
+    print 'Error: ' + str(err)
+
 # Returns a multivariate gaussian pdf using the parameters given.
 # cov_matrix is a 3-d np.array. Should be symmetric, positive definite.
 # example: np.array([[1,0,0],[0,1,0],[0,0,1]])

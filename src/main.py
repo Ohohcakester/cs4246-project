@@ -64,7 +64,7 @@ def plot_graph(X, Y, m, dimension, targetFile):
     plt.clf()
     #plt.show()
 
-def run(X, Y, dimension, targetFile):
+def run(X, Y, dimension, testTimes, targetFile):
     if (dimension == 'X'):
         col = 0
     elif (dimension == 'Y'):
@@ -79,14 +79,15 @@ def run(X, Y, dimension, targetFile):
 
     return mu, var
 
+times = pd.read_csv('test_times.csv')
 
 files = os.listdir('data')
 for targetFile in files:
     print targetFile
     X, Y = readData('data/' + targetFile)
-    mu_X, var_X = run(X, Y, 'X', targetFile)
-    mu_Y, var_Y = run(X, Y, 'Y', targetFile)
-    mu_Z, var_Z = run(X, Y, 'Z', targetFile)
+    mu_X, var_X = run(X, Y, 'X', times, targetFile)
+    mu_Y, var_Y = run(X, Y, 'Y', times, targetFile)
+    mu_Z, var_Z = run(X, Y, 'Z', times, targetFile)
     df = pd.DataFrame({'mu_X': mu_X.flatten(), 
                         'var_X': var_X.flatten(),
                         'mu_Y': mu_Y.flatten(),
