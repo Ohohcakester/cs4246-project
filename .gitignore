@@ -2,9 +2,11 @@ src/climin
 data/
 src/data
 src/renders
+src/true_densities.csv
 img/output_draw.png
 img/locationmap.png
 
 report/sources
 report/__tmp1
 report/__tmp2
+*.png
