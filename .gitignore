@@ -3,3 +3,7 @@ data/
 src/data
 img/output_draw.png
 img/locationmap.png
+
+report/sources
+report/__tmp1
+report/__tmp2
