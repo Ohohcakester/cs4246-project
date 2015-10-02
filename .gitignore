@@ -1,6 +1,7 @@
 src/climin
 data/
 src/data
+src/renders
 img/output_draw.png
 img/locationmap.png
 
