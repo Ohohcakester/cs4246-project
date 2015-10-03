@@ -10,3 +10,7 @@ report/sources
 report/__tmp1
 report/__tmp2
 *.png
+*.pyc
+*.out
+src/stat
+*.zip
