@@ -1,9 +1,10 @@
 import pandas as pd
 import numpy as np
 import GPy
-from matplotlib import pyplot as plt
-import climin
+#from matplotlib import pyplot as plt
+#import climin
 import os
+import random
 
 def SVGP(X, Y):
     if Y.ndim != 2:
@@ -85,8 +86,10 @@ def readTimes():
     return np.array(times['TIME'])[:, None].astype(float)
 
 times = readTimes()
-files = os.listdir('data')
-for targetFile in files[1:]:
+import filestats
+files = filestats.getUnanalysedFiles()
+print 'Unanalysed Files: ' + str(len(files))
+for targetFile in files[:1]:
     print targetFile
     X, Y, minTime = readData('data/' + targetFile)
     relativeTimes = times - minTime
