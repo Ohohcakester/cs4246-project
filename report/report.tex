@@ -13,28 +13,45 @@
 \setcounter{secnumdepth}{0}  
 \begin{document}
 % 
-\title{Modelling Crowds using Gaussian Processes}
-\author{CS4246 Project\\
-Authors: Me, You, Everybody
+\title{Gaussian Processes for Modelling of Crowds}
+\author{CS4246 Project: Planning and Decision Making in the Real World  \\ \\
+{\bf Team 04} \\ 
+Huang Wei Ling, A0101200R\\
+Nathan Azaria, \\
+Ng Hui Xian Lynnette, \\
+Nguyen Duc Thien, \\
+Oh Shunhao, \\
 }
 \maketitle
 \begin{abstract}
 \begin{quote}
-Abstract: A short summary of the report.
+Crowd management is essential in events where the committee has to plan and organize in an effective and efficient manner, taking into consideration factors such as the facility, size and demeanor of the crowd and crowd control. The motion analysis of crowd in multivariate timeseries data requires an effective model to represent the data. In this project, we will introduce how the use of Guassian process(GP) to model crowd that allows for matching of noisy, and unevenly-sampled data, and we explore if this representation may be used to predict the density of population for future data. 
 \end{quote}
 \end{abstract}
 
-Text text text
-Text text text
-Text text text
-Text text text
-Text text text
-Text text text
-Text text text
-Text text text
-Text text text
-Text text text
-Text text text
+\section{1.  Introduction}
+In this report, we will propose the use of Gaussian process(GP) for modelling of crowds. Particularly, we will discuss how we exploit the desirable properties of Gaussian process(GP) model, some of the advantages that the model provide, the critical requirements of our proposed application as well as how people can make use of the results of our analysis to plan and make decisions for future crowd controlling or crowd management. Next, we will touch on the technical details which includes the fitting on the characteristics of Gaussian process(GP) model for the application, additional findings we gathered and modification of the model to enhance performance. The third section of the report will be a detailed experimental plan we will be using to perform and evaluate the performance of Gaussian process(GP) for modelling of crowds. Lastly, the report will end with an interesting factor we will be exploring in this project.
+
+\section{2.  Gaussian Process Regression for Motion Analysis of Crowds}
+
+{\bf2.1  Constructing Mean and Covariance Functions} \\
+
+We consider the regression model $y = f($x$) + \epsilon$, which $y$ is a dependent variable expressed in terms of an independent variable x through a function $f($x$)$ with a noise term $\epsilon \sim N(0, \sigma^2)$. The fucntion $f$ can be interpreted as a probability distribution over functions, \\
+
+$ y = f(x) \sim GP(m(x), k(x,x^))$ \\
+
+{\bf2.2  Qualitative Advantages} \\
+
+\section{3.  Technical Approach}
+
+\section{4.  Experimental Evaluation}
+
+\section{5.  Wow factor}
+
+
+\textbf{Text text text}
+\section{helo}
+
 
 
 \end{document}
