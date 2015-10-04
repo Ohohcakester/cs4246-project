@@ -32,26 +32,62 @@ Crowd management is essential in events where the committee has to plan and orga
 \section{1.  Introduction}
 In this report, we will propose the use of Gaussian process(GP) for modelling of crowds. Particularly, we will discuss how we exploit the desirable properties of Gaussian process(GP) model, some of the advantages that the model provide, the critical requirements of our proposed application as well as how people can make use of the results of our analysis to plan and make decisions for future crowd controlling or crowd management. Next, we will touch on the technical details which includes the fitting on the characteristics of Gaussian process(GP) model for the application, additional findings we gathered and modification of the model to enhance performance. The third section of the report will be a detailed experimental plan we will be using to perform and evaluate the performance of Gaussian process(GP) for modelling of crowds. Lastly, the report will end with an interesting factor we will be exploring in this project.
 
-\section{2.  Gaussian Process Regression for Motion Analysis of Crowds}
+\section{2.  Gaussian Process Regression for Motion Analysis of Crowds} 
 
-{\bf2.1  Constructing Mean and Covariance Functions} \\
+{\bf2.1  Constructing Mean and Covariance Functions} \\ 
 
 We consider the regression model $y = f($x$) + \epsilon$, which $y$ is a dependent variable expressed in terms of an independent variable x through a function $f($x$)$ with a noise term $\epsilon \sim N(0, \sigma^2)$. The fucntion $f$ can be interpreted as a probability distribution over functions, \\
 
-$ y = f(x) \sim GP(m(x), k(x,x^))$ \\
+$ y = f(x) \sim GP(m(x), k(x,x^\prime))$ \\
+
+where $m(x)$ is the mean function of the distribution and $k$ is a covariance function which describes the relationship between two values of the independent variable, $x$ and $x^\prime$, as a function of the kernel distance between them. \\
+
+In our project, we are using a heteroscedastic model that works the same way as a Gaussian Process(GP) model. However, this model allows the use of different variances for the noise terms of the observations, $\epsilon_i \sim N(0, \sigma_i^2)$, giving different weights to each observation. Therefore, it serves to fit observations with smaller noise and choose to ignore those with larger noise. \\
+
+
 
 {\bf2.2  Qualitative Advantages} \\
 
+In our application to model crowd control, there are many regression models we can consider, such as tools we can find in MSExcel, R, SAS or even SPSS. These techniques are very effective to use to represent data and do analysis. However, such techniques do not necessarily allow the detection of relatively complex path matching, incomplete paths caused by loss of signals in indoor environment or time-varying patterns of the people in the building. In addition, these tools might not be able to handle noisy or unevenly-sampled data. \\
+
+
+On the other hand, we propose Gaussian process(GP) model as it can specify the variance of noise at each point, deal with gaps between data if there is a break in between the event or for events which last a few days. Importantly, the prediction is probabilistic (Gaussian) so that one can compute the empirical confidence intervals and exceedance probabilities that might be used to refit the prediction for future crowd controlling of events. \\
+
+{\bf2.3  Important Requirements} \\
+
+Some of the important requirements of the proposed application of crowd modelling include the use of big data and the data of different demographics of approximately 1224 users and locations of 2 levels in the building. \\
+
+{\bf2.4  Interpreting  Outputs} \\
+
+In our project experiment, we will be selecting 50 random time intervals, plot a multivariate distribution at each of these 50 time intervals and integrate it. The sum of all the 50 integrated intervals will show the expected amount of people there are at each point of time. The outputs of the Gaussian Process(GP) model are useful in helping human users or experts in using a sample of people in the data to predict the population density of a particular area at any instance of time.
+
 \section{3.  Technical Approach}
+
+{\bf3.1  How does the GP model you’re using fit the requirements of your proposed application exactly?} \\
+
+input of 3 graphs \\
+
+{\bf3.2  Additional Insights} \\
+
+{\bf3.3  Novel Modification} \\
+
+path prediction \\
 
 \section{4.  Experimental Evaluation}
 
+{\bf4.1  Experimental Setup} \\
+
+{\bf4.2  Real-World Dataset} \\
+
+We test our approach using a Attendee Meta-Data (AMD) Hope RFID Dateset from which data is collected from 1224 hackers attending The Last HOPE Conference from 18-20 July 2008, located in Hotel Pennsylvania, New York City. The data set details descriptions of their interests, interactions through instant messages, and location over the course of the conference. \\
+
+{\bf4.3  Are there more than one type of GP model/variant that can be used in your proposed application? Can other types of linear or non-linear regression models be used? If so, how do you plan to empirically compare their performance? What quantitative/ empirical advantages (and/or limitations) do the GP model or its variant offer over the other evaluated models?} \\
+
+
 \section{5.  Wow factor}
 
+\section{6.  Conclusion and Contribution}
 
-\textbf{Text text text}
-\section{helo}
-
-
+\section{7.  References}
 
 \end{document}
