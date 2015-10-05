@@ -10,31 +10,31 @@
 \pdfinfo{
 /Title (Insert Your Title Here)
 /Author (Put All Your Authors Here, Separated by Commas)}
-\setcounter{secnumdepth}{0}  
+\setcounter{secnumdepth}{0}
 \begin{document}
-% 
+%
 \title{Gaussian Processes for Modelling of Crowds}
 \author{CS4246 Project: Planning and Decision Making in the Real World  \\ \\
-{\bf Team 04} \\ 
+{\bf Team 04} \\
 Huang Wei Ling, A0101200R\\
 Nathan Azaria, \\
 Ng Hui Xian Lynnette, \\
-Nguyen Duc Thien, \\
+Nguyen Duc Thien, A0093587M\\
 Oh Shunhao, \\
 }
 \maketitle
 \begin{abstract}
 \begin{quote}
-Crowd management is essential in events where the committee has to plan and organize in an effective and efficient manner, taking into consideration factors such as the facility, size and demeanor of the crowd and crowd control. The motion analysis of crowd in multivariate timeseries data requires an effective model to represent the data. In this project, we will introduce how the use of Guassian process(GP) to model crowd that allows for matching of noisy, and unevenly-sampled data, and we explore if this representation may be used to predict the density of population for future data. 
+Crowd management is essential in events where the committee has to plan and organize in an effective and efficient manner, taking into consideration factors such as the facility, size and demeanor of the crowd and crowd control. The motion analysis of crowd in multivariate timeseries data requires an effective model to represent the data. In this project, we will introduce how the use of Guassian process(GP) to model crowd that allows for matching of noisy, and unevenly-sampled data, and we explore if this representation may be used to predict the density of population for future data.
 \end{quote}
 \end{abstract}
 
 \section{1.  Introduction}
 In this report, we will propose the use of Gaussian process(GP) for modelling of crowds. Particularly, we will discuss how we exploit the desirable properties of Gaussian process(GP) model, some of the advantages that the model provide, the critical requirements of our proposed application as well as how people can make use of the results of our analysis to plan and make decisions for future crowd controlling or crowd management. Next, we will touch on the technical details which includes the fitting on the characteristics of Gaussian process(GP) model for the application, additional findings we gathered and modification of the model to enhance performance. The third section of the report will be a detailed experimental plan we will be using to perform and evaluate the performance of Gaussian process(GP) for modelling of crowds. Lastly, the report will end with an interesting factor we will be exploring in this project.
 
-\section{2.  Gaussian Process Regression for Motion Analysis of Crowds} 
+\section{2.  Gaussian Process Regression for Motion Analysis of Crowds}
 
-{\bf2.1  Constructing Mean and Covariance Functions} \\ 
+{\bf2.1  Constructing Mean and Covariance Functions} \\
 
 We consider the regression model $y = f($x$) + \epsilon$, which $y$ is a dependent variable expressed in terms of an independent variable x through a function $f($x$)$ with a noise term $\epsilon \sim N(0, \sigma^2)$. The fucntion $f$ can be interpreted as a probability distribution over functions, \\
 
@@ -44,7 +44,7 @@ where $m(x)$ is the mean function of the distribution and $k$ is a covariance fu
 
 In our project, we are using a heteroscedastic model that works the same way as a Gaussian Process(GP) model. However, this model allows the use of different variances for the noise terms of the observations, $\epsilon_i \sim N(0, \sigma_i^2)$, giving different weights to each observation. Therefore, it serves to fit observations with smaller noise and choose to ignore those with larger noise. \\
 
-
+By experimenting with different kernel functions, we obtain the final GP model using a linear combination of a Multilayer Perceptron (MLP) and a constant Bias as kernel function as they consistently output acceptable results for regressions on our datasets. MLP, also known as arc sine kernel or neural network kernel, can be optimized to represent a complex non-linear function.
 
 {\bf2.2  Qualitative Advantages} \\
 
@@ -76,6 +76,12 @@ path prediction \\
 \section{4.  Experimental Evaluation}
 
 {\bf4.1  Experimental Setup} \\
+
+We prepare and implement our experiments in Python. For the Gaussian Process modeling and regression, we use the library GPy with the help of Scipy and Numpy for numerical calculation and representation. We use the data structure and data analysis tools provided by the module Pandas to store, access and analyze our dataset. \\
+
+The Stochastic Variational Inference method using the climin module and AdaDelta rule and direct optimization using BFGS method are used to regress our model. By observing the results from several samples of our dataset, the latter provides more desirable results and is chosen for further experiments. \\
+
+We experimented with several families of kernel functions including the Radial Basis function (RBF), Exponential function, Matern52, Matern32 and Multilayer Perceptron (MLP). The experiments also involve varying their respective parameters such as noise values, relaxing or fixing constraints, changing initial values and inducing points and combining with various White and Bias kernels. Finally, the combination of kernel functions that yield consistent results as observed cross different samples from our dataset is selected to build our GP model for further application. \\
 
 {\bf4.2  Real-World Dataset} \\
 
