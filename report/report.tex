@@ -18,7 +18,7 @@
 {\bf Team 04} \\
 Huang Wei Ling, A0101200R\\
 Nathan Azaria, \\
-Ng Hui Xian Lynnette, \\
+Ng Hui Xian Lynnette, A0119646X\\
 Nguyen Duc Thien, A0093587M\\
 Oh Shunhao, \\
 }
@@ -44,7 +44,7 @@ where $m(x)$ is the mean function of the distribution and $k$ is a covariance fu
 
 In our project, we are using a heteroscedastic model that works the same way as a Gaussian Process(GP) model. However, this model allows the use of different variances for the noise terms of the observations, $\epsilon_i \sim N(0, \sigma_i^2)$, giving different weights to each observation. Therefore, it serves to fit observations with smaller noise and choose to ignore those with larger noise. \\
 
-By experimenting with different kernel functions, we obtain the final GP model using a linear combination of a Multilayer Perceptron (MLP) and a constant Bias as kernel function as they consistently output acceptable results for regressions on our datasets. MLP, also known as arc sine kernel or neural network kernel, can be optimized to represent a complex non-linear function.
+By experimenting with different kernel functions, we obtain the final GP model using a linear combination of a Multilayer Perceptron (MLP) and a constant Bias as kernel function as they consistently output acceptable results for regressions on our datasets. MLP, also known as arc sine kernel or neural network kernel, can be optimized to represent a complex non-linear function. \\
 
 {\bf2.2  Qualitative Advantages} \\
 
@@ -71,17 +71,23 @@ input of 3 graphs \\
 
 {\bf3.3  Novel Modification} \\
 
-path prediction \\
+By knowing the predicted densities of people within a defined radius of a certain point, we can do better crowd control. For example, given a prediction that people tend to crowd around a certain area at a certain point of time, obstacles can be reduced or shifted about. Personelle can also be deployed to facilitate crowd movement. This will be useful in cases of MRT breakdowns. \\
+
+In addition, by being able to predict the crowd density of an area in a future timestamp, we can do a certain form of path prediction. This can help in deciding building maps and object placements. For example, if we can model that generally if the crowd density of the facial shop increases, generally the crowd density of the restrooms will increase in the next timestamp, we might want to consider putting the restrooms in near proximity to the facial shop. Or if we can model that the crowd density streams from one product to another in a supermarket, we might want to consider placing both products near each other so shoppers can easily reach for both products at once, hence increasing the sales revenue.  \\
 
 \section{4.  Experimental Evaluation}
 
 {\bf4.1  Experimental Setup} \\
 
-We prepare and implement our experiments in Python. For the Gaussian Process modeling and regression, we use the library GPy with the help of Scipy and Numpy for numerical calculation and representation. We use the data structure and data analysis tools provided by the module Pandas to store, access and analyze our dataset. \\
+We prepare and implement our experiments in Python. For the Gaussian Process modeling and regression, we use the library Sheffield GPy with the help of Scipy and Numpy for numerical calculation and representation. We use the data structure and data analysis tools provided by the module Pandas to store, access and analyze our dataset. \\
 
 The Stochastic Variational Inference method using the climin module and AdaDelta rule and direct optimization using BFGS method are used to regress our model. By observing the results from several samples of our dataset, the latter provides more desirable results and is chosen for further experiments. \\
 
 We experimented with several families of kernel functions including the Radial Basis function (RBF), Exponential function, Matern52, Matern32 and Multilayer Perceptron (MLP). The experiments also involve varying their respective parameters such as noise values, relaxing or fixing constraints, changing initial values and inducing points and combining with various White and Bias kernels. Finally, the combination of kernel functions that yield consistent results as observed cross different samples from our dataset is selected to build our GP model for further application. \\
+
+We extract the X, Y and Z coordinates from the GPS location and perform the regression against the timestamps provided in the dataset. We also generate a common set of timestamps to predict the user movements against, in which we generate the mean and variance from the output of the GP we had earlier regressed. \\
+
+Following which, we analyse the crowd density within a certain radius of a point by counting the number of unique tags within the specified radius. \\  
 
 {\bf4.2  Real-World Dataset} \\
 
@@ -89,6 +95,12 @@ We test our approach using a Attendee Meta-Data (AMD) Hope RFID Dateset from whi
 
 {\bf4.3  Are there more than one type of GP model/variant that can be used in your proposed application? Can other types of linear or non-linear regression models be used? If so, how do you plan to empirically compare their performance? What quantitative/ empirical advantages (and/or limitations) do the GP model or its variant offer over the other evaluated models?} \\
 
+Several types of GP models were experimented with, including Stochastic Variance Gaussian Processes and Sparse Gaussian Processes. We also performed experiments with all the different types of kernels provided by the GPy library, including linear kernel and white kernel. We also tweaked the input parameters, such as the variance of the kernels to experiment with the data. The GP model-variant that we proposed has the co-variance matrix and mean that fits the data the best. \\ 
+
+A linear regression model will not suit the data as there is little correlation between the points; the GPS coordinates change randomly with respect to the timestamp as users move randomly within the conference area. The advantage the GP model in the application is its use of all the samples and feature information to perform the prediction, while allowing for the training data to have different or uneven sampling rates. In our case, not all the users have their GPS signals sampled at the same timestamps, nor do they all have the same number of sample points. We have only a few dimensions, so we are not affected by the property where GP loses its computational efficiency in high dimensional spaces -- on average, each GP model takes less than a minute to compute; the longest a model has taken is 3 minutes. The prediction is probabilistic so we can compute empirical confidence levels that may be useful in our prediction of crowd density. In addition, the use of a GP model allows the detection of incomplete paths, i.e. loss of GPS signals, resulting in no data for certain time periods. It enables the comparison of noisy data, which is evident in the case of GPS signals and random user movements.
+\\
+
+Note: Can run the kernels that failed and put plots if needed (i.e. not enough images)
 
 \section{5.  Wow factor}
 
