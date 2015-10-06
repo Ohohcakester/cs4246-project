@@ -96,6 +96,8 @@ In our dataset, because the event is a conference, the spaces are wide open, thi
 
 {\bf3.3  Novel Modification} \\
 
+WIP: To model less open spaces, we can use an alternative modelling, provided we know the layout of the area. Instead of using the $x$, $y$ and $z$ coordinates of each user, we can use shortest paths as the attributes instead.
+
 By knowing the predicted densities of people within a defined radius of a certain point, we can do better crowd control. For example, given a prediction that people tend to crowd around a certain area at a certain point of time, obstacles can be reduced or shifted about. Personnel can also be deployed to facilitate crowd movement. This will be useful in cases of MRT breakdowns. \\
 
 In addition, by being able to predict the crowd density of an area in a future timestamp, we can do a certain form of path prediction. This can help in deciding building maps and object placements. For example, if we can model that generally if the crowd density of the facial shop increases, generally the crowd density of the restrooms will increase in the next timestamp, we might want to consider putting the restrooms in near proximity to the facial shop. Or if we can model that the crowd density streams from one product to another in a supermarket, we might want to consider placing both products near each other so shoppers can easily reach for both products at once, hence increasing the sales revenue.  \\
