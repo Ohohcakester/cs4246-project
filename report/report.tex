@@ -148,7 +148,7 @@ In addition, by being able to predict the crowd density of an area in a future t
 
 {\bf4.2  Real-World Dataset} \\
 
-We test our approach using a Attendee Meta-Data (AMD) Hope RFID Dateset from which data is collected from 1224 hackers attending The Last HOPE Conference from 18-20 July 2008, located in Hotel Pennsylvania, New York City. The data set details descriptions of their interests, interactions through instant messages, and location over the course of the conference. \\
+We test our approach using a Attendee Meta-Data (AMD) Hope RFID Dateset from which data is collected from 1224 hackers attending The Last HOPE Conference from 18-20 July 2008, located in Hotel Pennsylvania, New York City. The data set details the location of the people through the use of RFID badges that uniquely identify and track them across the conference space over the course of the conference. \\
 
 This dataset was used as it has some convenient properties which allow us to construct an experiement to test our model.\\
 Firstly, the position data is usually taken at regular intervals of about $30$ seconds apart. Secondly, the data provided is exhaustive (as each attendee to the conference is tagged). Thus the data provides enough information to find the number of people in each region at any point of time, by simply counting the number of people within the region, in a time window of $[t-15,t+15)$, where $t$ is the target point of time.
