@@ -48,7 +48,7 @@ def getExpectedAll(distributions, timestamp, x, y, z):
 def difference(amount1, amount2):
     pass
 
-def evaluate():
+def evaluate(mod5):
     densities = loadDensities()
     distributions = loadDistributions()
     densities.sort(columns=['timestamp'], inplace=True)
@@ -59,7 +59,7 @@ def evaluate():
 
     def evaluateOne(densityRow):
         predicted = 0
-        if (True):
+        if (int(densityRow['timestamp']) % 5 == mod5 and densityRow['timestamp'] > 1216433766):
             filename = 'predicted/' + str(densityRow['timestamp']) + ' ' + str(densityRow['x_index']) + ' ' + str(densityRow['y_index']) + ' ' + str(densityRow['z_index'])+ '.csv'
             if (os.path.exists(filename)):
                 print(filename + 'exists')
@@ -99,5 +99,6 @@ def evaluate():
 
     return result.apply(normalize, axis=1)
 
-output = evaluate()
+mod5 = int(os.sys.argv[1])
+output = evaluate(mod5)
 output.to_csv('predicted_densities.csv')
