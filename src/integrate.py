@@ -8,6 +8,7 @@ def circleIntegrate(cx, cy, r, f):
     yBot = lambda x : cy - (r*r - (x - cx)*(x - cx))**0.5
 
     res, err = integrate.dblquad(f, cx - r, cx + r, yBot, yTop)
+    return res, err
 
 # f is a function (probability distribution) of x, y, z.
 # Integrates over a cylinder at (cx,cy), radius r, from z = zMin to z = zMax
@@ -18,14 +19,15 @@ def cylinderIntegrate(cx, cy, r, zMin, zMax, f):
     zBot = lambda x, y : zMin
     
     res, err = integrate.tplquad(f, cx - r, cx + r, yBot, yTop, zBot, zTop)
+    return res, err
 
 # f is a function (probability distribution) of x, y, z.
 # Integrates over a cylinder at (cx,cy), radius r, from z = zMin to z = zMax
 def boxIntegrate(cx, cy, r, zMin, zMax, f):
-    yTop = lambda x : cy + r
     yBot = lambda x : cy - r
-    zTop = lambda x, y : zMax
+    yTop = lambda x : cy + r
     zBot = lambda x, y : zMin
+    zTop = lambda x, y : zMax
     
     res, err = integrate.tplquad(f, cx - r, cx + r, yBot, yTop, zBot, zTop)
     return (res,err)
@@ -47,5 +49,17 @@ def multivariateIndepGaussian(mean_x, mean_y, mean_z, var_x, var_y, var_z):
     
 # Testing code
 if __name__ == '__main__':
-    f = multivariateIndepGaussian(0,0,0,1,1,0.0001)
-    cylinderIntegrate(0,0,10,-1,1,f)
+    cx = 0.6
+    cy = 0.6
+    zMin = 0.6
+    zMax = 1.8
+    radius = 2
+    muX = -0.6181
+    muY = -0.24793
+    muZ = 1.1999
+    varX = 0.0519
+    varY =0.0520
+    varZ = 0.0526
+    distribution = multivariateIndepGaussian(muX, muY, muZ, varX, varY, varZ)
+    (result, error) = boxIntegrate(cx, cy, radius, zMin, zMax, distribution)
+    print result, error
