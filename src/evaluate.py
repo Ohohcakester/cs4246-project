@@ -41,14 +41,13 @@ def getExpectedAll(distributions, timestamp, x, y, z):
     for key in distributions:
         distribution = distributions[key]
         filteredDistribution = distribution[distribution.index == timestamp]
-        print(filteredDistribution.apply(integrateOne, axis=1))
         result += filteredDistribution.apply(integrateOne, axis=1).sum()
     return result
 
 def difference(amount1, amount2):
     pass
 
-def evaluate(mod5):
+def evaluate():
     densities = loadDensities()
     distributions = loadDistributions()
     densities.sort(columns=['timestamp'], inplace=True)
@@ -59,11 +58,16 @@ def evaluate(mod5):
 
     def evaluateOne(densityRow):
         predicted = 0
-        if (int(densityRow['timestamp']) % 5 == mod5 and densityRow['timestamp'] > 1216433766):
+        if (True):
             filename = 'predicted/' + str(densityRow['timestamp']) + ' ' + str(densityRow['x_index']) + ' ' + str(densityRow['y_index']) + ' ' + str(densityRow['z_index'])+ '.csv'
             if (os.path.exists(filename)):
-                print(filename + 'exists')
-                return pandas.read_csv(filename)
+                result = pandas.read_csv(filename).transpose()
+                return pandas.Series({'timestamp': result[1][1],
+                        'x_index': result[2][1],
+                        'y_index': result[3][1],
+                        'z_index': result[4][1],
+                        'predicted': result.index[1],
+                        'real': result[0][1]})
             else:
 
                 predicted = getExpectedAll(distributions,
@@ -88,17 +92,8 @@ def evaluate(mod5):
 
 
     result = densities.apply(evaluateOne, axis=1);
+    return result
 
-    def normalize(row):
-        return pandas.Series({'timestamp': row['timestamp'],
-                'x_index': row['x_index'],
-                'y_index': row['y_index'],
-                'z_index': row['z_index'],
-                'predicted': row['predicted'],
-                'real': row['real']})
 
-    return result.apply(normalize, axis=1)
-
-mod5 = int(os.sys.argv[1])
-output = evaluate(mod5)
+output = evaluate()
 output.to_csv('predicted_densities.csv')
