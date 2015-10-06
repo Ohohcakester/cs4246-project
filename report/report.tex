@@ -74,7 +74,7 @@ Some of the important requirements of the proposed application of crowd modellin
 
 After modelling the trajectories of each person as a function of time, point of time $T$, for each person $i$, we can determine the mean vector $\boldsymbol{\mu}$ and covariance matrix $K$ of the person's $x,y,z$ coordinates. Let $U_i$ be a random variable denoting the position $(x,y,z)$ of person $i$. Each $U_i$ can then be expressed as a trivariate normal distribution $U_i \sim \mathcal{N}(\boldsymbol{\mu},K)$.\\
 
-To compute the expected amount of people in a region $R$, we define the indicator variables:
+To compute the expected amount of people in a region $R$, we define the indicator variables for each $i \in \{1,2,\cdots,n\}$:
 \begin{center}
 $X_i =
 \begin{cases}
