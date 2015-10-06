@@ -5,6 +5,7 @@
 \usepackage{helvet}
 \usepackage{courier}
 \usepackage{graphicx}
+\usepackage{amsmath}
 \usepackage{amsfonts}
 \frenchspacing
 \setlength{\pdfpagewidth}{8.5in}
@@ -71,7 +72,24 @@ Some of the important requirements of the proposed application of crowd modellin
 
 {\bf2.4  Interpreting  Outputs} \\
 
-In our project experiment, we will be selecting 50 random time intervals, plot a multivariate distribution at each of these 50 time intervals and integrate it. The sum of all the 50 integrated intervals will show the expected amount of people there are at each point of time. The outputs of the Gaussian Process(GP) model are useful in helping human users or experts in using a sample of people in the data to predict the population density of a particular area at any instance of time.
+After modelling the trajectories of each person as a function of time, point of time $T$, for each person $i$, we can determine the mean vector $\boldsymbol{\mu}$ and covariance matrix $K$ of the person's $x,y,z$ coordinates. Let $U_i$ be a random variable denoting the position $(x,y,z)$ of person $i$. Each $U_i$ can then be expressed as a trivariate normal distribution $U_i \sim \mathcal{N}(\boldsymbol{\mu},K)$.\\
+
+To compute the expected amount of people in a region $R$, we define the indicator variables:
+\begin{center}
+$X_i =
+\begin{cases}
+    1 &\text{if user }i\text{ is in region R}\\
+    0 &\text{otherwise}
+\end{cases}$
+\end{center}
+The expected value of $X_i$, is equal to the probability of person $i$ being in region $R$, which is computed as $\int_R p_i(x,y,z)dV$, where $p_i(x,y,z)$ is the probability density function of $U_i$. Thus, the total number of people in region $R$ is $\sum_{i=1}^n X_i$, with an expected value:
+\begin{center}
+$\displaystyle E[\sum_{i=1}^n X_i] = \sum_{i=1}^n E[X_i] = \sum_{i=1}^n \int_V p_i(x,y,z)dV$.
+\end{center}
+
+However, in our experiment, we do a simplified version, using independent Gaussian Process models for each of the axes $x$, $y$ and $z$, thus the covariances between any two variables to be $0$. \\
+
+Thus using simple integrations over regions, we can compute the expected number of people in each region. The outputs of the Gaussian Process(GP) model are useful in helping human users or experts in using a sample of people in the data to predict the population density of a particular area at any instance of time.
 
 \section{3.  Technical Approach}
 
