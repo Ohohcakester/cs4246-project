@@ -37,11 +37,11 @@ In this report, we propose the use of Gaussian process for modelling of crowds. 
 
 \section{2.  Gaussian Process Regression for Motion Analysis of Crowds}
 
-We define a position of a person as a discrete vector sequence in $\mathbb{R}^3$. Let $z \epsilon \mathbb{R}^3$ be the position ($x, y, z$), where x corresponds to a point of time, y as the function of the coordinates and z as the axis. We consider a position sequence $z_n = {x_i, y_i, z_i} | i = 1,...,n$. \\
+We define a position of a person as a discrete vector sequence in $\mathbb{R}^3$. Let $u \epsilon \mathbb{R}^3$ be the position ($x, y, z$), where x corresponds to a point of time, y as the function of the coordinates and z as the axis. We consider a position sequence $u_n = {x_i, y_i, z_i} | i = 1,...,n$. \\
 
 {\bf2.1  Constructing Mean and Covariance Functions} \\
 
-Gaussian process regression model is represented as $y = f($x$) + \epsilon$, which $y$ is a dependent variable expressed in terms of an independent variable x through a function $f($x$)$ with a noise term $\epsilon \sim N(0, \sigma^2)$. The function $f$ can be interpreted as a probability distribution over functions, \\
+Gaussian process regression model is represented as $y = f(x) + \epsilon$, which $y$ is a dependent variable expressed in terms of an independent variable x through a function $f(x)$ with a noise term $\epsilon \sim N(0, \sigma^2)$. The function $f$ can be interpreted as a probability distribution over functions, \\
 
 $ y = f(x) \sim GP(m(x), k(x,x^\prime))$ \\
 
@@ -63,12 +63,15 @@ One reason why this model is a good fit is because of the correlation between th
 % On the other hand, we propose Gaussian process(GP) model as it can specify the variance of noise at each point, deal with gaps between data if there is a break in between the event or for events which last a few days. Importantly, the prediction is probabilistic (Gaussian) so that one can compute the empirical confidence intervals and exceedance probabilities that might be used to refit the prediction for future crowd controlling of events. \\
 %-COMMENTED OUT-
 
-Gaussian process model fits our application well as we can can specify the variance of noise at each point, given any regions and we are able to predict the output by integrating over the regions, whereas for other curve fitting methods, the variances are unknown to us and therefore we cannot integrate over the regions we are interested to find the population density.
+Gaussian process model fits our application well as we can can specify the variance of noise at each point, given any regions and we are able to predict the output by integrating over the regions. For other curve fitting methods, the variances are unknown to us and therefore we cannot integrate over the regions we are interested to find the population density at the specific point of time. \\
 
 
 {\bf2.3  Important Requirements} \\
 
-Some of the important requirements of the proposed application of crowd modelling include the use of big data and the data of different demographics of approximately 1224 users and locations of 2 levels in the building. \\
+Some of the important requirements of crowd modelling include the use of big data and the data of different demographics of approximately 1000 people and locations across 2 storeys in the building. One benefit of the dataset is that all the participants of the event are given a tag for tracking, allowing us to collect a lot of datapoints due to the use of time axis. Also, between datapoints, there is a 30 seconds interval, which can be satisfied by a Gaussian Process model. As the number of participants is large, we can perform Gaussian process on all of them and the datapoints can be distributed. \\
+
+Gaussian process models are a non-parametric Bayesian approach to regression and classification and we consider these models with multivariate outputs. Our dataset uses a simple multivariate model which applies a separate GP to each dimension, thus assuming statistical independence between the output dimensions. However, actual multivariate observations are likely to have significant correlation and structure. Thus, one possible improvement to achieve GP models with correlated output can be formed by passing the independent GP priors through a function, such as multi-class classification, as stated in a paper by {\it Antoni B.Chan} on the topic of Multivariate Generalized Gaussian Process Models. \\
+
 
 {\bf2.4  Interpreting  Outputs} \\
 
@@ -89,7 +92,7 @@ $\displaystyle E[\sum_{i=1}^n X_i] = \sum_{i=1}^n E[X_i] = \sum_{i=1}^n \int_V p
 
 However, in our experiment, we do a simplified version, using independent Gaussian Process models for each of the axes $x$, $y$ and $z$, thus the covariances between any two variables to be $0$. \\
 
-Thus using simple integrations over regions, we can compute the expected number of people in each region. The outputs of the Gaussian Process(GP) model are useful in helping human users or experts in using a sample of people in the data to predict the population density of a particular area at any instance of time.
+Thus using simple integrations over regions, we can compute the expected number of people in each region. The outputs of the Gaussian Process model are useful in helping human users or experts in using a sample of people in the data to predict the population density of a particular area at any instance of time. The idea is we can tag a small group of people and they will conduct their activities as per normal. We will get the datapoints of their movements to evaluate the GP model and get the distribution so as to predict the expected population density of a particular area at any instance of time. \\
 
 \section{3.  Technical Approach}
 
