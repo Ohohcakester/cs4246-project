@@ -33,11 +33,11 @@ Crowd management is essential in events where the committee has to plan and orga
 \end{abstract}
 
 \section{1.  Introduction}
-In this report, we propose the use of Gaussian process(GP) for modelling of crowds. Particularly, we will discuss how we exploit the desirable properties of Gaussian process(GP) model, some of the advantages that the model provide, the critical requirements of our proposed application as well as how people can make use of the results of our analysis to plan and make decisions for future crowd controlling or crowd management. Next, we will touch on the technical details which includes the fitting on the characteristics of Gaussian process(GP) model for the application, additional findings we gathered and modification of the model to enhance performance. The third section of the report will be a detailed experimental plan we will be using to perform and evaluate the performance of Gaussian process(GP) for modelling of crowds. Lastly, the report will end with an interesting factor we will be exploring in this project.
+In this report, we propose the use of Gaussian process for modelling of crowds. Particularly, we will discuss how we exploit the desirable properties of Gaussian process model, some of the advantages that the model provide, the critical requirements of our proposed application as well as how people can make use of the results of our analysis to plan and make decisions for future crowd controlling or crowd management. Next, we will touch on the technical details which includes the fitting on the characteristics of Gaussian process model for the application, additional findings we gathered and modification of the model to enhance performance. The third section of the report will be a detailed experimental plan we will be using to perform and evaluate the performance of Gaussian process(GP) for modelling of crowds. Lastly, the report will end with an interesting factor we will be exploring in this project.
 
 \section{2.  Gaussian Process Regression for Motion Analysis of Crowds}
 
-We define a position of a person as a discrete vector sequence in $\mathbb{R}^3$. Let $z \epsilon \mathbb{R}^3$ be the position ($x, y, z$), where x corresponds to a point of time, y as the function of the coordinates and z as the axis. We consider a position sequence $z_n = {x_i, y_i, z_i} | i = 1,...,n$.
+We define a position of a person as a discrete vector sequence in $\mathbb{R}^3$. Let $z \epsilon \mathbb{R}^3$ be the position ($x, y, z$), where x corresponds to a point of time, y as the function of the coordinates and z as the axis. We consider a position sequence $z_n = {x_i, y_i, z_i} | i = 1,...,n$. \\
 
 {\bf2.1  Constructing Mean and Covariance Functions} \\
 
@@ -47,7 +47,7 @@ $ y = f(x) \sim GP(m(x), k(x,x^\prime))$ \\
 
 where $m(x)$ is the mean function of the distribution and $k$ is a covariance function which describes the relationship between two values of the independent variable, $x$ and $x^\prime$, as a function of the kernel distance between them. \\
 
-In our project, we are using a heteroscedastic model that works the same way as a Gaussian Process(GP) model. However, this model allows the use of different variances for the noise terms of the observations, $\epsilon_i \sim N(0, \sigma_i^2)$, giving different weights to each observation. Therefore, it serves to fit observations with smaller noise and choose to ignore those with larger noise. \\
+In our project, we are using a heteroscedastic model that works the same way as a Gaussian Process model. However, this model allows the use of different variances for the noise terms of the observations, $\epsilon_i \sim N(0, \sigma_i^2)$, giving different weights to each observation. Therefore, it serves to fit observations with smaller noise and choose to ignore those with larger noise. \\
 
 By experimenting with different kernel functions, we obtain the final GP model using a linear combination of a Multilayer Perceptron (MLP) and a constant Bias as kernel function as they consistently output acceptable results for regressions on our datasets. MLP, also known as arc sine kernel or neural network kernel, can be optimized to represent a complex non-linear function. \\
 
@@ -57,13 +57,13 @@ There are many advantages to using the Gaussian Process model. One key property 
 
 Another benefit is that the Gaussian Process model provides both the mean and variances of the position of the user at each point of time, allowing us to construct a probability distribution of the user's position at each point of time. A probability distribution allows us to compute the proportion of the crowd at any point of time, over any defined region. \\
 
-One reason why this model is a good fit is because of the correlation between the current position of each individual and the future positions. Thus the coordinates of the individuals each modelled as a trajectory over time. There have been past usages of the GP model trajectory prediction in data. For example, in a paper by XXXXX, Gaussian Processes were used to model the trajectory of human vital signs.
+One reason why this model is a good fit is because of the correlation between the current position of each individual and the future positions. Thus the coordinates of the individuals each modelled as a trajectory over time. There have been past usages of the GP model trajectory prediction in data. For example, in a paper by {\it Marco A. F. Pimentel, David A. Clifton, Lionel Tarassenko}, Gaussian Processes were used to model the trajectory of human vital signs. \\
 
 %-COMMENT OUT-
 % On the other hand, we propose Gaussian process(GP) model as it can specify the variance of noise at each point, deal with gaps between data if there is a break in between the event or for events which last a few days. Importantly, the prediction is probabilistic (Gaussian) so that one can compute the empirical confidence intervals and exceedance probabilities that might be used to refit the prediction for future crowd controlling of events. \\
 %-COMMENTED OUT-
 
-In our application to model crowd control, there are many regression models we can consider, such as tools we can find in MSExcel, R, SAS or even SPSS. These techniques are very effective to use to represent data and do analysis. However, such techniques do not necessarily allow the detection of relatively complex path matching, incomplete paths caused by loss of signals in indoor environment or time-varying patterns of the people in the building. In addition, these tools may not be able to handle noisy or unevenly-sampled data. \\
+Gaussian process model fits our application well as we can can specify the variance of noise at each point, given any regions and we are able to predict the output by integrating over the regions, whereas for other curve fitting methods, the variances are unknown to us and therefore we cannot integrate over the regions we are interested to find the population density.
 
 
 {\bf2.3  Important Requirements} \\
