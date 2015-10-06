@@ -146,14 +146,18 @@ In addition, by being able to predict the crowd density of an area in a future t
 
 \section{4.  Experimental Evaluation}
 
-{\bf4.1  Experimental Setup} \\
-
-
-Following which, we analyse the crowd density within a certain radius of a point by counting the number of unique tags within the specified radius. \\  
-
 {\bf4.2  Real-World Dataset} \\
 
-We test our approach using a Attendee Meta-Data (AMD) Hope RFID Dateset from which data is collected from 1224 hackers attending The Last HOPE Conference from 18-20 July 2008, located in Hotel Pennsylvania, New York City. The data include details descriptions of their interests, interactions through instant messages, and location over the course of the conference. The same dataset is used for both training and testing.\\
+We test our approach using a Attendee Meta-Data (AMD) Hope RFID Dateset from which data is collected from 1224 hackers attending The Last HOPE Conference from 18-20 July 2008, located in Hotel Pennsylvania, New York City. The data set details descriptions of their interests, interactions through instant messages, and location over the course of the conference. \\
+
+This dataset was used as it has some convenient properties which allow us to construct an experiement to test our model.\\
+Firstly, the position data is usually taken at regular intervals of about $30$ seconds apart. Secondly, the data provided is exhaustive (as each attendee to the conference is tagged). Thus the data provides enough information to find the number of people in each region at any point of time, by simply counting the number of people within the region, in a time window of $[t-15,t+15)$, where $t$ is the target point of time.
+
+{\bf4.1  Experimental Setup} \\
+
+We test our approach using a Attendee Meta-Data (AMD) Hope RFID Dateset from which data is collected from 1224 hackers attending The Last HOPE Conference from 18-20 July 2008, located in Hotel Pennsylvania, New York City. The data include details descriptions of their interests, interactions through instant messages, and location over the course of the conference.\\
+
+Following which, we analyse the crowd density within a certain radius of a point by counting the number of unique tags within the specified radius. \\  
 
 {\bf4.3  Are there more than one type of GP model/variant that can be used in your proposed application? Can other types of linear or non-linear regression models be used? If so, how do you plan to empirically compare their performance? What quantitative/ empirical advantages (and/or limitations) do the GP model or its variant offer over the other evaluated models?} \\
 
