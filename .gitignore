@@ -3,14 +3,22 @@ data/
 src/data
 src/renders
 src/true_densities.csv
+src/evalall
+src/predicted/
 img/output_draw.png
 img/locationmap.png
 
+report/a
 report/sources
 report/__tmp1
 report/__tmp2
-*.png
+report/sources/aaai.sty
+report/report.aux
+report/report.log
+report/report.pdf
+src/*.png
 *.pyc
 *.out
 src/stat
 *.zip
+a
