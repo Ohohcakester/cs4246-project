@@ -155,6 +155,9 @@ Firstly, the position data is usually taken at regular intervals of about $30$ s
 
 {\bf4.1  Experimental Setup} \\
 
+In the experiment, we first divide the conference area into $8\times 7 \times 2$ square regions (on the $x$,$y$ and $z$ axes respectively) that tile the conference area. We then select $50$ different time points to test on. These data points are picked randomly, while ensuring a minimum of $200$ seconds between any two time points, and that there are at least $300$ unique active tags at that time point (measured by counting the number of tags with a data point in the region $[t-15,t+15)$, where $t$ is the candidate time point). This is done as the event spans multiple days, and there are periods where no or few people are active, like during the night.
+
+We then count the number of people within each of the regi
 
 Following which, we analyse the crowd density within a certain radius of a point by counting the number of unique tags within the specified radius. \\  
 
