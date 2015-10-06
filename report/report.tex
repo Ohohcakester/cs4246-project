@@ -53,13 +53,13 @@ There are many advantages to using the Gaussian Process model. One key property 
 
 Another benefit is that the Gaussian Process model provides both the mean and variances of the position of the user at each point of time, allowing us to construct a probability distribution of the user's position at each point of time. A probability distribution allows us to compute the proportion of the crowd at any point of time, over any defined region. \\
 
-One reason why this model is a good fit is because of the correlation between the current position of each individual and the future positions. Thus the coordinates of the individuals each modelled as a trajectory over time. There have been past usages of the GP model trajectory prediction in data. For example, in a paper by ______, Gaussian Processes were used to model the trajectory of human vital signs
+One reason why this model is a good fit is because of the correlation between the current position of each individual and the future positions. Thus the coordinates of the individuals each modelled as a trajectory over time. There have been past usages of the GP model trajectory prediction in data. For example, in a paper by ______, Gaussian Processes were used to model the trajectory of human vital signs.
 
-On the other hand, we propose Gaussian process(GP) model as it can specify the variance of noise at each point, deal with gaps between data if there is a break in between the event or for events which last a few days. Importantly, the prediction is probabilistic (Gaussian) so that one can compute the empirical confidence intervals and exceedance probabilities that might be used to refit the prediction for future crowd controlling of events. \\
-
+%-COMMENT OUT-
+% On the other hand, we propose Gaussian process(GP) model as it can specify the variance of noise at each point, deal with gaps between data if there is a break in between the event or for events which last a few days. Importantly, the prediction is probabilistic (Gaussian) so that one can compute the empirical confidence intervals and exceedance probabilities that might be used to refit the prediction for future crowd controlling of events. \\
+%-COMMENTED OUT-
 
 In our application to model crowd control, there are many regression models we can consider, such as tools we can find in MSExcel, R, SAS or even SPSS. These techniques are very effective to use to represent data and do analysis. However, such techniques do not necessarily allow the detection of relatively complex path matching, incomplete paths caused by loss of signals in indoor environment or time-varying patterns of the people in the building. In addition, these tools may not be able to handle noisy or unevenly-sampled data. \\
-
 
 
 {\bf2.3  Important Requirements} \\
@@ -78,9 +78,11 @@ input of 3 graphs \\
 
 {\bf3.2  Additional Insights} \\
 
+An issue with $x$, $y$ and $z$ coordinates is that they may not be a very good model of crowd densities, especially for less open spaces. 
+
 {\bf3.3  Novel Modification} \\
 
-By knowing the predicted densities of people within a defined radius of a certain point, we can do better crowd control. For example, given a prediction that people tend to crowd around a certain area at a certain point of time, obstacles can be reduced or shifted about. Personelle can also be deployed to facilitate crowd movement. This will be useful in cases of MRT breakdowns. \\
+By knowing the predicted densities of people within a defined radius of a certain point, we can do better crowd control. For example, given a prediction that people tend to crowd around a certain area at a certain point of time, obstacles can be reduced or shifted about. Personnel can also be deployed to facilitate crowd movement. This will be useful in cases of MRT breakdowns. \\
 
 In addition, by being able to predict the crowd density of an area in a future timestamp, we can do a certain form of path prediction. This can help in deciding building maps and object placements. For example, if we can model that generally if the crowd density of the facial shop increases, generally the crowd density of the restrooms will increase in the next timestamp, we might want to consider putting the restrooms in near proximity to the facial shop. Or if we can model that the crowd density streams from one product to another in a supermarket, we might want to consider placing both products near each other so shoppers can easily reach for both products at once, hence increasing the sales revenue.  \\
 
