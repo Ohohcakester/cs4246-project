@@ -62,10 +62,7 @@ One reason why this model is a good fit is because of the correlation between th
 % On the other hand, we propose Gaussian process(GP) model as it can specify the variance of noise at each point, deal with gaps between data if there is a break in between the event or for events which last a few days. Importantly, the prediction is probabilistic (Gaussian) so that one can compute the empirical confidence intervals and exceedance probabilities that might be used to refit the prediction for future crowd controlling of events. \\
 %-COMMENTED OUT-
 
-In our application to model crowd control, there are many regression models we can consider, such as tools we can find in MSExcel, R, SAS or even SPSS. These techniques are very effective to use to represent data and do analysis. However, such techniques do not necessarily allow the detection of relatively complex path matching, incomplete paths caused by loss of signals in indoor environment or time-varying patterns of the people in the building. In addition, these tools may not be able to handle noisy or unevenly-sampled data. \\
-
-instead of direct comparing between methods, state that GP fits to our application that we can just provide any regions and we are able to predict the output
-curve fitting methods, does not give us variances, so we cannot integrate over regions
+Gaussian process model fits our application well as we can can specify the variance of noise at each point, given any regions and we are able to predict the output by integrating over the regions, whereas for other curve fitting methods, the variances are unknown to us and therefore we cannot integrate over the regions we are interested to find the population density.
 
 
 {\bf2.3  Important Requirements} \\
