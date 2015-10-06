@@ -36,7 +36,7 @@ In this report, we propose the use of Gaussian process(GP) for modelling of crow
 
 \section{2.  Gaussian Process Regression for Motion Analysis of Crowds}
 
-We define a position of a person as a discrete vector sequence in $\mathbb{R}^3$. Let $z \epsilon \mathbb{R}^3$ be the position ($x, y, z$), where x corresponds to a point of time, y as the function of the coordinates and z as the axis. We consider a position sequence $z_n = {x_i, y_i, z_i} | i = 1,...,n$.
+We define a position of a person as a discrete vector sequence in $\mathbb{R}^3$. Let $z \epsilon \mathbb{R}^3$ be the position ($x, y, z$), where x corresponds to a point of time, y as the function of the coordinates and z as the axis. We consider a position sequence $z_n = {x_i, y_i, z_i} | i = 1,...,n$. \\
 
 {\bf2.1  Constructing Mean and Covariance Functions} \\
 
@@ -56,13 +56,16 @@ There are many advantages to using the Gaussian Process model. One key property 
 
 Another benefit is that the Gaussian Process model provides both the mean and variances of the position of the user at each point of time, allowing us to construct a probability distribution of the user's position at each point of time. A probability distribution allows us to compute the proportion of the crowd at any point of time, over any defined region. \\
 
-One reason why this model is a good fit is because of the correlation between the current position of each individual and the future positions. Thus the coordinates of the individuals each modelled as a trajectory over time. There have been past usages of the GP model trajectory prediction in data. For example, in a paper by XXXXX, Gaussian Processes were used to model the trajectory of human vital signs.
+One reason why this model is a good fit is because of the correlation between the current position of each individual and the future positions. Thus the coordinates of the individuals each modelled as a trajectory over time. There have been past usages of the GP model trajectory prediction in data. For example, in a paper by {\it Marco A. F. Pimentel, David A. Clifton, Lionel Tarassenko}, Gaussian Processes were used to model the trajectory of human vital signs. \\
 
 %-COMMENT OUT-
 % On the other hand, we propose Gaussian process(GP) model as it can specify the variance of noise at each point, deal with gaps between data if there is a break in between the event or for events which last a few days. Importantly, the prediction is probabilistic (Gaussian) so that one can compute the empirical confidence intervals and exceedance probabilities that might be used to refit the prediction for future crowd controlling of events. \\
 %-COMMENTED OUT-
 
 In our application to model crowd control, there are many regression models we can consider, such as tools we can find in MSExcel, R, SAS or even SPSS. These techniques are very effective to use to represent data and do analysis. However, such techniques do not necessarily allow the detection of relatively complex path matching, incomplete paths caused by loss of signals in indoor environment or time-varying patterns of the people in the building. In addition, these tools may not be able to handle noisy or unevenly-sampled data. \\
+
+instead of direct comparing between methods, state that GP fits to our application that we can just provide any regions and we are able to predict the output
+curve fitting methods, does not give us variances, so we cannot integrate over regions
 
 
 {\bf2.3  Important Requirements} \\
