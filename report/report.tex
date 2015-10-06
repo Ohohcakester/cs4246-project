@@ -59,11 +59,7 @@ Another benefit is that the Gaussian Process model provides both the mean and va
 
 One reason why this model is a good fit is because of the correlation between the current position of each individual and the future positions. Thus the coordinates of the individuals each modelled as a trajectory over time. There have been past usages of the GP model trajectory prediction in data. For example, in a paper by {\it Marco A. F. Pimentel, David A. Clifton, Lionel Tarassenko}, Gaussian Processes were used to model the trajectory of human vital signs. \\
 
-%-COMMENT OUT-
-% On the other hand, we propose Gaussian process(GP) model as it can specify the variance of noise at each point, deal with gaps between data if there is a break in between the event or for events which last a few days. Importantly, the prediction is probabilistic (Gaussian) so that one can compute the empirical confidence intervals and exceedance probabilities that might be used to refit the prediction for future crowd controlling of events. \\
-%-COMMENTED OUT-
-
-Gaussian process model fits our application well as we can can specify the variance of noise at each point, given any regions and we are able to predict the output by integrating over the regions. For other curve fitting methods, the variances are unknown to us and therefore we cannot integrate over the regions we are interested to find the population density at the specific point of time. \\
+Gaussian process model fits our application well as we can can specify the variance of noise at each point and deals with gaps between data if there is a break in between the event or the event last a few days. GP model allows us to provide any regions and we are able to predict the output by integrating over the regions. For other curve fitting methods, the variances are unknown to us and therefore we cannot integrate over the regions we are interested to find the population density at the specific point of time. \\
 
 
 {\bf2.3  Important Requirements} \\
@@ -112,7 +108,7 @@ The Stochastic Variational Inference method using the climin module and AdaDelta
 {\bf3.2  Additional Insights} \\
 
 An issue with $x$, $y$ and $z$ coordinates is that they may not be a very good model of crowd densities, especially for less open spaces. 
-In our dataset, because the event is a conference, the spaces are wide open, this is not an issue as individuals with close together $x$, $y$ and $z$ coordinates are likely to be close to each other as well. However, in buildings with narrower corridors and tighter spaces, individuals with similar $x$, $y$ and $z$ coordinates may actually be very far apart from each other. Figures XXX and XXX illustrate this idea.
+In our dataset, because the event is a conference, the spaces are wide open, this is not an issue as individuals with close together $x$, $y$ and $z$ coordinates are likely to be close to each other as well. However, in buildings with narrower corridors and tighter spaces, individuals with similar $x$, $y$ and $z$ coordinates may actually be very far apart from each other. Figures 1 and Figure 2 illustrate this idea.
 
 \begin{figure}[h!]
   \centering
