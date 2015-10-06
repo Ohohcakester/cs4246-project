@@ -25,18 +25,19 @@ Oh Shunhao, A0065475X\\
 \maketitle
 \begin{abstract}
 \begin{quote}
-Crowd management is essential in events where the committee has to plan and organize in an effective and efficient manner, taking into consideration factors such as the facility, size and demeanor of the crowd and crowd control. The motion analysis of crowd in multivariate timeseries data requires an effective model to represent the data. In this project, we will introduce how the use of Guassian process(GP) to model crowd that allows for matching of noisy, and unevenly-sampled data, and we explore if this representation may be used to predict the density of population for future data.
+Crowd management is essential in events where the committee has to plan and organize in an effective and efficient manner, taking into consideration factors such as the facility, size and demeanor of the crowd and crowd control. The motion analysis of crowd in multivariate timeseries data requires an effective model to represent the data. In this report, we illustrate the use of Gaussian Processes to model crowd distributions from noisy and unevenly-sampled position data, and we explore how this representation can be used to predict the density of the population for future data.
 \end{quote}
 \end{abstract}
 
 \section{1.  Introduction}
-In this report, we will propose the use of Gaussian process(GP) for modelling of crowds. Particularly, we will discuss how we exploit the desirable properties of Gaussian process(GP) model, some of the advantages that the model provide, the critical requirements of our proposed application as well as how people can make use of the results of our analysis to plan and make decisions for future crowd controlling or crowd management. Next, we will touch on the technical details which includes the fitting on the characteristics of Gaussian process(GP) model for the application, additional findings we gathered and modification of the model to enhance performance. The third section of the report will be a detailed experimental plan we will be using to perform and evaluate the performance of Gaussian process(GP) for modelling of crowds. Lastly, the report will end with an interesting factor we will be exploring in this project.
+In this report, we propose the use of Gaussian process(GP) for modelling of crowds. Particularly, we will discuss how we exploit the desirable properties of Gaussian process(GP) model, some of the advantages that the model provide, the critical requirements of our proposed application as well as how people can make use of the results of our analysis to plan and make decisions for future crowd controlling or crowd management. Next, we will touch on the technical details which includes the fitting on the characteristics of Gaussian process(GP) model for the application, additional findings we gathered and modification of the model to enhance performance. The third section of the report will be a detailed experimental plan we will be using to perform and evaluate the performance of Gaussian process(GP) for modelling of crowds. Lastly, the report will end with an interesting factor we will be exploring in this project.
 
 \section{2.  Gaussian Process Regression for Motion Analysis of Crowds}
 
 {\bf2.1  Constructing Mean and Covariance Functions} \\
 
-We consider the regression model $y = f($x$) + \epsilon$, which $y$ is a dependent variable expressed in terms of an independent variable x through a function $f($x$)$ with a noise term $\epsilon \sim N(0, \sigma^2)$. The fucntion $f$ can be interpreted as a probability distribution over functions, \\
+
+We consider the regression model $y = f($x$) + \epsilon$, which $y$ is a dependent variable expressed in terms of an independent variable x through a function $f($x$)$ with a noise term $\epsilon \sim N(0, \sigma^2)$. The function $f$ can be interpreted as a probability distribution over functions, \\
 
 $ y = f(x) \sim GP(m(x), k(x,x^\prime))$ \\
 
@@ -48,10 +49,20 @@ By experimenting with different kernel functions, we obtain the final GP model u
 
 {\bf2.2  Qualitative Advantages} \\
 
-In our application to model crowd control, there are many regression models we can consider, such as tools we can find in MSExcel, R, SAS or even SPSS. These techniques are very effective to use to represent data and do analysis. However, such techniques do not necessarily allow the detection of relatively complex path matching, incomplete paths caused by loss of signals in indoor environment or time-varying patterns of the people in the building. In addition, these tools might not be able to handle noisy or unevenly-sampled data. \\
+There are many advantages to using the Gaussian Process model. One key property of the data is that it is unevenly sampled, with multiple large gaps in between the position readings $(x,y,z)$ of each individual. As these points are discrete and finite, the crowd densities at certain positions and times are not represented by the data. After processing the data with using the Gaussian Process model, we will be able to fill in these gaps in data, allowing us to compute the proportion of the crowd at any point of time, over any defined region. \\
 
+The model is also useful because of the correlation between the current positions
+
+
+
+There have been past usages of the GP model trajectory prediction in data. For example, Gaussian Processes were used to model the trajectory of human vital signs...
 
 On the other hand, we propose Gaussian process(GP) model as it can specify the variance of noise at each point, deal with gaps between data if there is a break in between the event or for events which last a few days. Importantly, the prediction is probabilistic (Gaussian) so that one can compute the empirical confidence intervals and exceedance probabilities that might be used to refit the prediction for future crowd controlling of events. \\
+
+
+In our application to model crowd control, there are many regression models we can consider, such as tools we can find in MSExcel, R, SAS or even SPSS. These techniques are very effective to use to represent data and do analysis. However, such techniques do not necessarily allow the detection of relatively complex path matching, incomplete paths caused by loss of signals in indoor environment or time-varying patterns of the people in the building. In addition, these tools may not be able to handle noisy or unevenly-sampled data. \\
+
+
 
 {\bf2.3  Important Requirements} \\
 
