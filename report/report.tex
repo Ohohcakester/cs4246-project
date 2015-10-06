@@ -155,11 +155,34 @@ Firstly, the position data is usually taken at regular intervals of about $30$ s
 
 {\bf4.1  Experimental Setup} \\
 
-In the experiment, we first divide the conference area into $8\times 7 \times 2$ square regions (on the $x$,$y$ and $z$ axes respectively) that tile the conference area. We then select $50$ different time points to test on. These data points are picked randomly, while ensuring a minimum of $200$ seconds between any two time points, and that there are at least $300$ unique active tags at that time point (measured by counting the number of tags with a data point in the region $[t-15,t+15)$, where $t$ is the candidate time point). This is done as the event spans multiple days, and there are periods where no or few people are active, like during the night.
+In the experiment, we first divide the conference area into $8\times 7 \times 2$ square regions (on the $x$,$y$ and $z$ axes respectively) that tile the conference area. We then select $50$ different time points to test on. These data points are picked randomly, while ensuring a minimum of $200$ seconds between any two time points, and that there are at least $300$ unique active tags at that time point (measured by counting the number of tags with a data point in the region $[t-15,t+15)$, where $t$ is the candidate time point). This is done as the event spans multiple days, and there are periods where no or few people are active, like during the night.\\
 
-We then count the number of people within each of the regi
+At each of the chosen time points, we then count the number of unique tags within each of the $112$ regions. This is the actual data which we will be comparing against. We then take a small fraction (about $10\%$) of the people, and use the Gaussian Process model above to estimate the number of people within each of the regions. Figures XXXX to XXXX show the difference between the density plots between actual crowd densities and the predicted crowd densities.
 
-Following which, we analyse the crowd density within a certain radius of a point by counting the number of unique tags within the specified radius. \\  
+\begin{figure}[h!]
+  \centering
+    \includegraphics[width=150px,natwidth=320,natheight=280]{selected_renders/0_1216437924.png}
+  \caption{Actual distribution of people at time $t=1216437924$, first floor}
+\end{figure}
+
+\begin{figure}[h!]
+  \centering
+    \includegraphics[width=150px,natwidth=320,natheight=280]{selected_renders/0_1216437924p.png}
+  \caption{Predicted distribution of people at time $t=1216437924$, first floor}
+\end{figure}
+
+\begin{figure}[h!]
+  \centering
+    \includegraphics[width=150px,natwidth=320,natheight=280]{selected_renders/1_1216440525.png}
+  \caption{Actual distribution of people at time $t=1216440525$, second floor}
+\end{figure}
+
+\begin{figure}[h!]
+  \centering
+    \includegraphics[width=150px,natwidth=320,natheight=280]{selected_renders/1_1216440525p.png}
+  \caption{Predicted distribution of people at time $t=1216440525$, second floor}
+\end{figure}
+
 
 {\bf4.3  Are there more than one type of GP model/variant that can be used in your proposed application? Can other types of linear or non-linear regression models be used? If so, how do you plan to empirically compare their performance? What quantitative/ empirical advantages (and/or limitations) do the GP model or its variant offer over the other evaluated models?} \\
 
