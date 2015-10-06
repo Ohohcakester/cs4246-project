@@ -96,7 +96,17 @@ In our dataset, because the event is a conference, the spaces are wide open, thi
 
 {\bf3.3  Novel Modification} \\
 
-WIP: To model less open spaces, we can use an alternative modelling, provided we know the layout of the area. Instead of using the $x$, $y$ and $z$ coordinates of each user, we can use shortest paths as the attributes instead.
+To model less open spaces, we can use an alternative modelling, provided we know the layout of the area. Instead of using the $x$, $y$ and $z$ coordinates of each user, we can use shortest path distances as the attributes instead. We first define a set of reference points at significant points $p_1,p_2,\cdots,p_k$ in the area. For each data point $d$, we compute the shortest paths $s_i$ from the data point to each of the reference points $p_i$. This is shown in Figure XXX. \\
+
+We then use the same Gaussian Process model as before using the values $s_i$ as the attributes. The advantage of using shortest paths as a metric is the geometry of the map has been abstracted out; two points with similar values of $s_i$ must be points that are close to each other. (given enough reference points)\\
+
+\begin{figure}[h!]
+  \centering
+    \includegraphics[width=150px,natwidth=570,natheight=442]{shortestpaths.png}
+  \caption{The shortest paths from a data point to four reference points}
+\end{figure}
+
+However, it is important to note that with this formulation, the reference points must be carefully picked for a good prediction. (spread out, and preferably near the areas you are concerned about)
 
 By knowing the predicted densities of people within a defined radius of a certain point, we can do better crowd control. For example, given a prediction that people tend to crowd around a certain area at a certain point of time, obstacles can be reduced or shifted about. Personnel can also be deployed to facilitate crowd movement. This will be useful in cases of MRT breakdowns. \\
 
