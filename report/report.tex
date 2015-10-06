@@ -68,7 +68,10 @@ Gaussian process model fits our application well as we can can specify the varia
 
 {\bf2.3  Important Requirements} \\
 
-Some of the important requirements of the proposed application of crowd modelling include the use of big data and the data of different demographics of approximately 1224 users and locations of 2 levels in the building. \\
+Some of the important requirements of crowd modelling include the use of big data and the data of different demographics of approximately 1000 people and locations across 2 storeys in the building. One benefit of the dataset is that all the participants of the event are given a tag for tracking, allowing us to collect a lot of datapoints due to the use of time axis. Also, between datapoints, there is a 30 seconds interval, which can be satisfied by a Gaussian Process model. As the number of participants is large, we can perform Gaussian process on all of them and the datapoints can be distributed. 
+
+Gaussian process models are a non-parametric Bayesian approach to regression and classification and we consider these models with multivariate outputs. Our dataset uses a simple multivariate model which applies a separate GP to each dimension, thus assuming statistical independence between the output dimensions. However, actual multivariate observations are likely to have significant correlation and structure. Thus, one possible improvement to achieve GP models with correlated output can be formed by passing the independent GP priors through a function, such as multi-class classification, as stated in a paper by {\it Antoni B.Chan} on the topic of Multivariate Generalized Gaussian Process Models.
+
 
 {\bf2.4  Interpreting  Outputs} \\
 
