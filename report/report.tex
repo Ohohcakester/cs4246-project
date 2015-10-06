@@ -37,7 +37,7 @@ In this report, we propose the use of Gaussian process for modelling of crowds. 
 
 \section{2.  Gaussian Process Regression for Motion Analysis of Crowds}
 
-We define a position of a person as a discrete vector sequence in $\mathbb{R}^3$. Let $u \epsilon \mathbb{R}^3$ be the position ($x, y, z$), where x corresponds to a point of time, y as the function of the coordinates and z as the axis. We consider a position sequence $u_n = {x_i, y_i, z_i} | i = 1,...,n$. \\
+We define a position of a person as a discrete vector sequence in $\mathbb{R}^3$. Let $u \epsilon \mathbb{R}^3$ be the position ($x, y, z$), where $x$ corresponds to a point of time, $y$ as the function of the coordinates and $z$ as the axis. We consider a position sequence $u_n = {x_i, y_i, z_i} | i = 1,...,n$. \\
 
 {\bf2.1  Constructing Mean and Covariance Functions} \\
 
@@ -70,7 +70,7 @@ Gaussian process model fits our application well as we can can specify the varia
 
 Some of the important requirements of crowd modelling include the use of big data and the data of different demographics of approximately 1000 people and locations across 2 storeys in the building. One benefit of the dataset is that all the participants of the event are given a tag for tracking, allowing us to collect a lot of datapoints due to the use of time axis. Also, between datapoints, there is a 30 seconds interval, which can be satisfied by a Gaussian Process model. As the number of participants is large, we can perform Gaussian process on all of them and the datapoints can be distributed. \\
 
-Gaussian process models are a non-parametric Bayesian approach to regression and classification and we consider these models with multivariate outputs. Our dataset uses a simple multivariate model which applies a separate GP to each dimension, thus assuming statistical independence between the output dimensions. However, actual multivariate observations are likely to have significant correlation and structure. Thus, one possible improvement to achieve GP models with correlated output can be formed by passing the independent GP priors through a function, such as multi-class classification, as stated in a paper by {\it Antoni B.Chan} on the topic of Multivariate Generalized Gaussian Process Models. \\
+Gaussian process models are a non-parametric Bayesian approach to regression and classification and we consider these models with multivariate outputs. Our dataset uses a simple multivariate model which applies a separate GP to each dimension, thus assuming statistical independence between the output dimensions. The statistical independence can be supported by parallel GP models. However, actual multivariate observations are likely to have significant correlation and structure. Thus, one possible improvement to achieve GP models with correlated output can be formed by passing the independent GP priors through a function, such as multi-class classification, as stated in a paper by {\it Antoni B.Chan} on the topic of Multivariate Generalized Gaussian Process Models. \\
 
 
 {\bf2.4  Interpreting  Outputs} \\
@@ -101,13 +101,13 @@ Thus using simple integrations over regions, we can compute the expected number 
 input of 3 graphs \\
 
 
-We prepare and implement our experiments in Python. For the Gaussian Process modeling and regression, we use the library Sheffield GPy with the help of Scipy and Numpy for numerical calculation and representation. We use the data structure and data analysis tools provided by the module Pandas to store, access and analyze our dataset. \\
-
-The Stochastic Variational Inference method using the climin module and AdaDelta rule and direct optimization using BFGS method are used to regress our model. By observing the results from several samples of our dataset, the latter provides more desirable results and is chosen for further experiments. \\
-
-We experimented with several families of kernel functions including the Radial Basis function (RBF), Exponential function, Matern52, Matern32 and Multilayer Perceptron (MLP). The experiments also involve varying their respective parameters such as noise values, relaxing or fixing constraints, changing initial values and inducing points and combining with various White and Bias kernels. Finally, the combination of kernel functions that yield consistent results as observed cross different samples from our dataset is selected to build our GP model for further application. \\
+In order to support the use of big data and the data of different demographics, we experimented with several families of kernel functions including the Radial Basis function (RBF), Exponential function, Matern52, Matern32 and Multilayer Perceptron (MLP). The experiments conducted involved varying their respective parameters such as noise values, relaxing or fixing constraints, changing initial values and inducing points and combining with various White and Bias kernels. Finally, the combination of kernel functions that yield consistent results as observed cross different samples from our dataset is selected to build our GP model for further application. In our case, we found out that MLP with a bias is the most effective way of representing the big data that we have.\\
 
 We extract the X, Y and Z coordinates from the GPS location and perform the regression against the timestamps provided in the dataset. We also generate a common set of timestamps to predict the user movements against, in which we generate the mean and variance from the output of the GP we had earlier regressed. \\
+
+The conducting of experiment is done using Python. For the Gaussian Process modeling and regression, we use the library Sheffield GPy with the help of Scipy and Numpy for numerical calculation and representation. We use the data structure and data analysis tools provided by the module Pandas to store, access and analyze our dataset. \\
+
+The Stochastic Variational Inference method using the climin module and AdaDelta rule and direct optimization using BFGS method are used to regress our model. By observing the results from several samples of our dataset, the latter provides more desirable results and is chosen for further experiments. \\
 
 {\bf3.2  Additional Insights} \\
 
@@ -148,7 +148,7 @@ In addition, by being able to predict the crowd density of an area in a future t
 
 {\bf4.2  Real-World Dataset} \\
 
-We test our approach using a Attendee Meta-Data (AMD) Hope RFID Dateset from which data is collected from 1224 hackers attending The Last HOPE Conference from 18-20 July 2008, located in Hotel Pennsylvania, New York City. The data set details descriptions of their interests, interactions through instant messages, and location over the course of the conference. \\
+We test our approach using a Attendee Meta-Data (AMD) Hope RFID Dateset from which data is collected from 1224 hackers attending The Last HOPE Conference from 18-20 July 2008, located in Hotel Pennsylvania, New York City. The data set details the location of the people through the use of RFID badges that uniquely identify and track them across the conference space over the course of the conference. \\
 
 This dataset was used as it has some convenient properties which allow us to construct an experiement to test our model.\\
 Firstly, the position data is usually taken at regular intervals of about $30$ seconds apart. Secondly, the data provided is exhaustive (as each attendee to the conference is tagged). Thus the data provides enough information to find the number of people in each region at any point of time, by simply counting the number of people within the region, in a time window of $[t-15,t+15)$, where $t$ is the target point of time.
