@@ -5,6 +5,7 @@
 \usepackage{helvet}
 \usepackage{courier}
 \usepackage{graphicx}
+\usepackage{amsfonts}
 \frenchspacing
 \setlength{\pdfpagewidth}{8.5in}
 \setlength{\pdfpageheight}{11in}
@@ -39,8 +40,7 @@ We define a position of a person as a discrete vector sequence in $\mathbb{R}^3$
 
 {\bf2.1  Constructing Mean and Covariance Functions} \\
 
-
-We consider the regression model $y = f($x$) + \epsilon$, which $y$ is a dependent variable expressed in terms of an independent variable x through a function $f($x$)$ with a noise term $\epsilon \sim N(0, \sigma^2)$. The function $f$ can be interpreted as a probability distribution over functions, \\
+Gaussian process regression model is represented as $y = f($x$) + \epsilon$, which $y$ is a dependent variable expressed in terms of an independent variable x through a function $f($x$)$ with a noise term $\epsilon \sim N(0, \sigma^2)$. The function $f$ can be interpreted as a probability distribution over functions, \\
 
 $ y = f(x) \sim GP(m(x), k(x,x^\prime))$ \\
 
