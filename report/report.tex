@@ -127,7 +127,7 @@ We also noticed that the number of dimensions the dataset have will affect the c
 
 Several types of GP models were experimented with, including Stochastic Variance Gaussian Processes and Sparse Gaussian Processes. We also performed experiments with all the different types of kernels provided by the GPy library, including linear kernel and white kernel. We also tweaked the input parameters, such as the variance of the kernels to experiment with the data. The GP model-variant that we proposed has the co-variance matrix and mean that fits the data the best. \\
 
-Be default we regress the $(x,y,z)$ coordinates of each individual as it is convenient to use and easy to understand (and integrate over). However, an issue with $x$, $y$ and $z$ coordinates is that they may not be a very good model of crowd densities, especially for less open spaces. In our dataset, because the event is a conference, the spaces are wide open, this is not an issue as individuals with close together $x$, $y$ and $z$ coordinates are likely to be close to each other as well. However, in buildings with narrower corridors and tighter spaces, individuals with similar $x$, $y$ and $z$ coordinates may actually be very far apart from each other. Figures \ref{fig:opspace1} and Figure \ref{fig:opspace2} illustrate this idea.
+Be default we regress the $(x,y,z)$ coordinates of each individual as it is convenient to use and easy to understand (and integrate over). However, an issue with cartesian coordinates is that they may not be a very good model of crowd densities, especially for less open spaces. In wide open spaces, this is not an issue as individuals with similar cartesian coordinates are likely to be close to each other as well. However, in buildings with narrower corridors and tighter spaces, individuals with similar cartesian coordinates may actually be very far apart from each other. Figures \ref{fig:opspace1} and Figure \ref{fig:opspace2} illustrate this idea.
 
 \begin{figure}[h!]
   \centering
@@ -145,7 +145,7 @@ Be default we regress the $(x,y,z)$ coordinates of each individual as it is conv
 
 \subsection{3.3  Improvement}
 
-To model less open spaces, we can use an alternative modelling, provided we know the layout of the area. Instead of using the $x$, $y$ and $z$ coordinates of each user, we can use shortest path distances as the attributes instead. We first define a set of reference points at significant points $p_1,p_2,\cdots,p_k$ in the area. For each data point $d$, we compute the shortest paths $s_i$ from the data point to each of the reference points $p_i$. This is shown in Figure \ref{fig:spaths}. \\
+To model less open spaces, we can use an alternative modelling, provided we know the layout of the area. Instead of using the cartesian coordinates of each user, we can use shortest path distances as the attributes instead. We first define a set of reference points at significant points $p_1,p_2,\cdots,p_k$ in the area. For each data point $d$, we compute the shortest paths $s_i$ from the data point to each of the reference points $p_i$. This is shown in Figure \ref{fig:spaths}. \\
 
 We then use the same GP model as before using the values $s_i$ as the attributes. The advantage of using shortest paths as a metric is the geometry of the map has been abstracted out; two points with similar values of $s_i$ must be points that are close to each other. (given enough reference points)
 
