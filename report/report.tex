@@ -39,7 +39,7 @@ The rationale behind the choice of Gaussian process for modelling of crowds as b
 
 \section{2.  Gaussian Process Regression for Motion Analysis of Crowds}
 
-{\bf2.1  Constructing Mean and Covariance Functions} \\
+{\bf2.1  Modelling} \\
 
 In a Gaussian Process model, we model a target variable $f(x)$ as a function of the input locations $x \in X$. The sensor readings $y$ of $f(x)$ at each point $x$ is expressed in the form $y = f(x) + \epsilon$, where each $\epsilon \sim \mathcal{N}(0, \sigma^2)$ is an i.i.d. additive noise term. $y$ is expressed with a Gaussian Process distribution as follows:
 
@@ -53,7 +53,7 @@ In our Gaussian Process model, each individual is modelled with a separate Gauss
 
 {\bf2.2  Qualitative Advantages} \\
 
-There are many advantages to using the Gaussian Process model. One key property of the data is that it is unevenly sampled, with multiple large gaps in between the position readings $(x,y,z)$ of each individual. As these points are discrete and finite, the crowd densities at certain positions and times are not represented by the data. A Gaussian Process model fits our application well as we can with gaps between data if there is a break in between the event or if the event spans multiple days. \\
+The use of the GP model in the application enables us to use all the samples and feature information to perform the prediction, while allowing the training data to have different or uneven sampling rates. Particularly, in our dataset, not all the participants have their position data sampled at the same timestamps, and all of them might not have the same number of sample points. \\
 
 Another benefit is that the Gaussian Process model provides both the mean and variances of the position of the user at each point of time, allowing us to construct a probability distribution of the user's position at each point of time. A probability distribution allows us to compute the proportion of the crowd at any point of time, over any defined region. \\
 
@@ -64,7 +64,7 @@ One reason why this model is a good fit is because of the correlation between th
 \begin{figure}[h!]
   \centering
     \includegraphics[width=280px,natwidth=634,natheight=442]{selected_GP/3056.csv_X.png}
-  \caption{$X$ coordinates of GPS location against time stamps for User 3056 with covariance and mean derived from regression with Gaussian Process}
+  \caption{$X$ coordinates of position data against time stamps for User 3056 with covariance and mean derived from regression with Gaussian Process}
   \label{fig:GP1}
 \end{figure}
 
@@ -101,7 +101,7 @@ Thus using simple integrations over regions, we can compute the expected number 
 
 In order to support the use of big data and the data of different demographics, we experimented with several families of kernel functions including the Radial Basis function (RBF), Exponential function, Matern52, Matern32 and Multilayer Perceptron (MLP). The experiments conducted involved varying their respective parameters such as noise values, relaxing or fixing constraints, changing initial values and inducing points and combining with various White and Bias kernels. Finally, the combination of kernel functions that yield consistent results as observed cross different samples from our dataset is selected to build our GP model for further application. In our case, we found out that MLP with a bias is the most effective way of representing the big data that we have.\\
 
-We extract the X, Y and Z coordinates from the GPS location and perform the regression against the timestamps provided in the dataset. We also generate a common set of timestamps to predict the user movements against, in which we generate the mean and variance from the output of the GP we had earlier regressed. \\
+We extract the X, Y and Z coordinates from the position data and perform the regression against the timestamps provided in the dataset. We also generate a common set of timestamps to predict the user movements against, in which we generate the mean and variance from the output of the GP we had earlier regressed. \\
 
 The experiment is conducted using Python. For the Gaussian Process modelling and regression, we use the library Sheffield GPy with the help of Scipy and Numpy for numerical calculation and representation. We use the data structure and data analysis tools provided by the module Pandas to store, access and analyze our dataset. \\
 
@@ -110,7 +110,7 @@ The two methods we have chosen to regress our model are either the Stochastic Va
 \begin{figure}[h!]
   \centering
     \includegraphics[width=280px,natwidth=634,natheight=442]{selected_GP/3064.csv_Y.png}
-  \caption{$y$ coordinates of GPS location against time stamps for User 3064 with covariance and mean derived from regression with Gaussian Process}
+  \caption{$y$ coordinates of position data against time stamps for User 3064 with covariance and mean derived from regression with Gaussian Process}
   \label{fig:GP2}
 \end{figure}
 
@@ -120,9 +120,9 @@ We use a heteroscedastic model that works the same way as a Gaussian Process mod
 
 By experimenting with different kernel functions, we obtain the final GP model using a linear combination of a Multilayer Perceptron (MLP) and a constant Bias as kernel function as they consistently output acceptable results for regressions on our dataset. MLP, also known as arc sine kernel or neural network kernel, can be optimized to represent a complex non-linear function. \\
 
-The use of the GP model in the application enables us to use all the samples and feature information to perform the prediction, while allowing the training data to have different or uneven sampling rates. Particularly, in our dataset, not all the participants have their GPS signals sampled at the same timestamps, and all of them might not have the same number of sample points. \\
-
 We also noticed that the number of dimensions the dataset have will affect the computational efficiency as GP is not computationally efficient in high dimensional spaces. Since our dataset only consists of a few dimensions, each GP model takes less than a minute to compute on average with the longest taking approximately 3 minutes.\\
+
+Several types of GP models were experimented with, including Stochastic Variance Gaussian Processes and Sparse Gaussian Processes. We also performed experiments with all the different types of kernels provided by the GPy library, including linear kernel and white kernel. We also tweaked the input parameters, such as the variance of the kernels to experiment with the data. The GP model-variant that we proposed has the co-variance matrix and mean that fits the data the best. \\
 
 Be default we regress the $(x,y,z)$ coordinates of each individual as it is convenient to use and easy to understand (and integrate over). However, an issue with $x$, $y$ and $z$ coordinates is that they may not be a very good model of crowd densities, especially for less open spaces. In our dataset, because the event is a conference, the spaces are wide open, this is not an issue as individuals with close together $x$, $y$ and $z$ coordinates are likely to be close to each other as well. However, in buildings with narrower corridors and tighter spaces, individuals with similar $x$, $y$ and $z$ coordinates may actually be very far apart from each other. Figures \ref{fig:opspace1} and Figure \ref{fig:opspace2} illustrate this idea.
 
@@ -141,8 +141,6 @@ Be default we regress the $(x,y,z)$ coordinates of each individual as it is conv
 \end{figure}
 
 {\bf3.3  Improvement} \\
-
-Several types of GP models were experimented with, including Stochastic Variance Gaussian Processes and Sparse Gaussian Processes. We also performed experiments with all the different types of kernels provided by the GPy library, including linear kernel and white kernel. We also tweaked the input parameters, such as the variance of the kernels to experiment with the data. The GP model-variant that we proposed has the co-variance matrix and mean that fits the data the best. \\
 
 To model less open spaces, we can use an alternative modelling, provided we know the layout of the area. Instead of using the $x$, $y$ and $z$ coordinates of each user, we can use shortest path distances as the attributes instead. We first define a set of reference points at significant points $p_1,p_2,\cdots,p_k$ in the area. For each data point $d$, we compute the shortest paths $s_i$ from the data point to each of the reference points $p_i$. This is shown in Figure \ref{fig:spaths}. \\
 
