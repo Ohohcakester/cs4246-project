@@ -61,9 +61,11 @@ By experimenting with different kernel functions, we obtain the final GP model u
 
 {\bf2.2  Qualitative Advantages} \\
 
-There are many advantages to using the Gaussian Process model. One key property of the data is that it is unevenly sampled, with multiple large gaps in between the position readings $(x,y,z)$ of each individual. As these points are discrete and finite, the crowd densities at certain positions and times are not represented by the data. After processing the data with using the Gaussian Process model, we will be able to fill in these gaps in data. \\
+There are many advantages to using the Gaussian Process model. One key property of the data is that it is unevenly sampled, with multiple large gaps in between the position readings $(x,y,z)$ of each individual. As these points are discrete and finite, the crowd densities at certain positions and times are not represented by the data. A Gaussian Process model fits our application well as we can with gaps between data if there is a break in between the event or if the event spans multiple days. \\
 
 Another benefit is that the Gaussian Process model provides both the mean and variances of the position of the user at each point of time, allowing us to construct a probability distribution of the user's position at each point of time. A probability distribution allows us to compute the proportion of the crowd at any point of time, over any defined region. \\
+
+The usual approach to interpolating between is through traditional curve-fitting algorithms like the cubic spline. However, these methods do not cater to noisy data as well as Gaussian Processes do, and unlike Gaussian Processes, do not provide a probability distribution (through mean and variance values) at each point of time illustrated in Figure \ref{fig:GP1}, which is important for our method of integrating over regions we are interested in to obtain expected crowd densities.\\
 
 One reason why this model is a good fit is because of the correlation between the current position of each individual and the future positions. Thus the coordinates of the individuals each modelled as a trajectory over time. There have been past usages of the GP model trajectory prediction in data. For example, in a paper by {\it Marco A. F. Pimentel, David A. Clifton, Lionel Tarassenko}, Gaussian Processes were used to model the trajectory of human vital signs. \\
 
@@ -73,8 +75,6 @@ One reason why this model is a good fit is because of the correlation between th
   \caption{$X$ coordinates of GPS location against time stamps for User 3056 with covariance and mean derived from regression with Gaussian Process}
   \label{fig:GP1}
 \end{figure}
-
-Gaussian process model fits our application well as we can can specify the variance of noise at each point and deal with gaps between data if there is a break in between the event or if the event spans multiple days. The usual approach to interpolating between is through traditional curve-fitting algorithms like the cubic spline. However, these methods do not cater to noisy data as well as Gaussian Processes do, and unlike Gaussian Processes, do not provide a probability distribution (through mean and variance values) at each point of time illustrated in Figure \ref{fig:GP1}, which is important for our method of integrating over regions we are interested in to obtain expected crowd densities.\\
 
 {\bf2.3  Important Requirements} \\
 
