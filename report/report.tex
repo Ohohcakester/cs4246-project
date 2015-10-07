@@ -40,6 +40,8 @@ The rationale behind using Gaussian Processes for modelling of crowds is to do b
 % Section 2.
 \section{2.  Gaussian Process Regression Model}
 
+Gaussian processes (GPs) extend multivariate Gaussian distributions to infinite dimensionality. A Gaussian process generates data located throughout some domain such that any finite subset of the range follows a multivariate Gaussian distribution. For example, the $x$ observations in an arbitrary data set, $y = \{y_1,...,y_n\}$, can always be considered as a single point sampled from some multivariate ($x$-variate) Gaussian distribution. 
+
 \subsection{2.1  Modelling}
 
 In a Gaussian Process model, we model a target variable $f(x)$ as a function of the input locations $x \in X$. The sensor readings $y$ of $f(x)$ at each point $x$ is expressed in the form $y = f(x) + \epsilon$, where each $\epsilon \sim \mathcal{N}(0, \sigma^2)$ is an i.i.d. additive noise term. $y$ is expressed with a GP distribution as follows:
@@ -164,6 +166,8 @@ Integrations using the shortest path formulation will also be slightly more comp
 
 \section{4.  Experimental Evaluation}
 
+The reliability of our GP model is dependent on how well we select the dataset as well as the covariance function. Therefore, an experimental evaluation is essential to assess the performance of the GP model.
+
 \subsection{4.1  Real-World Dataset}
 
 We test our approach using a Attendee Meta-Data (AMD) Hope RFID Dateset from which data is collected from 1224 hackers attending The Last HOPE Conference from 18-20 July 2008, located in Hotel Pennsylvania, New York City. The data set details the location of the people through the use of RFID badges that uniquely identify and track them across the conference space over the course of the conference. \\
@@ -229,10 +233,12 @@ Problem formulation and modelling, mathematics, creating the visualisations and 
 
 \section{7.  References}
 
-[1] Marco A. F. Pimentel, David A. Clifton, Lionel Tarassenko, `` GAUSSIAN PROCESS CLUSTERING FOR THE FUNCTIONAL CHARACTERISATION OF VITAL-SIGN TRAJECTORIES"
- in {\it 2013 IEEE INTERNATIONAL WORKSHOP ON MACHINE LEARNING FOR SIGNAL PROCESSING}, SEPT. 22–25, 2013, SOUTHAMPTON, UK. \\
+[1] Marco A. F. Pimentel, David A. Clifton, Lionel Tarassenko, `` Gaussian Process Clustering For The Functional Characterisation Of Vital-Sign Trajectories"
+ in {\it 2013 IEEE International Workshop On Machine Learning For Signal Processing}, SEPT. 22–25, 2013, SOUTHAMPTON, UK. \\
 
-[2] Antoni B. Chan, ``{\it Multivariate Generalized Gaussian Process Models}" NOV. 03, 2013
+[2] Antoni B. Chan, ``{ Multivariate Generalized Gaussian Process Models}" NOV. 03, 2013 \\
+
+[3] M. Ebden, ``{ Gaussian Processes for Regression: A Quick Introduction}" AUG, 2008 \\
 
 
 \end{document}
