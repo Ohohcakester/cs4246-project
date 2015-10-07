@@ -35,7 +35,7 @@ Crowd management is essential in events where the committee has to plan and orga
 \section{1.  Introduction}
 In this report, we propose the use of Gaussian process for modelling of crowds. Particularly, we discuss how we exploit the desirable properties of Gaussian process model, some of the advantages that the model provide, the critical requirements of our proposed application as well as how people can make use of the results of our analysis to plan and make decisions for future crowd controlling or crowd management. We also touch on the technical details which includes how Gaussian process model fits the requirements of the proposed application, additional findings we gathered and modification of the model to enhance performance. We also outline the experimental plan we use to perform and evaluate the performance of Gaussian process(GP) for modelling of crowds. \\
 
-The rationale behind the choice of Gaussian process for modelling of crowds as by prediction the population density within a defined radius of a certain point, we can do better crowd control. For example, it will be useful in the case of train breakdowns to facilitate crowd movements. In addition, we can perform a certain form of path prediction using the GP model. \\
+The rationale behind the choice of Gaussian process for modelling of crowds is we can do better crowd control by predicting the population density within a defined radius of a certain point. For example, it will be useful in the case of train breakdowns to facilitate crowd movements. In addition, we can perform path prediction using the GP model. \\
 
 \section{2.  Gaussian Process Regression for Motion Analysis of Crowds}
 
@@ -53,13 +53,14 @@ In our Gaussian Process model, each individual is modelled with a separate Gauss
 
 {\bf2.2  Qualitative Advantages} \\
 
-The use of the GP model in the application enables us to use all the samples and feature information to perform the prediction, while allowing the training data to have different or uneven sampling rates. Particularly, in our dataset, not all the participants have their position data sampled at the same timestamps, and all of them might not have the same number of sample points. \\
+<<<<<<< HEAD
+The use of the GP model in the application enables us to use all the samples and feature information to perform the prediction, while allowing the training data to have different or uneven sampling rates. Particularly, in our dataset, not all the participants have their position data sampled at the same timestamps, and all of them might not have the same number of sample points. The event also spans multiple days, and so there are periods of time with no position data.
 
-Another benefit is that the Gaussian Process model provides both the mean and variances of the position of the user at each point of time, allowing us to construct a probability distribution of the user's position at each point of time. A probability distribution allows us to compute the proportion of the crowd at any point of time, over any defined region. \\
+The Gaussian Process model also provides, provide a probability distribution (through mean and variance values) of each individual's position at each point of time, as illustrated in Figure \ref{fig:GP1}. A probability distribution allows us to compute the proportion of the crowd at any point of time, over any defined region. \\
 
-The usual approach to interpolating between is through traditional curve-fitting algorithms like the cubic spline. However, these methods do not cater to noisy data as well as Gaussian Processes do, and unlike Gaussian Processes, do not provide a probability distribution (through mean and variance values) at each point of time illustrated in Figure \ref{fig:GP1}, which is important for our method of integrating over regions we are interested in to obtain expected crowd densities.\\
+The usual approach to interpolating between is through traditional curve-fitting algorithms like the cubic spline. However, these methods do not cater to noisy data as well as Gaussian Processes do, and unlike Gaussian Processes, do not provide a probability distribution, which is important for our method of integrating over regions we are interested in to obtain expected crowd densities.\\
 
-One reason why this model is a good fit is because of the correlation between the current position of each individual and the future positions. Thus the coordinates of the individuals each modelled as a trajectory over time. There have been past usages of the GP model trajectory prediction in data. For example, in a paper by {\it Marco A. F. Pimentel, David A. Clifton, Lionel Tarassenko}, Gaussian Processes were used to model the trajectory of human vital signs. \\
+A Gaussian model is a good fit is because of the correlation between the current position of each individual and the future positions. The coordinates of the each individual is thus modelled as a trajectory over time. There have been past usages of the GP model for trajectory prediction in data. For example, in a paper by {\it Marco A. F. Pimentel, David A. Clifton, Lionel Tarassenko}, Gaussian Processes were used to model the trajectory of human vital signs. \\
 
 \begin{figure}[h!]
   \centering
@@ -72,7 +73,7 @@ One reason why this model is a good fit is because of the correlation between th
 
 A requirement of our task is a Gaussian Process model with multiple outputs, namely the $x$, $y$ and $z$ coordinates of each person. Our experiment uses a simple multivariate model which applies a separate GP to each dimension, thus assuming statistical independence between the three dimensions. However, the actual coordinates are likely to have a significant correlation and structure. Thus, one possible improvement is to construct GP models with correlated output, by passing the independent GP priors through a function, such as multi-class classification, as stated in a paper by {\it Antoni B.Chan} on the topic of Multivariate Generalized Gaussian Process Models. \\
 
-As use time-series data for the Gaussian Distributions, there are potentially a large amount of data points, especially for time periods that last multiple days. Thus the efficiency of the algorithm is important. As we construct separate Gaussian Distributions for each person, the computations can be distributed over multiple machines.\\
+As we use time-series data for the Gaussian Distributions, there are potentially a large amount of data points, especially for time periods that last multiple days. Thus the efficiency of the algorithm is important. As we construct separate Gaussian Distributions for each person, the computations can be distributed over multiple machines.\\
 
 {\bf2.4  Interpreting Outputs} \\
 
@@ -93,7 +94,7 @@ $\displaystyle E[\sum_{i=1}^n X_i] = \sum_{i=1}^n E[X_i] = \sum_{i=1}^n \int_V p
 
 However, in our experiment, we do a simplified version, using independent Gaussian Process models for each of the axes $x$, $y$ and $z$, thus the covariances between any two variables to be $0$. \\
 
-Thus using simple integrations over regions, we can compute the expected number of people in each region. The outputs of the Gaussian Process model are useful in helping human users or experts in using a sample of people in the data to predict the population density of a particular area at any instance of time. The idea is we can tag a small group of people and they will conduct their activities as per normal. We will get the datapoints of their movements to evaluate the GP model and get the distribution so as to predict the expected population density of a particular area at any instance of time. \\
+Thus, using simple integrations over regions, we can compute the expected number of people in each region. The outputs of the Gaussian Process model are useful in helping human users or experts in using a sample of people in the data to predict the population density of a particular area at any instance of time. The idea is we can tag a small group of people and they will conduct their activities as per normal. We will get the datapoints of their movements to evaluate the GP model and get the distribution so as to predict the expected population density of a particular area at any instance of time. \\
 
 \section{3.  Technical Approach}
 
@@ -219,7 +220,7 @@ data using the Gaussian process model and MLP with a bias constant, we demonstra
 \section{7.  References}
 
 [1] Marco A. F. Pimentel, David A. Clifton, Lionel Tarassenko, `` GAUSSIAN PROCESS CLUSTERING FOR THE FUNCTIONAL CHARACTERISATION OF VITAL-SIGN TRAJECTORIES"
- in {\it 2013 IEEE INTERNATIONAL WORKSHOP ON MACHINE LEARNING FOR SIGNAL PROCESSING}, SEPT. 22–25, 2013, SOUTHAMPTON, UK. \\
+ in {\it 2013 IEEE INTERNATIONAL WORKSHOP ON MACHINE LEARNING FOR SIGNAL PROCESSING}, SEPT. 22–25, 2013, SOUTHAMPTON, UK. 
 
 [2] Antoni B. Chan, ``{\it Multivariate Generalized Gaussian Process Models}" NOV. 03, 2013
 
