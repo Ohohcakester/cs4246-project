@@ -39,6 +39,8 @@ The rationale behind using Gaussian Processes for modelling of crowds is to do b
 
 \section{2.  Gaussian Process Regression Model}
 
+Gaussian processes (GPs) extend multivariate Gaussian distributions to infinite dimensionality. A Gaussian process generates data located throughout some domain such that any finite subset of the range follows a multivariate Gaussian distribution. Now, the $x$ observations in an arbitrary data set, $y = \{y_1,...,y_n\}$, can always be considered as a single point sampled from some multivariate ($x$-variate) Gaussian distribution. 
+
 \subsection{2.1  Modelling}
 
 In a Gaussian Process model, we model a target variable $f(x)$ as a function of the input locations $x \in X$. The sensor readings $y$ of $f(x)$ at each point $x$ is expressed in the form $y = f(x) + \epsilon$, where each $\epsilon \sim \mathcal{N}(0, \sigma^2)$ is an i.i.d. additive noise term. $y$ is expressed with a GP distribution as follows:
