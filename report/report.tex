@@ -113,7 +113,7 @@ There are several additional insights we have gathered after performing the expe
 
 The use of the GP model in the application enables us to use all the samples and feature information to perform the prediction, while allowing the training data to have different or uneven sampling rates. Particularly, in our dataset, not all the participants have their GPS signals sampled at the same timestamps all of them might not have the same number of sample points. \\
 
-We have only a few dimensions, so we are not affected by the property where GP loses its computational efficiency in high dimensional spaces -- on average, each GP model takes less than a minute to compute; the longest a model has taken is 3 minutes. The prediction is probabilistic so we can compute empirical confidence levels that may be useful in our prediction of crowd density. In addition, the use of a GP model allows the detection of incomplete paths, i.e. loss of GPS signals, resulting in no data for certain time periods. It enables the comparison of noisy data, which is evident in the case of GPS signals and random user movements.\\
+We also noticed that the number of dimensions the dataset have will affect the computational efficiency as GP is not computational efficient in high dimensional spaces. Since our dataset only consists of a few dimensions, each GP model takes less than a minute to compute on average with the longest taking approximately 3 minutes.\\
 
 Be default we regress the $(x,y,z)$ coordinates of each individual as it is convenient to use and easy to understand (and integrate over). However, an issue with $x$, $y$ and $z$ coordinates is that they may not be a very good model of crowd densities, especially for less open spaces. In our dataset, because the event is a conference, the spaces are wide open, this is not an issue as individuals with close together $x$, $y$ and $z$ coordinates are likely to be close to each other as well. However, in buildings with narrower corridors and tighter spaces, individuals with similar $x$, $y$ and $z$ coordinates may actually be very far apart from each other. Figures \ref{fig:opspace1} and Figure \ref{fig:opspace2} illustrate this idea.
 
@@ -131,7 +131,7 @@ Be default we regress the $(x,y,z)$ coordinates of each individual as it is conv
   \label{fig:opspace2}
 \end{figure}
 
-{\bf3.3  Novel Modification} \\
+{\bf3.3  Improvement} \\
 
 % What is this for?
 By knowing the predicted densities of people within a defined radius of a certain point, we can do better crowd control. For example, given a prediction that people tend to crowd around a certain area at a certain point of time, obstacles can be reduced or shifted about. Personnel can also be deployed to facilitate crowd movement. This will be useful in cases of MRT breakdowns. \\
@@ -185,7 +185,7 @@ Figures \ref{fig:t1dist} to \ref{fig:t4dist} the between the density plots betwe
 \end{figure}
 
 
-{\bf4.3  Are there more than one type of GP model/variant that can be used in your proposed application? Can other types of linear or non-linear regression models be used? If so, how do you plan to empirically compare their performance? What quantitative/ empirical advantages (and/or limitations) do the GP model or its variant offer over the other evaluated models?} \\
+{\bf4.3  Other models} \\
 
 Several types of GP models were experimented with, including Stochastic Variance Gaussian Processes and Sparse Gaussian Processes. We also performed experiments with all the different types of kernels provided by the GPy library, including linear kernel and white kernel. We also tweaked the input parameters, such as the variance of the kernels to experiment with the data. The GP model-variant that we proposed has the co-variance matrix and mean that fits the data the best. \\
 
