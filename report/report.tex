@@ -147,7 +147,7 @@ In the experiment, we first divide the conference area into $8\times 7 \times 2$
 
 At each of the chosen time points, we then count the number of unique tags within each of the $112$ regions. This is the actual data which we will be comparing against. We then take a small fraction (about $10\%$) of the people, and use the Gaussian Process model above to estimate the number of people within each of the regions (note that since we are using only $10\%$ of the data, we need to multiply the final output values by $10$ so that the output data will be on the same scale as the actual data. \\
 
-Figures \ref{fig:t1dist} to \ref{fig:t3dist} the between the density plots between actual crowd densities and the predicted crowd densities. One way of testing the quality of the fit is by observing how the distributions differ in the plotted charts below. A more empirical way of testing the quality of the fit is by taking the mean-squared error of the data between the actual and the predicted number of people. This can be compared across different models to test how well the data fits. \\
+Figures \ref{fig:t1dist} to \ref{fig:t4dist} the between the density plots between actual crowd densities and the predicted crowd densities. One way of testing the quality of the fit is by observing how the distributions differ in the plotted charts below. A more empirical way of testing the quality of the fit is by taking the mean-squared error of the data between the actual and the predicted number of people. This can be compared across different models to test how well the data fits. \\
 
 \begin{figure}[h!]
   \centering
@@ -174,6 +174,7 @@ Figures \ref{fig:t1dist} to \ref{fig:t3dist} the between the density plots betwe
   \centering
     \includegraphics[width=150px,natwidth=320,natheight=280]{selected_renders/1_1216440525p.png}
   \caption{Predicted distribution of people at time $t=1216440525$, second floor}
+  \label{fig:t4dist}
 \end{figure}
 
 
