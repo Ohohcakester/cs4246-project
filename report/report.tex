@@ -107,7 +107,14 @@ We extract the X, Y and Z coordinates from the GPS location and perform the regr
 
 The experiment is conducted using Python. For the Gaussian Process modelling and regression, we use the library Sheffield GPy with the help of Scipy and Numpy for numerical calculation and representation. We use the data structure and data analysis tools provided by the module Pandas to store, access and analyze our dataset. \\
 
-The two methods we have chosen to regress our model are either the Stochastic Variational Inference method using the climin module or the AdaDelta rule and direct optimization using BFGS method. Through observing the results from several samples of our dataset, the latter is found to provide more desirable results and more suitable to be used in our propose application. Therefore, it is chosen for further experiments. \\
+The two methods we have chosen to regress our model are either the Stochastic Variational Inference method using the climin module or the AdaDelta rule and direct optimization using BFGS method. Through observing the results from several samples of our dataset, the latter is found to provide more desirable results and more suitable to be used in our propose application. Therefore, it is chosen for further experiments. Figure \ref{fig:GP1} shows the output of one such regression for user 3056. \\
+
+\begin{figure}[h!]
+  \centering
+    \includegraphics[width=150px,natwidth=634,natheight=442]{3056.csv_X.png}
+  \caption{$X$ coordinates of GPS location against time stamps for User 3056 with covariance and mean derived from regression with Gaussian Process}
+  \label{fig:GP1}
+\end{figure}
 
 {\bf3.2  Additional Insights} \\
 
@@ -205,7 +212,7 @@ We then use the same Gaussian Process model as before using the values $s_i$ as 
 
 However, it is important to note that with this formulation, the reference points must be carefully picked for a good prediction. (spread out, and preferably near the areas one is concerned about) \\
 
-Note: Can run the kernels that failed and put plots if needed (i.e. not enough images)
+%Note: Can run the kernels that failed and put plots if needed (i.e. not enough images)
 
 \section{5.  Conclusion}
 
