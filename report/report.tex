@@ -95,7 +95,7 @@ Thus using simple integrations over regions, we can compute the expected number 
 
 \section{3.  Technical Approach}
 
-{\bf3.1  How does the GP model you’re using fit the requirements of your proposed application exactly?} \\
+{\bf3.1  Fitting the requirements using GP model} \\
 
 %Add diagrams
 input of 3 graphs \\
@@ -143,14 +143,15 @@ In addition, by being able to predict the crowd density of an area in a future t
 
 \section{4.  Experimental Evaluation}
 
-{\bf4.2  Real-World Dataset} \\
+{\bf4.1  Real-World Dataset} \\
 
 We test our approach using a Attendee Meta-Data (AMD) Hope RFID Dateset from which data is collected from 1224 hackers attending The Last HOPE Conference from 18-20 July 2008, located in Hotel Pennsylvania, New York City. The data set details the location of the people through the use of RFID badges that uniquely identify and track them across the conference space over the course of the conference. \\
 
 This dataset was used as it has some convenient properties which allow us to construct an experiement to test our model.\\
-Firstly, the position data is usually taken at regular intervals of about $30$ seconds apart. Secondly, the data provided is exhaustive (as each attendee to the conference is tagged). Thus the data provides enough information to find the number of people in each region at any point of time, by simply counting the number of people within the region, in a time window of $[t-15,t+15)$, where $t$ is the target point of time.
 
-{\bf4.1  Experimental Setup} \\
+Firstly, the position data is usually taken at regular intervals of about $30$ seconds apart. Secondly, the data provided is exhaustive (as each attendee to the conference is tagged). Thus the data provides enough information to find the number of people in each region at any point of time, by simply counting the number of people within the region, in a time window of $[t-15,t+15)$, where $t$ is the target point of time. \\
+
+{\bf4.2  Experimental Setup} \\
 
 In the experiment, we first divide the conference area into $8\times 7 \times 2$ square regions (on the $x$,$y$ and $z$ axes respectively) that tile the conference area. We then select $50$ different time points to test on. These data points are picked randomly, while ensuring a minimum of $200$ seconds between any two time points, and that there are at least $300$ unique active tags at that time point (measured by counting the number of tags with a data point in the region $[t-15,t+15)$, where $t$ is the candidate time point). This is done as the event spans multiple days, and there are periods where no or few people are active, like during the night.\\
 
@@ -206,7 +207,7 @@ However, it is important to note that with this formulation, the reference point
 
 Note: Can run the kernels that failed and put plots if needed (i.e. not enough images)
 
-\section{5.  Conclusion and Contribution}
+\section{5.  Conclusion}
 
 \section{6.  References}
 
