@@ -28,12 +28,12 @@ Oh Shunhao, A0065475X\\
 \maketitle
 \begin{abstract}
 \begin{quote}
-Crowd management is essential in events where the committee has to plan and organize in an effective and efficient manner, taking into consideration factors such as the facility, size and demeanor of the crowd and crowd control. The motion analysis of crowd in multivariate timeseries data requires an effective model to represent the data. In this report, we illustrate the use of Gaussian Processes to model crowd distributions from noisy and unevenly-sampled position data, and we explore how this representation can be used to predict the density of the population for future data.
+Crowd management is essential in events where the committee has to plan and organize in an effective and efficient manner, taking into consideration factors such as the facility, size and demeanor of the crowd and crowd control. The motion analysis of crowd in multivariate timeseries data requires an effective model to represent the data. In this report, we illustrate the use of Gaussian Processes to model crowd distributions from noisy and unevenly-sampled position data, and we explore how this representation can be used to predict the population density for future data.
 \end{quote}
 \end{abstract}
 
 \section{1.  Introduction}
-In this report, we propose the use of Gaussian process for modelling of crowds. Particularly, we discuss how we exploit the desirable properties of Gaussian process model, some of the advantages that the model provide, the critical requirements of our proposed application as well as how people can make use of the results of our analysis to plan and make decisions for future crowd controlling or crowd management. We also touch on the technical details which includes the fitting on the characteristics of Gaussian process model for the application, additional findings we gathered and modification of the model to enhance performance. We also outline the experimental plan we use to perform and evaluate the performance of Gaussian process(GP) for modelling of crowds. \\
+In this report, we propose the use of Gaussian process for modelling of crowds. Particularly, we discuss how we exploit the desirable properties of Gaussian process model, some of the advantages that the model provide, the critical requirements of our proposed application as well as how people can make use of the results of our analysis to plan and make decisions for future crowd controlling or crowd management. We also touch on the technical details which includes how Gaussian process model fits the requirements of the proposed application, additional findings we gathered and modification of the model to enhance performance. We also outline the experimental plan we use to perform and evaluate the performance of Gaussian process(GP) for modelling of crowds. \\
 
 The rationale behind the choice of Gaussian process for modelling of crowds as by prediction the population density within a defined radius of a certain point, we can do better crowd control. For example, it will be useful in the case of train breakdowns to facilitate crowd movements. In addition, we can perform a certain form of path prediction using the GP model. \\
 
@@ -49,7 +49,7 @@ $y = f(x) \sim GP(m(x), k(x,x^\prime))$
 
 where $m: X \rightarrow \mathbb{R}$ is the mean function of the distribution and $k: X \times X \rightarrow \mathbb{R}$ is a kernel function which describes the covariances between the values of $y$ any pair of values of the independent variable, $x$ and $x^\prime$ in $X$. \\
 
-In our Gaussian Process model, each individual is modeled with a separate Gaussian Distribution. For each person in the data, the $x$, $y$ and $z$ of coordinates of the person is given at various points of time. As we seek to model the locations of each person as a function on time, the input location space (dependent variable) for our data $X$ is the time interval in which the data resides, and the target variable is the position of the person, expressed as a tuple $(x,y,z)$ in $\mathbb{R}^3$. \\
+In our Gaussian Process model, each individual is modelled with a separate Gaussian Distribution. For each person in the data, the $x$, $y$ and $z$ of coordinates of the person is given at various points of time. As we seek to model the locations of each person as a function on time, the input location space (dependent variable) for our data $X$ is the time interval in which the data resides, and the target variable is the position of the person, expressed as a tuple $(x,y,z)$ in $\mathbb{R}^3$. \\
 
 {\bf2.2  Qualitative Advantages} \\
 
