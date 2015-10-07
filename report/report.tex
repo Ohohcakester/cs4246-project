@@ -54,17 +54,17 @@ In our GP model, each individual is modelled with a separate Gaussian Process. F
 
 \subsection{2.2  Qualitative Advantages}
 
-The use of the GP model in the application enables us to use all the samples and feature information to perform the prediction, while allowing the training data to have different or uneven sampling rates. Particularly, in our dataset, not all the participants have their position data sampled at the same timestamps, and all of them might not have the same number of sample points. The event also spans multiple days, and so there are periods of time with no position data.
+The use of the GP model in the application enables us to use all the samples and feature information to perform the prediction, while allowing the training data to have different or uneven sampling rates. Particularly, in our dataset, not all the participants have their position data sampled at the same timestamps, and all of them might not have the same number of sample points. The event also spans multiple days, and so there are even periods of time with no position data.
 
-The GP model also provides, provide a probability distribution (through mean and variance values) of each individual's position at each point of time, as illustrated in Figure \ref{fig:GP1}. A probability distribution allows us to compute the proportion of the crowd at any point of time, over any defined region. \\
+One key advantage of the GP model is that it generates a probability distribution (through mean and variance values) of each individual's position at every point of time, as illustrated in Figure \ref{fig:GP1}. As shown later below, this probability distribution allows us to compute the density of the crowd at any point of time, over any defined region. \\
 
-The usual approach to interpolating between is through traditional curve-fitting algorithms like the cubic spline. However, these methods do not cater to noisy data as well as Gaussian Processes do, and unlike Gaussian Processes, do not provide a probability distribution, which is important for our method of integrating over regions we are interested in to obtain expected crowd densities.\\
+The usual approach for interpolating data is through traditional curve-fitting algorithms like the cubic spline. However, these methods do not cater to noisy data as well as Gaussian Processes do, and unlike Gaussian Processes, do not provide a probability distribution, nor variances, which are important for our method of integrating over regions we are interested in to obtain expected crowd densities.\\
 
-A Gaussian model is a good fit is because of the correlation between the current position of each individual and the future positions. The coordinates of the each individual is thus modelled as a trajectory over time. There have been past usages of the GP model for trajectory prediction in data. For example, in a paper by {\it Marco A. F. Pimentel, David A. Clifton, Lionel Tarassenko}, Gaussian Processes were used to model the trajectory of human vital signs.
+A Gaussian model is a good fit is because of the correlation between the current position of each individual and the future positions. The coordinates of the each individual is thus modelled as a trajectory over time. For example, a person who is moving slowly (close together data points over time) would have a lower variance in position, wihle a fast-moving person (far apart data points within a short time span) will have a higher variance, as the person's exact position is more unpredictable. There have been past usages of the GP model for trajectory prediction in data. For example, in a paper by {\it Marco A. F. Pimentel, David A. Clifton, Lionel Tarassenko}, Gaussian Processes were used to model the trajectory of human vital signs.
 
 \begin{figure}[!h]
   \centering
-    \includegraphics[width=230px,natwidth=665,natheight=361]{selected_GP/3056.csv_X.png}
+    \includegraphics[width=230px,natwidth=665,natheight=391]{selected_GP/3056.csv_X.png}
   \caption{$x$-coordinate of Tag 3056 plotted against time. (with mean and variance derived from the Gaussian Process model)}
   \label{fig:GP1}
 \end{figure}
@@ -102,17 +102,19 @@ In our experiment, we do a simplified version of our model, using independent GP
 
 \subsection{3.1  Implementation Details}
 
-In order to support the use of big data and the data of different demographics, we experimented with several families of kernel functions including the Radial Basis function (RBF), Exponential function, Matern52, Matern32 and Multilayer Perceptron (MLP). The experiments conducted involved varying their respective parameters such as noise values, relaxing or fixing constraints, changing initial values and inducing points and combining with various White and Bias kernels. Finally, the combination of kernel functions that yield consistent results as observed cross different samples from our dataset is selected to build our GP model for further application. In our case, we found out that MLP with a bias is the most effective way of representing the big data that we have.\\
+In order to support the use of big data and the data of different demographics, we experimented with several families of kernel functions including the Radial Basis function (RBF), Exponential function, Matern52, Matern32 and Multilayer Perceptron (MLP).\\
+
+The experiments conducted involved varying their respective parameters such as noise values, relaxing or fixing constraints, changing initial values and inducing points and combining with various White and Bias kernels. Finally, the combination of kernel functions that yield consistent results as observed cross different samples from our dataset is selected to build our GP model for further application. In our case, we found out that MLP with a bias is the most effective way of representing the big data that we have.\\
 
 We extract the X, Y and Z coordinates from the position data and perform the regression against the timestamps provided in the dataset. We also generate a common set of timestamps to predict the user movements against, in which we generate the mean and variance from the output of the GP we had earlier regressed. \\
 
-The Sheffield GPy library was used for the GP modelling and regression. Python offers many useful libraries like Scipy, Numpy and Pandas, which provide useful data analysis tools for our dataset, as well numerical analysis tools like numerical integration.\\
+The Sheffield GPy library (Python) was used for the GP modelling and regression. Python offers many useful libraries like Scipy, Numpy and Pandas, which provide useful data analysis tools for our dataset, as well numerical analysis tools like numerical integration.\\
 
 The two methods we have chosen to regress our model are either the Stochastic Variational Inference method using the climin module or the AdaDelta rule and direct optimization using BFGS method. Through observing the results from several samples of our dataset, the latter is found to provide more desirable results and more suitable to be used in our propose application. Therefore, it is chosen for further experiments. Figure \ref{fig:GP1} and Figure \ref{fig:GP2} show the output of two such regressions for users 3056 and 3064.
 
 \begin{figure}[h!]
   \centering
-    \includegraphics[width=230px,natwidth=665,natheight=361]{selected_GP/3064.csv_Y.png}
+    \includegraphics[width=230px,natwidth=665,natheight=391]{selected_GP/3064.csv_Y.png}
   \caption{$y$-coordinate of Tag 3064 plotted against time. (with mean and variance derived from the Gaussian Process model)}
   \label{fig:GP2}
 \end{figure}
@@ -138,7 +140,7 @@ Be default we regress the $(x,y,z)$ coordinates of each individual as it is conv
 
 \begin{figure}[h!]
   \centering
-    \includegraphics[width=150px,natwidth=570,natheight=402]{openspace2.png}
+    \includegraphics[width=150px,natwidth=570,natheight=442]{openspace2.png}
   \caption{Points with similar $x$ and $y$ coordinates in a less open space}
   \label{fig:opspace2}
 \end{figure}
@@ -213,10 +215,16 @@ data using the GP model and MLP with a bias constant, we demonstrated that our a
 
 \section{6. Main Roles of Each Member}
 \begin{enumerate}
-\item Wei Ling: Writing the report, research.
-\item Nathan: Experimental setup and coding.
-\item Lynnette / Thien: Setting up and experimenting with the Gaussian Process models
-\item Shunhao: Problem formulation and modelling, mathematics, visualisations.
+\item \textbf{Wei Ling}: 
+Writing of the report, keeping track of requirements, and research.
+\item \textbf{Nathan}: 
+Setting up of the experiment and running the tests using the dataset.
+\item \textbf{Lynnette}: 
+Setting up and experimenting with the various libraries and available tools, and fine-tuning the Gaussian Process models
+\item \textbf{Thien}: 
+Setting up and experimenting with the various libraries and available tools, and fine-tuning the Gaussian Process models
+\item \textbf{Shunhao}: 
+Problem formulation and modelling, mathematics, creating the visualisations and experiment, and writing the report.
 \end{enumerate}
 
 \section{7.  References}
