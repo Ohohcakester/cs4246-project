@@ -107,7 +107,6 @@ Thus using simple integrations over regions, we can compute the expected number 
 
 {\bf3.1  Fitting the requirements using GP model} \\
 
-%Add diagrams
 In order to support the use of big data and the data of different demographics, we experimented with several families of kernel functions including the Radial Basis function (RBF), Exponential function, Matern52, Matern32 and Multilayer Perceptron (MLP). The experiments conducted involved varying their respective parameters such as noise values, relaxing or fixing constraints, changing initial values and inducing points and combining with various White and Bias kernels. Finally, the combination of kernel functions that yield consistent results as observed cross different samples from our dataset is selected to build our GP model for further application. In our case, we found out that MLP with a bias is the most effective way of representing the big data that we have.\\
 
 We extract the X, Y and Z coordinates from the GPS location and perform the regression against the timestamps provided in the dataset. We also generate a common set of timestamps to predict the user movements against, in which we generate the mean and variance from the output of the GP we had earlier regressed. \\
@@ -119,15 +118,13 @@ The two methods we have chosen to regress our model are either the Stochastic Va
 \begin{figure}[h!]
   \centering
     \includegraphics[width=280px,natwidth=634,natheight=442]{selected_GP/3064.csv_Y.png}
-  \caption{$Y$ coordinates of GPS location against time stamps for User 3064 with covariance and mean derived from regression with Gaussian Process}
+  \caption{$y$ coordinates of GPS location against time stamps for User 3064 with covariance and mean derived from regression with Gaussian Process}
   \label{fig:GP2}
 \end{figure}
 
 {\bf3.2  Additional Insights} \\
 
-There are several additional insights we have gathered after performing the experiment. We found out that there is little correlation between the datapoints due to the random change in GPS coordinates with respect to the timestamp as users move randomly within the conference area, and a linear regression model will not be suitable to model the data. \\
-
-The use of the GP model in the application enables us to use all the samples and feature information to perform the prediction, while allowing the training data to have different or uneven sampling rates. Particularly, in our dataset, not all the participants have their GPS signals sampled at the same timestamps all of them might not have the same number of sample points. \\
+The use of the GP model in the application enables us to use all the samples and feature information to perform the prediction, while allowing the training data to have different or uneven sampling rates. Particularly, in our dataset, not all the participants have their GPS signals sampled at the same timestamps, and all of them might not have the same number of sample points. \\
 
 We also noticed that the number of dimensions the dataset have will affect the computational efficiency as GP is not computationally efficient in high dimensional spaces. Since our dataset only consists of a few dimensions, each GP model takes less than a minute to compute on average with the longest taking approximately 3 minutes.\\
 
@@ -210,11 +207,6 @@ Figures \ref{fig:t1dist} to \ref{fig:t4dist} the between the density plots betwe
   \label{fig:t4dist}
 \end{figure}
 
-
-{\bf4.3  Other models} \\
-
-
-%Note: Can run the kernels that failed and put plots if needed (i.e. not enough images)
 
 \section{5.  Conclusion}
 
