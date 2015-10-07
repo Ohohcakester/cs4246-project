@@ -170,7 +170,14 @@ The reliability of our GP model is dependent on how well we select the dataset a
 
 \subsection{4.1  Real-World Dataset}
 
-We test our approach using a Attendee Meta-Data (AMD) Hope RFID Dateset from which data is collected from 1224 hackers attending The Last HOPE Conference from 18-20 July 2008, located in Hotel Pennsylvania, New York City. The data set details the location of the people through the use of RFID badges that uniquely identify and track them across the conference space over the course of the conference. \\
+We test our approach using a Attendee Meta-Data (AMD) Hope RFID Dateset from which data is collected from 1224 hackers attending The Last HOPE Conference from 18-20 July 2008, located in Hotel Pennsylvania, New York City. The data set details the location of the attendees through the use of RFID badges that uniquely identify and track them across the conference space over the course of the conference. A plot of one of the position data over time of one of the attendees is shown in Figure \ref{fig:t4dist}.\\
+
+\begin{figure}[h!]
+  \centering
+    \includegraphics[width=150px,natwidth=675,natheight=493]{positiondata.png}
+  \caption{The $x$ and $y$ coordinates of Tag 3099 over time}
+  \label{fig:spaths}
+\end{figure}
 
 This dataset was used as it has some convenient properties which allow us to construct an experiement to test our model. Firstly, the position data is usually taken at regular intervals of about $30$ seconds apart. Secondly, the data provided is exhaustive (as each attendee to the conference is tagged). This provides enough information to find the actual number of people in each region at any point of time, by simply counting the number of people within the region, within in a time window of $[t-15,t+15)$, where $t$ is the target point of time. 
 
