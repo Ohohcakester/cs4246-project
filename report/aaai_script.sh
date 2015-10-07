@@ -57,7 +57,7 @@ else
 fi
 
 echo "locating and copying all used packages"
-PACKAGES=`grep ^.usepackage $1 | sed -e 's/.*usepackage{\(.*.\)}.*/\1/' | sed -e 's/, /\n/g'`
+PACKAGES=`grep ^.usepackage $1 | sed -e 's/.*usepackage\(\\[.*.\\]\)*{\(.*.\)}.*/\2/' | sed -e 's/, /\n/g'`
 for name in $PACKAGES; do
     echo "locating and copying: $name"
     if [ -e $name.sty ]; then
@@ -113,8 +113,7 @@ echo "latexing source once more"
 latex full.tex
 
 echo "creating the PDF using"
-dvips -Ppdf -G0 -tletter full -o full.ps
-ps2pdf -sPAPERSIZE=letter -dMaxSubsetPct=100 -dCompatibilityLevel=1.2 -dSubsetFonts=false -dEmbedAllFonts=true full.ps
+dvipdfmx full
 cd ..
 
 cp sources/full.pdf report.pdf
