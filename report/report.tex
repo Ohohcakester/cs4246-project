@@ -65,7 +65,7 @@ Gaussian process model fits our application well as we can can specify the varia
 {\bf2.3  Important Requirements} \\
 
 % Some repeated information from Section 4.2 "Real world dataset"? I think we shouldn't talk about our dataset here. here is for general datasets
-Some of the important requirements of crowd modelling include the use of big data and the data of different demographics of people and locations in the building. One benefit of the dataset is that all the participants of the event are given a tag for tracking, allowing us to collect a lot of datapoints due to the use of time axis. As the number of participants is large, we can perform Gaussian process on all of them and the datapoints can be distributed. \\
+Some of the important requirements of crowd modelling include the use of big data and the data of different demographics of people and locations in the building. One benefit of the dataset is that we are able to locate the participants at each point of time, allowing us to collect datapoints due to the use of time axis. As the number of participants is large, we can perform Gaussian process on all of them and the datapoints can be distributed. \\
 
 Gaussian process models are a non-parametric Bayesian approach to regression and classification and we consider these models with multivariate outputs. Our dataset uses a simple multivariate model which applies a separate GP to each dimension, thus assuming statistical independence between the output dimensions. The statistical independence can be supported by parallel GP models. However, actual multivariate observations are likely to have significant correlation and structure. Thus, one possible improvement to achieve GP models with correlated output can be formed by passing the independent GP priors through a function, such as multi-class classification, as stated in a paper by {\it Antoni B.Chan} on the topic of Multivariate Generalized Gaussian Process Models. \\
 
@@ -103,9 +103,9 @@ In order to support the use of big data and the data of different demographics, 
 
 We extract the X, Y and Z coordinates from the GPS location and perform the regression against the timestamps provided in the dataset. We also generate a common set of timestamps to predict the user movements against, in which we generate the mean and variance from the output of the GP we had earlier regressed. \\
 
-The conducting of experiment is done using Python. For the Gaussian Process modelling and regression, we use the library Sheffield GPy with the help of Scipy and Numpy for numerical calculation and representation. We use the data structure and data analysis tools provided by the module Pandas to store, access and analyze our dataset. \\
+The experiment is conducted using Python. For the Gaussian Process modelling and regression, we use the library Sheffield GPy with the help of Scipy and Numpy for numerical calculation and representation. We use the data structure and data analysis tools provided by the module Pandas to store, access and analyze our dataset. \\
 
-The Stochastic Variational Inference method using the climin module and AdaDelta rule and direct optimization using BFGS method are used to regress our model. By observing the results from several samples of our dataset, the latter provides more desirable results and is chosen for further experiments. \\
+The two methods we have chosen to regress our model are either the Stochastic Variational Inference method using the climin module or the AdaDelta rule and direct optimization using BFGS method. Through observing the results from several samples of our dataset, the latter is found to provide more desirable results and more suitable to be used in our propose application. Therefore, it is chosen for further experiments. \\
 
 {\bf3.2  Additional Insights} \\
 
