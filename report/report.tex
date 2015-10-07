@@ -51,8 +51,6 @@ In our Gaussian Process model, each individual is modeled with a separate Gaussi
 
 We use a heteroscedastic model that works the same way as a Gaussian Process model. However, this model allows the use of different variances for the noise terms of the observations, $\epsilon_i \sim N(0, \sigma_i^2)$, giving different weights to each observation. Therefore, it serves to fit observations with smaller noise and choose to ignore those with larger noise. \\
 
-A notable observation at this point is the covaraiacnes
-
 By experimenting with different kernel functions, we obtain the final GP model using a linear combination of a Multilayer Perceptron (MLP) and a constant Bias as kernel function as they consistently output acceptable results for regressions on our dataset. MLP, also known as arc sine kernel or neural network kernel, can be optimized to represent a complex non-linear function. \\
 
 {\bf2.2  Qualitative Advantages} \\
