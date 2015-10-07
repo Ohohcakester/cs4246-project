@@ -75,11 +75,7 @@ Gaussian process model fits our application well as we can can specify the varia
 
 A requirement of our task is a Gaussian Process model with multiple outputs, namely the $x$, $y$ and $z$ coordinates of each person. Our experiment uses a simple multivariate model which applies a separate GP to each dimension, thus assuming statistical independence between the three dimensions. However, the actual coordinates are likely to have a significant correlation and structure. Thus, one possible improvement is to construct GP models with correlated output, by passing the independent GP priors through a function, such as multi-class classification, as stated in a paper by {\it Antoni B.Chan} on the topic of Multivariate Generalized Gaussian Process Models. \\
 % Some repeated information from Section 4.2 "Real world dataset"? I think we shouldn't talk about our dataset here. here is for general datasets
-As use time-series data for the Gaussian Distributions, there are potentially a large amount of data points, especially for time periods that last multiple days. Thus it is important 
-
-Some of the important requirements of crowd modelling include the use of big data and the data of different demographics of people and locations in the building. One benefit of the dataset is that we are able to locate the participants at each point of time, allowing us to collect datapoints due to the use of time axis. As the number of participants is large, we can perform Gaussian process on all of them and the datapoints can be distributed. \\
-
-
+As use time-series data for the Gaussian Distributions, there are potentially a large amount of data points, especially for time periods that last multiple days. Thus the efficiency of the algorithm is important. As we construct separate Gaussian Distributions for each person, the computations can be distributed over multiple machines.\\
 
 {\bf2.4  Interpreting Outputs} \\
 
