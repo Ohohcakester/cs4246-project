@@ -51,10 +51,6 @@ where $m: X \rightarrow \mathbb{R}$ is the mean function of the distribution and
 
 In our Gaussian Process model, each individual is modelled with a separate Gaussian Distribution. For each person in the data, the $x$, $y$ and $z$ of coordinates of the person is given at various points of time. As we seek to model the locations of each person as a function on time, the input location space (dependent variable) for our data $X$ is the time interval in which the data resides, and the target variable is the position of the person, expressed as a tuple $(x,y,z)$ in $\mathbb{R}^3$. \\
 
-We use a heteroscedastic model that works the same way as a Gaussian Process model. However, this model allows the use of different variances for the noise terms of the observations, $\epsilon_i \sim N(0, \sigma_i^2)$, giving different weights to each observation. Therefore, it serves to fit observations with smaller noise and choose to ignore those with larger noise. \\
-
-By experimenting with different kernel functions, we obtain the final GP model using a linear combination of a Multilayer Perceptron (MLP) and a constant Bias as kernel function as they consistently output acceptable results for regressions on our dataset. MLP, also known as arc sine kernel or neural network kernel, can be optimized to represent a complex non-linear function. \\
-
 {\bf2.2  Qualitative Advantages} \\
 
 There are many advantages to using the Gaussian Process model. One key property of the data is that it is unevenly sampled, with multiple large gaps in between the position readings $(x,y,z)$ of each individual. As these points are discrete and finite, the crowd densities at certain positions and times are not represented by the data. A Gaussian Process model fits our application well as we can with gaps between data if there is a break in between the event or if the event spans over multiple days. \\
@@ -119,6 +115,10 @@ The two methods we have chosen to regress our model are either the Stochastic Va
 \end{figure}
 
 {\bf3.2  Additional Insights} \\
+
+We use a heteroscedastic model that works the same way as a Gaussian Process model. However, this model allows the use of different variances for the noise terms of the observations, $\epsilon_i \sim N(0, \sigma_i^2)$, giving different weights to each observation. Therefore, it serves to fit observations with smaller noise and choose to ignore those with larger noise. \\
+
+By experimenting with different kernel functions, we obtain the final GP model using a linear combination of a Multilayer Perceptron (MLP) and a constant Bias as kernel function as they consistently output acceptable results for regressions on our dataset. MLP, also known as arc sine kernel or neural network kernel, can be optimized to represent a complex non-linear function. \\
 
 The use of the GP model in the application enables us to use all the samples and feature information to perform the prediction, while allowing the training data to have different or uneven sampling rates. Particularly, in our dataset, not all the participants have their GPS signals sampled at the same timestamps, and all of them might not have the same number of sample points. \\
 
