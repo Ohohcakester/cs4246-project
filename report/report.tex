@@ -110,18 +110,20 @@ The Stochastic Variational Inference method using the climin module and AdaDelta
 % THIS PARAGRAPH IS TOO LONG AND QUITE MESSY - REVISE?
 A linear regression model will not suit the data as there is little correlation between the points; the GPS coordinates change randomly with respect to the timestamp as users move randomly within the conference area. The advantage the GP model in the application is its use of all the samples and feature information to perform the prediction, while allowing for the training data to have different or uneven sampling rates. In our case, not all the users have their GPS signals sampled at the same timestamps, nor do they all have the same number of sample points. We have only a few dimensions, so we are not affected by the property where GP loses its computational efficiency in high dimensional spaces -- on average, each GP model takes less than a minute to compute; the longest a model has taken is 3 minutes. The prediction is probabilistic so we can compute empirical confidence levels that may be useful in our prediction of crowd density. In addition, the use of a GP model allows the detection of incomplete paths, i.e. loss of GPS signals, resulting in no data for certain time periods. It enables the comparison of noisy data, which is evident in the case of GPS signals and random user movements.\\
 
-An issue with $x$, $y$ and $z$ coordinates is that they may not be a very good model of crowd densities, especially for less open spaces. In our dataset, because the event is a conference, the spaces are wide open, this is not an issue as individuals with close together $x$, $y$ and $z$ coordinates are likely to be close to each other as well. However, in buildings with narrower corridors and tighter spaces, individuals with similar $x$, $y$ and $z$ coordinates may actually be very far apart from each other. Figures 1 and Figure 2 illustrate this idea.
+An issue with $x$, $y$ and $z$ coordinates is that they may not be a very good model of crowd densities, especially for less open spaces. In our dataset, because the event is a conference, the spaces are wide open, this is not an issue as individuals with close together $x$, $y$ and $z$ coordinates are likely to be close to each other as well. However, in buildings with narrower corridors and tighter spaces, individuals with similar $x$, $y$ and $z$ coordinates may actually be very far apart from each other. Figures \ref{fig:opspace1} and Figure \ref{fig:opspace2} illustrate this idea.
 
 \begin{figure}[h!]
   \centering
     \includegraphics[width=150px,natwidth=634,natheight=442]{openspace1.png}
   \caption{Points with similar $x$ and $y$ coordinates in an open space}
+  \label{fig:opspace1}
 \end{figure}
 
 \begin{figure}[h!]
   \centering
     \includegraphics[width=150px,natwidth=570,natheight=442]{openspace2.png}
   \caption{Points with similar $x$ and $y$ coordinates in a less open space}
+  \label{fig:opspace2}
 \end{figure}
 
 {\bf3.3  Novel Modification} \\
@@ -179,7 +181,7 @@ Figures \ref{fig:t1dist} to \ref{fig:t3dist} the between the density plots betwe
 
 Several types of GP models were experimented with, including Stochastic Variance Gaussian Processes and Sparse Gaussian Processes. We also performed experiments with all the different types of kernels provided by the GPy library, including linear kernel and white kernel. We also tweaked the input parameters, such as the variance of the kernels to experiment with the data. The GP model-variant that we proposed has the co-variance matrix and mean that fits the data the best. \\
 
-To model less open spaces, we can use an alternative modelling, provided we know the layout of the area. Instead of using the $x$, $y$ and $z$ coordinates of each user, we can use shortest path distances as the attributes instead. We first define a set of reference points at significant points $p_1,p_2,\cdots,p_k$ in the area. For each data point $d$, we compute the shortest paths $s_i$ from the data point to each of the reference points $p_i$. This is shown in Figure XXX. \\
+To model less open spaces, we can use an alternative modelling, provided we know the layout of the area. Instead of using the $x$, $y$ and $z$ coordinates of each user, we can use shortest path distances as the attributes instead. We first define a set of reference points at significant points $p_1,p_2,\cdots,p_k$ in the area. For each data point $d$, we compute the shortest paths $s_i$ from the data point to each of the reference points $p_i$. This is shown in Figure \ref{fig:spaths}. \\
 
 We then use the same Gaussian Process model as before using the values $s_i$ as the attributes. The advantage of using shortest paths as a metric is the geometry of the map has been abstracted out; two points with similar values of $s_i$ must be points that are close to each other. (given enough reference points)\\
 
@@ -187,6 +189,7 @@ We then use the same Gaussian Process model as before using the values $s_i$ as 
   \centering
     \includegraphics[width=150px,natwidth=570,natheight=442]{shortestpaths.png}
   \caption{The shortest paths from a data point to four reference points}
+  \label{fig:spaths}
 \end{figure}
 
 However, it is important to note that with this formulation, the reference points must be carefully picked for a good prediction. (spread out, and preferably near the areas one is concerned about) \\
