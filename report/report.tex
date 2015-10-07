@@ -35,6 +35,12 @@ Crowd management is essential in events where the committee has to plan and orga
 \section{1.  Introduction}
 In this report, we propose the use of Gaussian process for modelling of crowds. Particularly, we discuss how we exploit the desirable properties of Gaussian process model, some of the advantages that the model provide, the critical requirements of our proposed application as well as how people can make use of the results of our analysis to plan and make decisions for future crowd controlling or crowd management. We also touch on the technical details which includes the fitting on the characteristics of Gaussian process model for the application, additional findings we gathered and modification of the model to enhance performance. We also outline the experimental plan we use to perform and evaluate the performance of Gaussian process(GP) for modelling of crowds.
 
+% What is this for?
+By knowing the predicted densities of people within a defined radius of a certain point, we can do better crowd control. For example, given a prediction that people tend to crowd around a certain area at a certain point of time, obstacles can be reduced or shifted about. Personnel can also be deployed to facilitate crowd movement. This will be useful in cases of MRT breakdowns. \\
+
+% What is this for?
+In addition, by being able to predict the crowd density of an area in a future timestamp, we can do a certain form of path prediction. This can help in deciding building maps and object placements. For example, if we can model that generally if the crowd density of the facial shop increases, generally the crowd density of the restrooms will increase in the next timestamp, we might want to consider putting the restrooms in near proximity to the facial shop. Or if we can model that the crowd density streams from one product to another in a supermarket, we might want to consider placing both products near each other so shoppers can easily reach for both products at once, hence increasing the sales revenue. \\
+
 \section{2.  Gaussian Process Regression for Motion Analysis of Crowds}
 
 {\bf2.1  Constructing Mean and Covariance Functions} \\
@@ -74,7 +80,7 @@ Gaussian process model fits our application well as we can can specify the varia
 {\bf2.3  Important Requirements} \\
 
 A requirement of our task is a Gaussian Process model with multiple outputs, namely the $x$, $y$ and $z$ coordinates of each person. Our experiment uses a simple multivariate model which applies a separate GP to each dimension, thus assuming statistical independence between the three dimensions. However, the actual coordinates are likely to have a significant correlation and structure. Thus, one possible improvement is to construct GP models with correlated output, by passing the independent GP priors through a function, such as multi-class classification, as stated in a paper by {\it Antoni B.Chan} on the topic of Multivariate Generalized Gaussian Process Models. \\
-% Some repeated information from Section 4.2 "Real world dataset"? I think we shouldn't talk about our dataset here. here is for general datasets
+
 As use time-series data for the Gaussian Distributions, there are potentially a large amount of data points, especially for time periods that last multiple days. Thus the efficiency of the algorithm is important. As we construct separate Gaussian Distributions for each person, the computations can be distributed over multiple machines.\\
 
 {\bf2.4  Interpreting Outputs} \\
@@ -144,11 +150,7 @@ Be default we regress the $(x,y,z)$ coordinates of each individual as it is conv
 
 {\bf3.3  Improvement} \\
 
-% What is this for?
-By knowing the predicted densities of people within a defined radius of a certain point, we can do better crowd control. For example, given a prediction that people tend to crowd around a certain area at a certain point of time, obstacles can be reduced or shifted about. Personnel can also be deployed to facilitate crowd movement. This will be useful in cases of MRT breakdowns. \\
-
-% What is this for?
-In addition, by being able to predict the crowd density of an area in a future timestamp, we can do a certain form of path prediction. This can help in deciding building maps and object placements. For example, if we can model that generally if the crowd density of the facial shop increases, generally the crowd density of the restrooms will increase in the next timestamp, we might want to consider putting the restrooms in near proximity to the facial shop. Or if we can model that the crowd density streams from one product to another in a supermarket, we might want to consider placing both products near each other so shoppers can easily reach for both products at once, hence increasing the sales revenue. \\
+ASDFGHJKL
 
 \section{4.  Experimental Evaluation}
 
