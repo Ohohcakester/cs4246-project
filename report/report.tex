@@ -76,7 +76,6 @@ One reason why this model is a good fit is because of the correlation between th
 
 Gaussian process model fits our application well as we can can specify the variance of noise at each point and deal with gaps between data if there is a break in between the event or if the event spans multiple days. The usual approach to interpolating between is through traditional curve-fitting algorithms like the cubic spline. However, these methods do not cater to noisy data as well as Gaussian Processes do, and unlike Gaussian Processes, do not provide a probability distribution (through mean and variance values) at each point of time illustrated in Figure \ref{fig:GP1}, which is important for our method of integrating over regions we are interested in to obtain expected crowd densities.\\
 
-
 {\bf2.3  Important Requirements} \\
 
 A requirement of our task is a Gaussian Process model with multiple outputs, namely the $x$, $y$ and $z$ coordinates of each person. Our experiment uses a simple multivariate model which applies a separate GP to each dimension, thus assuming statistical independence between the three dimensions. However, the actual coordinates are likely to have a significant correlation and structure. Thus, one possible improvement is to construct GP models with correlated output, by passing the independent GP priors through a function, such as multi-class classification, as stated in a paper by {\it Antoni B.Chan} on the topic of Multivariate Generalized Gaussian Process Models. \\
@@ -150,7 +149,20 @@ Be default we regress the $(x,y,z)$ coordinates of each individual as it is conv
 
 {\bf3.3  Improvement} \\
 
-ASDFGHJKL
+Several types of GP models were experimented with, including Stochastic Variance Gaussian Processes and Sparse Gaussian Processes. We also performed experiments with all the different types of kernels provided by the GPy library, including linear kernel and white kernel. We also tweaked the input parameters, such as the variance of the kernels to experiment with the data. The GP model-variant that we proposed has the co-variance matrix and mean that fits the data the best. \\
+
+To model less open spaces, we can use an alternative modelling, provided we know the layout of the area. Instead of using the $x$, $y$ and $z$ coordinates of each user, we can use shortest path distances as the attributes instead. We first define a set of reference points at significant points $p_1,p_2,\cdots,p_k$ in the area. For each data point $d$, we compute the shortest paths $s_i$ from the data point to each of the reference points $p_i$. This is shown in Figure \ref{fig:spaths}. \\
+
+We then use the same Gaussian Process model as before using the values $s_i$ as the attributes. The advantage of using shortest paths as a metric is the geometry of the map has been abstracted out; two points with similar values of $s_i$ must be points that are close to each other. (given enough reference points)\\
+
+\begin{figure}[h!]
+  \centering
+    \includegraphics[width=150px,natwidth=570,natheight=442]{shortestpaths.png}
+  \caption{The shortest paths from a data point to four reference points}
+  \label{fig:spaths}
+\end{figure}
+
+However, it is important to note that with this formulation, the reference points must be carefully picked for a good prediction. (spread out, and preferably near the areas one is concerned about) \\
 
 \section{4.  Experimental Evaluation}
 
@@ -201,20 +213,6 @@ Figures \ref{fig:t1dist} to \ref{fig:t4dist} the between the density plots betwe
 
 {\bf4.3  Other models} \\
 
-Several types of GP models were experimented with, including Stochastic Variance Gaussian Processes and Sparse Gaussian Processes. We also performed experiments with all the different types of kernels provided by the GPy library, including linear kernel and white kernel. We also tweaked the input parameters, such as the variance of the kernels to experiment with the data. The GP model-variant that we proposed has the co-variance matrix and mean that fits the data the best. \\
-
-To model less open spaces, we can use an alternative modelling, provided we know the layout of the area. Instead of using the $x$, $y$ and $z$ coordinates of each user, we can use shortest path distances as the attributes instead. We first define a set of reference points at significant points $p_1,p_2,\cdots,p_k$ in the area. For each data point $d$, we compute the shortest paths $s_i$ from the data point to each of the reference points $p_i$. This is shown in Figure \ref{fig:spaths}. \\
-
-We then use the same Gaussian Process model as before using the values $s_i$ as the attributes. The advantage of using shortest paths as a metric is the geometry of the map has been abstracted out; two points with similar values of $s_i$ must be points that are close to each other. (given enough reference points)\\
-
-\begin{figure}[h!]
-  \centering
-    \includegraphics[width=150px,natwidth=570,natheight=442]{shortestpaths.png}
-  \caption{The shortest paths from a data point to four reference points}
-  \label{fig:spaths}
-\end{figure}
-
-However, it is important to note that with this formulation, the reference points must be carefully picked for a good prediction. (spread out, and preferably near the areas one is concerned about) \\
 
 %Note: Can run the kernels that failed and put plots if needed (i.e. not enough images)
 
