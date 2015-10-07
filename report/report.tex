@@ -47,15 +47,9 @@ $y = f(x) \sim GP(m(x), k(x,x^\prime))$
 
 where $m: X \rightarrow \mathbb{R}$ is the mean function of the distribution and $k: X \times X \rightarrow \mathbb{R}$ is a kernel function which describes the covariances between the values of $y$ any pair of values of the independent variable, $x$ and $x^\prime$ in $X$. \\
 
-In our Gaussian Process model, each individual is modeled by a separate Gaussian Distribution. In the data, the $x$, $y$ and $z$ of coordinates of each person is given at various points of time.  
+In our Gaussian Process model, each individual is modeled with a separate Gaussian Distribution. For each person in the data, the $x$, $y$ and $z$ of coordinates of the person is given at various points of time. As we seek to model the locations of each person as a function on time, the input location space (dependent variable) for our data $X$ is the time interval in which the data resides, and the target variable is the position of the person, expressed as a tuple $(x,y,z)$ in $\mathbb{R}^3$. \\
 
- position of a person as a tuple $(x,y,z)$ in $\mathbb{R}^3$.
-
-Let $u \in \mathbb{R}^3$ be the position ($x, y, z$), where $x$ corresponds to a point of time, $y$ as the function of the coordinates and $z$ as the axis. We consider a position sequence $u_n = {x_i, y_i, z_i} | i = 1,...,n$. \\
-
-
-
-In our project, we are using a heteroscedastic model that works the same way as a Gaussian Process model. However, this model allows the use of different variances for the noise terms of the observations, $\epsilon_i \sim N(0, \sigma_i^2)$, giving different weights to each observation. Therefore, it serves to fit observations with smaller noise and choose to ignore those with larger noise. \\
+We use a heteroscedastic model that works the same way as a Gaussian Process model. However, this model allows the use of different variances for the noise terms of the observations, $\epsilon_i \sim N(0, \sigma_i^2)$, giving different weights to each observation. Therefore, it serves to fit observations with smaller noise and choose to ignore those with larger noise. \\
 
 By experimenting with different kernel functions, we obtain the final GP model using a linear combination of a Multilayer Perceptron (MLP) and a constant Bias as kernel function as they consistently output acceptable results for regressions on our dataset. MLP, also known as arc sine kernel or neural network kernel, can be optimized to represent a complex non-linear function. \\
 
