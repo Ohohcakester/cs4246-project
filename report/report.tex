@@ -65,7 +65,7 @@ A Gaussian model is a good fit is because of the correlation between the current
 \begin{figure}[!h]
   \centering
     \includegraphics[width=230px,natwidth=665,natheight=361]{selected_GP/3056.csv_X.png}
-  \caption{$X$ coordinates of position data against time stamps for User 3056 with covariance and mean derived from regression with Gaussian Process}
+  \caption{$x$-coordinate of Tag 3056 plotted against time. (with mean and variance derived from the Gaussian Process model)}
   \label{fig:GP1}
 \end{figure}
 
@@ -113,7 +113,7 @@ The two methods we have chosen to regress our model are either the Stochastic Va
 \begin{figure}[h!]
   \centering
     \includegraphics[width=230px,natwidth=665,natheight=361]{selected_GP/3064.csv_Y.png}
-  \caption{$y$ coordinates of position data against time stamps for User 3064 with covariance and mean derived from regression with Gaussian Process}
+  \caption{$y$-coordinate of Tag 3064 plotted against time. (with mean and variance derived from the Gaussian Process model)}
   \label{fig:GP2}
 \end{figure}
 
@@ -156,7 +156,9 @@ We then use the same GP model as before using the values $s_i$ as the attributes
   \label{fig:spaths}
 \end{figure}
 
-However, it is important to note that with this formulation, the reference points must be carefully picked for a good prediction. (spread out, and preferably near the areas one is concerned about)
+We note that there are many available algorithms for quickly and accurately computing shortest paths within the area, if an accurate map (or floor plan) of the area is provided. However, it is important to note that with this formulation, the reference points must be carefully picked for a good prediction. (spread out, and preferably near the areas one is concerned about)\\
+
+Integrations using the shortest path formulation will also be slightly more complex, as regions are now defined in terms of the path length to each of the reference points.
 
 \section{4.  Experimental Evaluation}
 
@@ -164,44 +166,45 @@ However, it is important to note that with this formulation, the reference point
 
 We test our approach using a Attendee Meta-Data (AMD) Hope RFID Dateset from which data is collected from 1224 hackers attending The Last HOPE Conference from 18-20 July 2008, located in Hotel Pennsylvania, New York City. The data set details the location of the people through the use of RFID badges that uniquely identify and track them across the conference space over the course of the conference. \\
 
-This dataset was used as it has some convenient properties which allow us to construct an experiement to test our model. The position data is usually taken at regular intervals of $30$ seconds apart, and the data provided is exhaustive (as each attendee to the conference is tagged). This provides enough information to find the actual number of people in each region at any point of time, by simply counting the number of people within the region, within in a time window of $[t-15,t+15)$, where $t$ is the target point of time. 
+This dataset was used as it has some convenient properties which allow us to construct an experiement to test our model. Firstly, the position data is usually taken at regular intervals of about $30$ seconds apart. Secondly, the data provided is exhaustive (as each attendee to the conference is tagged). This provides enough information to find the actual number of people in each region at any point of time, by simply counting the number of people within the region, within in a time window of $[t-15,t+15)$, where $t$ is the target point of time. 
 
 \subsection{4.2  Experimental Setup}
 
-In the experiment, the conference area is divided into $8\times 7 \times 2$ square regions (on the $x$,$y$ and $z$ axes respectively) that tile the conference area. $50$ time points are then picked randomly, while ensuring a minimum gap of $200$ seconds between any two time points, and that there are at least $300$ unique active tags near that time point. This is done to avoid testing on periods where no or few people are active, like during the night.\\
+In the experiment, the conference area is divided into $8\times 7 \times 2$ square regions (on the $x$,$y$ and $z$ axes respectively) that tile the conference area. $50$ time points are then picked randomly, while ensuring a minimum gap of $200$ seconds between any two time points, and that there are at least $300$ unique active tags near that time point. This is done to avoid testing on periods where no or few people are active, like during the night, as the event spans multiple days.\\
 
-At each chosen time point $t$, the number of unique tags within each of the $112$ regions is counted. This is the actual data to be compared against. A small fraction (about $10\%$) of the people is then taken, and the GP model above is used to estimate the number of people within each of the regions. \\
+At each chosen time point $t$, the number of unique tags within each of the $112$ regions is counted. This is the actual data to be compared against. A small fraction (about $10\%$) of the people is then taken, the probability distributions of the people are generated using the GP model above, which is then used to estimate the number of people within each of the regions. \\
 
-Figures \ref{fig:t1dist} to \ref{fig:t4dist} show the differences between the density plots between actual crowd densities and the predicted crowd densities. One way of testing the quality of the fit is by observing how the distributions differ in the plotted charts below. A more empirical way of testing the quality of the fit is by taking the mean-squared error of the data between the actual and the predicted number of people. This can be compared across different models to test the accuracy of the prediction.
+Figures \ref{fig:t1dist} to \ref{fig:t4dist} show the differences between the density plots between actual crowd densities and the predicted crowd densities from our experiment. One way of testing the quality of the fit is by observing how the distributions differ in the plotted charts below. A more empirical way of testing the quality of the fit is by taking the mean-squared error of the data between the actual and the predicted number of people. This can be compared across different models to test the accuracy of the prediction.
 
 \begin{figure}[h!]
   \centering
     \includegraphics[width=120px,natwidth=320,natheight=280]{selected_renders/0_1216437924.png}
-  \caption{Actual density at $t=1216437924$, $z=0$}
+  \caption{Actual density at $t=1216437924$, at floor $0$ of the event. ($z = 0$)}
   \label{fig:t1dist}
 \end{figure}
 
 \begin{figure}[h!]
   \centering
     \includegraphics[width=120px,natwidth=320,natheight=280]{selected_renders/0_1216437924p.png}
-  \caption{Predicted density at $t=1216437924$, $z=0$}
+  \caption{Predicted density at $t=1216437924$, at floor $0$ of the event. ($z = 0$)}
   \label{fig:t2dist}
 \end{figure}
 
 \begin{figure}[h!]
   \centering
     \includegraphics[width=120px,natwidth=320,natheight=280]{selected_renders/1_1216440525.png}
-  \caption{Actual density at $t=1216440525$, $z=1$}
+  \caption{Actual density at $t=1216440525$, at floor $1$ of the event. ($z = 1.2$)}
   \label{fig:t3dist}
 \end{figure}
 
 \begin{figure}[h!]
   \centering
     \includegraphics[width=120px,natwidth=320,natheight=280]{selected_renders/1_1216440525p.png}
-  \caption{Predicted density at $t=1216440525$, $z=1$}
+  \caption{Predicted density at $t=1216440525$, at floor $1$ of the event. ($z = 1.2$)}
   \label{fig:t4dist}
 \end{figure}
 
+We note that using the simplified version of the Gaussian Model (statistically independent $x$, $y$ and $z$ coordinates), the probability distributions roughly approximate the crowd densities within each region in the event. Using this experiment setup, we can test the amount of improvement in the prediction when we apply modifications to the model, like using Multivariate Gaussian Processes to produce a full covariance matrix between $x$, $y$ and $z$, or using the shortest path formulation of the space.
 
 \section{5.  Conclusion}
 
