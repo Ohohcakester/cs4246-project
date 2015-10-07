@@ -41,7 +41,7 @@ We define a position of a person as a discrete vector sequence in $\mathbb{R}^3$
 
 {\bf2.1  Constructing Mean and Covariance Functions} \\
 
-Gaussian process regression model is represented as $y = f(x) + \epsilon$, which $y$ is a dependent variable expressed in terms of an independent variable x through a function $f(x)$ with a noise term $\epsilon \sim N(0, \sigma^2)$. The function $f$ can be interpreted as a probability distribution over functions, \\
+Gaussian process regression model is represented as $y = f(x) + \epsilon$, which $y$ is a dependent variable expressed in terms of an independent variable $x$ through a function $f(x)$ with a noise term $\epsilon \sim N(0, \sigma^2)$. The function $f$ can be interpreted as a probability distribution over functions, \\
 
 $ y = f(x) \sim GP(m(x), k(x,x^\prime))$ \\
 
@@ -49,7 +49,7 @@ where $m(x)$ is the mean function of the distribution and $k$ is a covariance fu
 
 In our project, we are using a heteroscedastic model that works the same way as a Gaussian Process model. However, this model allows the use of different variances for the noise terms of the observations, $\epsilon_i \sim N(0, \sigma_i^2)$, giving different weights to each observation. Therefore, it serves to fit observations with smaller noise and choose to ignore those with larger noise. \\
 
-By experimenting with different kernel functions, we obtain the final GP model using a linear combination of a Multilayer Perceptron (MLP) and a constant Bias as kernel function as they consistently output acceptable results for regressions on our datasets. MLP, also known as arc sine kernel or neural network kernel, can be optimized to represent a complex non-linear function. \\
+By experimenting with different kernel functions, we obtain the final GP model using a linear combination of a Multilayer Perceptron (MLP) and a constant Bias as kernel function as they consistently output acceptable results for regressions on our dataset. MLP, also known as arc sine kernel or neural network kernel, can be optimized to represent a complex non-linear function. \\
 
 {\bf2.2  Qualitative Advantages} \\
 
@@ -59,18 +59,18 @@ Another benefit is that the Gaussian Process model provides both the mean and va
 
 One reason why this model is a good fit is because of the correlation between the current position of each individual and the future positions. Thus the coordinates of the individuals each modelled as a trajectory over time. There have been past usages of the GP model trajectory prediction in data. For example, in a paper by {\it Marco A. F. Pimentel, David A. Clifton, Lionel Tarassenko}, Gaussian Processes were used to model the trajectory of human vital signs. \\
 
-Gaussian process model fits our application well as we can can specify the variance of noise at each point and deals with gaps between data if there is a break in between the event or the event last a few days. GP model allows us to provide any regions and we are able to predict the output by integrating over the regions. For other curve fitting methods, the variances are unknown to us and therefore we cannot integrate over the regions we are interested to find the population density at the specific point of time. \\
+Gaussian process model fits our application well as we can can specify the variance of noise at each point and deal with gaps between data if there is a break in between the event or the event last for a few days. GP model allows us to provide any regions and we are able to predict the output by integrating over the regions. For other curve fitting methods, the variances are unknown to us and therefore we cannot integrate over the regions we are interested to find the population density at the specific point of time. \\
 
 
 {\bf2.3  Important Requirements} \\
 
 % Some repeated information from Section 4.2 "Real world dataset"? I think we shouldn't talk about our dataset here. here is for general datasets
-Some of the important requirements of crowd modelling include the use of big data and the data of different demographics of approximately 1000 people and locations across 2 storeys in the building. One benefit of the dataset is that all the participants of the event are given a tag for tracking, allowing us to collect a lot of datapoints due to the use of time axis. Also, between datapoints, there is a 30 seconds interval, which can be satisfied by a Gaussian Process model. As the number of participants is large, we can perform Gaussian process on all of them and the datapoints can be distributed. \\
+Some of the important requirements of crowd modelling include the use of big data and the data of different demographics of people and locations in the building. One benefit of the dataset is that we are able to locate the participants at each point of time, allowing us to collect datapoints due to the use of time axis. As the number of participants is large, we can perform Gaussian process on all of them and the datapoints can be distributed. \\
 
 Gaussian process models are a non-parametric Bayesian approach to regression and classification and we consider these models with multivariate outputs. Our dataset uses a simple multivariate model which applies a separate GP to each dimension, thus assuming statistical independence between the output dimensions. The statistical independence can be supported by parallel GP models. However, actual multivariate observations are likely to have significant correlation and structure. Thus, one possible improvement to achieve GP models with correlated output can be formed by passing the independent GP priors through a function, such as multi-class classification, as stated in a paper by {\it Antoni B.Chan} on the topic of Multivariate Generalized Gaussian Process Models. \\
 
 
-{\bf2.4  Interpreting  Outputs} \\
+{\bf2.4  Interpreting Outputs} \\
 
 After modelling the trajectories of each person as a function of time, point of time $T$, for each person $i$, we can determine the mean vector $\boldsymbol{\mu}$ and covariance matrix $K$ of the person's $x,y,z$ coordinates. Let $U_i$ be a random variable denoting the position $(x,y,z)$ of person $i$. Each $U_i$ can then be expressed as a trivariate normal distribution $U_i \sim \mathcal{N}(\boldsymbol{\mu},K)$.\\
 
@@ -103,14 +103,17 @@ In order to support the use of big data and the data of different demographics, 
 
 We extract the X, Y and Z coordinates from the GPS location and perform the regression against the timestamps provided in the dataset. We also generate a common set of timestamps to predict the user movements against, in which we generate the mean and variance from the output of the GP we had earlier regressed. \\
 
-The conducting of experiment is done using Python. For the Gaussian Process modeling and regression, we use the library Sheffield GPy with the help of Scipy and Numpy for numerical calculation and representation. We use the data structure and data analysis tools provided by the module Pandas to store, access and analyze our dataset. \\
+The experiment is conducted using Python. For the Gaussian Process modelling and regression, we use the library Sheffield GPy with the help of Scipy and Numpy for numerical calculation and representation. We use the data structure and data analysis tools provided by the module Pandas to store, access and analyze our dataset. \\
 
-The Stochastic Variational Inference method using the climin module and AdaDelta rule and direct optimization using BFGS method are used to regress our model. By observing the results from several samples of our dataset, the latter provides more desirable results and is chosen for further experiments. \\
+The two methods we have chosen to regress our model are either the Stochastic Variational Inference method using the climin module or the AdaDelta rule and direct optimization using BFGS method. Through observing the results from several samples of our dataset, the latter is found to provide more desirable results and more suitable to be used in our propose application. Therefore, it is chosen for further experiments. \\
 
 {\bf3.2  Additional Insights} \\
 
-% THIS PARAGRAPH IS TOO LONG AND QUITE MESSY - REVISE?
-A linear regression model will not suit the data as there is little correlation between the points; the GPS coordinates change randomly with respect to the timestamp as users move randomly within the conference area. The advantage the GP model in the application is its use of all the samples and feature information to perform the prediction, while allowing for the training data to have different or uneven sampling rates. In our case, not all the users have their GPS signals sampled at the same timestamps, nor do they all have the same number of sample points. We have only a few dimensions, so we are not affected by the property where GP loses its computational efficiency in high dimensional spaces -- on average, each GP model takes less than a minute to compute; the longest a model has taken is 3 minutes. The prediction is probabilistic so we can compute empirical confidence levels that may be useful in our prediction of crowd density. In addition, the use of a GP model allows the detection of incomplete paths, i.e. loss of GPS signals, resulting in no data for certain time periods. It enables the comparison of noisy data, which is evident in the case of GPS signals and random user movements.\\
+There are several additional insights we have gathered after performing the experiment. We found out that there is little correlation between the datapoints due to the random change in GPS coordinates with respect to the timestamp as users move randomly within the conference area, and a linear regression model will not be suitable to model the data. \\
+
+The use of the GP model in the application enables us to use all the samples and feature information to perform the prediction, while allowing the training data to have different or uneven sampling rates. Particularly, in our dataset, not all the participants have their GPS signals sampled at the same timestamps all of them might not have the same number of sample points. \\
+
+We have only a few dimensions, so we are not affected by the property where GP loses its computational efficiency in high dimensional spaces -- on average, each GP model takes less than a minute to compute; the longest a model has taken is 3 minutes. The prediction is probabilistic so we can compute empirical confidence levels that may be useful in our prediction of crowd density. In addition, the use of a GP model allows the detection of incomplete paths, i.e. loss of GPS signals, resulting in no data for certain time periods. It enables the comparison of noisy data, which is evident in the case of GPS signals and random user movements.\\
 
 Be default we regress the $(x,y,z)$ coordinates of each individual as it is convenient to use and easy to understand (and integrate over). However, an issue with $x$, $y$ and $z$ coordinates is that they may not be a very good model of crowd densities, especially for less open spaces. In our dataset, because the event is a conference, the spaces are wide open, this is not an issue as individuals with close together $x$, $y$ and $z$ coordinates are likely to be close to each other as well. However, in buildings with narrower corridors and tighter spaces, individuals with similar $x$, $y$ and $z$ coordinates may actually be very far apart from each other. Figures \ref{fig:opspace1} and Figure \ref{fig:opspace2} illustrate this idea.
 
