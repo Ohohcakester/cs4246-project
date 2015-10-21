@@ -3,12 +3,15 @@ data/
 src/data
 src/renders
 src/true_densities.csv
+src/test_densities.csv
 src/evalall
+src/test_renders
 src/predicted/
 img/output_draw.png
 img/locationmap.png
 
 report/a
+report/b
 report/sources
 report/__tmp1
 report/__tmp2
