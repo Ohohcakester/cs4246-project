@@ -9,6 +9,8 @@ src/test_renders
 src/predicted/
 img/output_draw.png
 img/locationmap.png
+src/pathfinding/maze/problems/
+*.class
 
 report/a
 report/b
