@@ -4,7 +4,7 @@
 \usepackage{times}
 \usepackage{helvet}
 \usepackage{courier}
-\usepackage{graphicx}
+\usepackage[dvipdfmx]{graphicx}
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \frenchspacing
@@ -28,49 +28,69 @@ Oh Shunhao, A0065475X\\
 \maketitle
 \begin{abstract}
 \begin{quote}
-Crowd management is essential in events where the committee has to plan and organize in an effective and efficient manner, taking into consideration factors such as the facility, size and demeanor of the crowd and crowd control. The motion analysis of crowd in multivariate timeseries data requires an effective model to represent the data. In this report, we illustrate the use of Gaussian Processes to model crowd distributions from noisy and unevenly-sampled position data, and we explore how this representation can be used to predict the density of the population for future data.
+Crowd management is essential in events where the committee has to plan and organize in an effective and efficient manner, taking into consideration factors such as the facility, size and demeanor of the crowd and crowd control. The motion analysis of crowd in multivariate time series data requires an effective model to represent the data.\\
+In this report, we illustrate the use of Gaussian Processes to model crowd distributions from noisy and unevenly-sampled position data, and we explore how this representation can be used to predict the population density for future data.
 \end{quote}
 \end{abstract}
 
 \section{1.  Introduction}
-In this report, we propose the use of Gaussian process for modelling of crowds. Particularly, we will discuss how we exploit the desirable properties of Gaussian process model, some of the advantages that the model provide, the critical requirements of our proposed application as well as how people can make use of the results of our analysis to plan and make decisions for future crowd controlling or crowd management. Next, we will touch on the technical details which includes the fitting on the characteristics of Gaussian process model for the application, additional findings we gathered and modification of the model to enhance performance. The third section of the report will be a detailed experimental plan we will be using to perform and evaluate the performance of Gaussian process(GP) for modelling of crowds. Lastly, the report will end with an interesting factor we will be exploring in this project.
+In this report, we propose the use of Gaussian process (GP) for modelling of crowds. Particularly, we discuss how we exploit the desirable properties of the GP model, some of the advantages that the model provide, the critical requirements of our proposed application as well as how people can make use of the results of our analysis to plan and make decisions for future crowd controlling or crowd management. \\
 
-\section{2.  Gaussian Process Regression for Motion Analysis of Crowds}
+We also touch on the technical details which includes how GP model fits the requirements of the proposed application, additional findings we gathered and modification of the model to enhance performance. We also outline the experimental plan we use to perform and evaluate the performance of Gaussian Processes for modelling of crowds. \\
 
-We define a position of a person as a discrete vector sequence in $\mathbb{R}^3$. Let $u \epsilon \mathbb{R}^3$ be the position ($x, y, z$), where $x$ corresponds to a point of time, $y$ as the function of the coordinates and $z$ as the axis. We consider a position sequence $u_n = {x_i, y_i, z_i} | i = 1,...,n$. \\
+The rationale behind using Gaussian Processes for modelling of crowds is to do better crowd control by predicting the population density within any defined region. For example, it can be useful in the case of train breakdowns to facilitate crowd movements. In addition, we can perform path prediction using the GP model.
 
-{\bf2.1  Constructing Mean and Covariance Functions} \\
+% Section 2.
+\section{2.  Gaussian Process Regression Model}
 
-Gaussian process regression model is represented as $y = f(x) + \epsilon$, which $y$ is a dependent variable expressed in terms of an independent variable $x$ through a function $f(x)$ with a noise term $\epsilon \sim N(0, \sigma^2)$. The function $f$ can be interpreted as a probability distribution over functions, \\
+Gaussian processes (GPs) extend multivariate Gaussian distributions to infinite dimensionality. A Gaussian process generates data located throughout some domain such that any finite subset of the range follows a multivariate Gaussian distribution. For example, the $x$ observations in an arbitrary data set, $y = \{y_1,...,y_n\}$, can always be considered as a single point sampled from some multivariate ($x$-variate) Gaussian distribution. 
 
-$ y = f(x) \sim GP(m(x), k(x,x^\prime))$ \\
+\subsection{2.1  Modelling}
 
-where $m(x)$ is the mean function of the distribution and $k$ is a covariance function which describes the relationship between two values of the independent variable, $x$ and $x^\prime$, as a function of the kernel distance between them. \\
+In a Gaussian Process model, we model a target variable $f(x)$ as a function of the input locations $x \in X$. The sensor readings $y$ of $f(x)$ at each point $x$ is expressed in the form $y = f(x) + \epsilon$, where each $\epsilon \sim \mathcal{N}(0, \sigma^2)$ is an i.i.d. additive noise term. $y$ is expressed with a GP distribution as follows:
 
-In our project, we are using a heteroscedastic model that works the same way as a Gaussian Process model. However, this model allows the use of different variances for the noise terms of the observations, $\epsilon_i \sim N(0, \sigma_i^2)$, giving different weights to each observation. Therefore, it serves to fit observations with smaller noise and choose to ignore those with larger noise. \\
+\begin{center}
+$y = f(x) \sim GP(m(x), k(x,x^\prime))$
+\end{center}
 
-By experimenting with different kernel functions, we obtain the final GP model using a linear combination of a Multilayer Perceptron (MLP) and a constant Bias as kernel function as they consistently output acceptable results for regressions on our dataset. MLP, also known as arc sine kernel or neural network kernel, can be optimized to represent a complex non-linear function. \\
+where $m: X \rightarrow \mathbb{R}$ is the mean function of the distribution and $k: X \times X \rightarrow \mathbb{R}$ is a kernel function which describes the covariance between the values of $y$ any pair of values of the independent variable, $x$ and $x^\prime$ in $X$. \\
 
-{\bf2.2  Qualitative Advantages} \\
+In our GP model, each individual is modelled with a separate Gaussian Process. For each person in the data, the $x$, $y$ and $z$ of coordinates of the person is given at various points of time. As we seek to model the locations of each person as a function on time, the input location space (dependent variable) for our data $X$ is the time interval in which the data resides, and the target variable is the position of the person, expressed as a tuple $(x,y,z)$ in $\mathbb{R}^3$.
 
-There are many advantages to using the Gaussian Process model. One key property of the data is that it is unevenly sampled, with multiple large gaps in between the position readings $(x,y,z)$ of each individual. As these points are discrete and finite, the crowd densities at certain positions and times are not represented by the data. After processing the data with using the Gaussian Process model, we will be able to fill in these gaps in data. \\
+\subsection{2.2  Qualitative Advantages}
 
-Another benefit is that the Gaussian Process model provides both the mean and variances of the position of the user at each point of time, allowing us to construct a probability distribution of the user's position at each point of time. A probability distribution allows us to compute the proportion of the crowd at any point of time, over any defined region. \\
+The use of the GP model in the application enables us to use all the samples and feature information to perform the prediction, while allowing the training data to have different or uneven sampling rates. \\
 
-One reason why this model is a good fit is because of the correlation between the current position of each individual and the future positions. Thus the coordinates of the individuals each modelled as a trajectory over time. There have been past usages of the GP model trajectory prediction in data. For example, in a paper by {\it Marco A. F. Pimentel, David A. Clifton, Lionel Tarassenko}, Gaussian Processes were used to model the trajectory of human vital signs. \\
+Particularly, in our dataset, not all the participants have their position data sampled at the same timestamps, and all of them might not have the same number of sample points. The event also spans multiple days, and so there are even periods of time with no position data.\\
 
-Gaussian process model fits our application well as we can can specify the variance of noise at each point and deal with gaps between data if there is a break in between the event or the event last for a few days. GP model allows us to provide any regions and we are able to predict the output by integrating over the regions. For other curve fitting methods, the variances are unknown to us and therefore we cannot integrate over the regions we are interested to find the population density at the specific point of time. \\
+One key advantage of the GP model is that it generates a probability distribution (through mean and variance values) of each individual's position at every point of time, as illustrated in Figure \ref{fig:GP1}. As shown later below, this probability distribution allows us to compute the density of the crowd at any point of time, over any defined region. \\
 
+The usual approach for interpolating data is through traditional curve-fitting algorithms like the cubic spline. However, these methods do not cater to noisy data as well as Gaussian Processes do, and unlike Gaussian Processes, do not provide a probability distribution, nor variances, which are important for our method of integrating over regions we are interested in to obtain expected crowd densities.\\
 
-{\bf2.3  Important Requirements} \\
+A Gaussian model is a good fit is because of the correlation between the current position of each individual and the future positions. The coordinates of the each individual is thus modelled as a trajectory over time. For example, a person who is moving slowly (close together data points over time) would have a lower variance in position, while a fast-moving person (far apart data points within a short time span) will have a higher variance, as the person's exact position is more unpredictable. \\
 
-% Some repeated information from Section 4.2 "Real world dataset"? I think we shouldn't talk about our dataset here. here is for general datasets
-Some of the important requirements of crowd modelling include the use of big data and the data of different demographics of people and locations in the building. One benefit of the dataset is that we are able to locate the participants at each point of time, allowing us to collect datapoints due to the use of time axis. As the number of participants is large, we can perform Gaussian process on all of them and the datapoints can be distributed. \\
+There have been past usages of the GP model for trajectory prediction in data. For example, in a paper by {\it Marco A. F. Pimentel, David A. Clifton, Lionel Tarassenko}, Gaussian Processes were used to model the trajectory of human vital signs.
 
-Gaussian process models are a non-parametric Bayesian approach to regression and classification and we consider these models with multivariate outputs. Our dataset uses a simple multivariate model which applies a separate GP to each dimension, thus assuming statistical independence between the output dimensions. The statistical independence can be supported by parallel GP models. However, actual multivariate observations are likely to have significant correlation and structure. Thus, one possible improvement to achieve GP models with correlated output can be formed by passing the independent GP priors through a function, such as multi-class classification, as stated in a paper by {\it Antoni B.Chan} on the topic of Multivariate Generalized Gaussian Process Models. \\
+\begin{figure}[!h]
+  \centering
+    \includegraphics[width=230px,natwidth=665,natheight=391]{selected_GP/3056.csv_X.png}
+  \caption{$x$-coordinate of Tag 3056 plotted against time. (with mean and variance derived from the Gaussian Process model)}
+  \label{fig:GP1}
+\end{figure}
 
+A Gaussian model is a good fit is because of the correlation between the current position of each individual and the future positions. The coordinates of the each individual is thus modelled as a trajectory over time. For example, a person who is moving slowly (close together data points over time) would have a lower variance in position, while a fast-moving person (far apart data points within a short time span) will have a higher variance, as the person's exact position is more unpredictable. \\
 
-{\bf2.4  Interpreting Outputs} \\
+There have been past usages of the GP model for trajectory prediction in data. For example, in a paper by {\it Marco A. F. Pimentel, David A. Clifton, Lionel Tarassenko}, Gaussian Processes were used to model the trajectory of human vital signs.
+
+\subsection{2.3  Important Requirements}
+
+A requirement of our task is a Gaussian Process model with multiple outputs, namely the $x$, $y$ and $z$ coordinates of each person. Our experiment uses a simple multivariate model which applies a separate GP to each dimension, thus assuming statistical independence between the three dimensions. \\
+
+However, the actual coordinates are likely to have a significant correlation and structure. Thus, one possible improvement is to construct GP models with correlated output, by passing the independent GP priors through a function, such as multi-class classification, as described in a paper by {\it Antoni B.Chan} on the topic of Multivariate Generalized Gaussian Process Models. \\
+
+As we use time-series data for the Gaussian Process, there are potentially a large amount of data points, especially for time periods that last multiple days. Thus the efficiency of the algorithm is important. As we construct separate Gaussian Distributions for each person, the computations can be distributed over multiple machines.
+
+\subsection{2.4  Interpreting Outputs}
 
 After modelling the trajectories of each person as a function of time, point of time $T$, for each person $i$, we can determine the mean vector $\boldsymbol{\mu}$ and covariance matrix $K$ of the person's $x,y,z$ coordinates. Let $U_i$ be a random variable denoting the position $(x,y,z)$ of person $i$. Each $U_i$ can then be expressed as a trivariate normal distribution $U_i \sim \mathcal{N}(\boldsymbol{\mu},K)$.\\
 
@@ -87,32 +107,48 @@ The expected value of $X_i$, is equal to the probability of person $i$ being in 
 $\displaystyle E[\sum_{i=1}^n X_i] = \sum_{i=1}^n E[X_i] = \sum_{i=1}^n \int_V p_i(x,y,z)dV$.
 \end{center}
 
-However, in our experiment, we do a simplified version, using independent Gaussian Process models for each of the axes $x$, $y$ and $z$, thus the covariances between any two variables to be $0$. \\
+We note that since only a fraction of the people in the crowd is used in the data, the final value needs to be scaled accordingly to represent the total number of people within the region.
 
-Thus using simple integrations over regions, we can compute the expected number of people in each region. The outputs of the Gaussian Process model are useful in helping human users or experts in using a sample of people in the data to predict the population density of a particular area at any instance of time. The idea is we can tag a small group of people and they will conduct their activities as per normal. We will get the datapoints of their movements to evaluate the GP model and get the distribution so as to predict the expected population density of a particular area at any instance of time. \\
+Thus, using simple integrations over regions, we can compute the expected number of people in each region. The outputs of the GP model are useful in helping human users or experts to use a small sample of people in the data to predict the population density of a particular area at any point of time. \\
+
+The idea is that a small group of people can be tagged, and they will conduct their activities as per normal. By getting the data of their movements and passing it through the GP model, one can predict the expected population density of a particular area at any point of time.
 
 \section{3.  Technical Approach}
 
-{\bf3.1  How does the GP model you’re using fit the requirements of your proposed application exactly?} \\
+In our experiment, we do a simplified version of our model, using independent GP models for each of the axes $x$, $y$ and $z$, thus assuming the covariance between any two variables to be $0$. 
 
-%Add diagrams
-input of 3 graphs \\
+\subsection{3.1  Implementation Details}
 
+In order to support the use of big data and the data of different demographics, we experimented with several families of kernel functions including the Radial Basis function (RBF), Exponential function, Matern52, Matern32 and Multilayer Perceptron (MLP).\\
 
-In order to support the use of big data and the data of different demographics, we experimented with several families of kernel functions including the Radial Basis function (RBF), Exponential function, Matern52, Matern32 and Multilayer Perceptron (MLP). The experiments conducted involved varying their respective parameters such as noise values, relaxing or fixing constraints, changing initial values and inducing points and combining with various White and Bias kernels. Finally, the combination of kernel functions that yield consistent results as observed cross different samples from our dataset is selected to build our GP model for further application. In our case, we found out that MLP with a bias is the most effective way of representing the big data that we have.\\
+The experiments conducted involved varying their respective parameters such as noise values, relaxing or fixing constraints, changing initial values and inducing points and combining with various White and Bias kernels. Finally, the combination of kernel functions that yield consistent results as observed cross different samples from our dataset is selected to build our GP model for further application. In our case, we found out that MLP with a bias is the most effective way of representing the big data that we have.\\
 
-We extract the X, Y and Z coordinates from the GPS location and perform the regression against the timestamps provided in the dataset. We also generate a common set of timestamps to predict the user movements against, in which we generate the mean and variance from the output of the GP we had earlier regressed. \\
+We extract the X, Y and Z coordinates from the position data and perform the regression against the timestamps provided in the dataset. We also generate a common set of timestamps to predict the user movements against, in which we generate the mean and variance from the output of the GP we had earlier regressed. \\
 
-The experiment is conducted using Python. For the Gaussian Process modelling and regression, we use the library Sheffield GPy with the help of Scipy and Numpy for numerical calculation and representation. We use the data structure and data analysis tools provided by the module Pandas to store, access and analyze our dataset. \\
+The Sheffield GPy library (Python) was used for the GP modelling and regression. Python offers many useful libraries like Scipy, Numpy and Pandas, which provide useful data analysis tools for our dataset, as well numerical analysis tools like numerical integration.\\
 
-The two methods we have chosen to regress our model are either the Stochastic Variational Inference method using the climin module or the AdaDelta rule and direct optimization using BFGS method. Through observing the results from several samples of our dataset, the latter is found to provide more desirable results and more suitable to be used in our propose application. Therefore, it is chosen for further experiments. \\
+The two methods we have chosen to regress our model are either the Stochastic Variational Inference method using the climin module or the AdaDelta rule and direct optimization using BFGS method. Through observing the results from several samples of our dataset, the latter is found to provide more desirable results and more suitable to be used in our propose application. Therefore, it is chosen for further experiments. Figure \ref{fig:GP1} and Figure \ref{fig:GP2} show the output of two such regressions for users 3056 and 3064.
 
-{\bf3.2  Additional Insights} \\
+\begin{figure}[h!]
+  \centering
+    \includegraphics[width=230px,natwidth=665,natheight=391]{selected_GP/3064.csv_Y.png}
+  \caption{$y$-coordinate of Tag 3064 plotted against time. (with mean and variance derived from the Gaussian Process model)}
+  \label{fig:GP2}
+\end{figure}
 
-% THIS PARAGRAPH IS TOO LONG AND QUITE MESSY - REVISE?
-A linear regression model will not suit the data as there is little correlation between the points; the GPS coordinates change randomly with respect to the timestamp as users move randomly within the conference area. The advantage the GP model in the application is its use of all the samples and feature information to perform the prediction, while allowing for the training data to have different or uneven sampling rates. In our case, not all the users have their GPS signals sampled at the same timestamps, nor do they all have the same number of sample points. We have only a few dimensions, so we are not affected by the property where GP loses its computational efficiency in high dimensional spaces -- on average, each GP model takes less than a minute to compute; the longest a model has taken is 3 minutes. The prediction is probabilistic so we can compute empirical confidence levels that may be useful in our prediction of crowd density. In addition, the use of a GP model allows the detection of incomplete paths, i.e. loss of GPS signals, resulting in no data for certain time periods. It enables the comparison of noisy data, which is evident in the case of GPS signals and random user movements.\\
+\subsection{3.2  Additional Insights}
 
-Be default we regress the $(x,y,z)$ coordinates of each individual as it is convenient to use and easy to understand (and integrate over). However, an issue with $x$, $y$ and $z$ coordinates is that they may not be a very good model of crowd densities, especially for less open spaces. In our dataset, because the event is a conference, the spaces are wide open, this is not an issue as individuals with close together $x$, $y$ and $z$ coordinates are likely to be close to each other as well. However, in buildings with narrower corridors and tighter spaces, individuals with similar $x$, $y$ and $z$ coordinates may actually be very far apart from each other. Figures \ref{fig:opspace1} and Figure \ref{fig:opspace2} illustrate this idea.
+We use a heteroscedastic model that works the same way as a GP model. However, this model allows the use of different variances for the noise terms of the observations, $\epsilon_i \sim N(0, \sigma_i^2)$, giving different weights to each observation. Therefore, it serves to fit observations with smaller noise and choose to ignore those with larger noise. \\
+
+By experimenting with different kernel functions, we obtain the final GP model using a linear combination of a Multilayer Perceptron (MLP) and a constant Bias as kernel function as they consistently output acceptable results for regressions on our dataset. MLP, also known as arc sine kernel or neural network kernel, can be optimized to represent a complex non-linear function. \\
+
+We also note that the GP model is not computationally efficient in high dimensional spaces. As the data is time-series data over a period of three days, the number of dimensions is potentially very high. With the current implementation, creating the GP model for each of the axes takes from minute to three minutee. \\
+
+Several types of GP models were experimented with, including Stochastic Variance Gaussian Processes and Sparse Gaussian Processes. We also performed experiments with all the different types of kernels provided by the GPy library, including linear kernel and white kernel. We also tweaked the input parameters, such as the variance of the kernels to experiment with the data. The GP model-variant that we proposed has the co-variance matrix and mean that fits the data the best. \\
+
+By default, we regress the $(x,y,z)$ coordinates of each individual as it is convenient to use and easy to understand (and integrate over). However, an issue with Cartesian coordinates is that they may not be a very good model of crowd densities, especially for less open spaces. In wide open spaces, this is not an issue as individuals with similar Cartesian coordinates are likely to be close to each other as well.\\
+
+However, in buildings with narrower corridors and tighter spaces, individuals with similar Cartesian coordinates may actually be very far apart from each other. Figures \ref{fig:opspace1} and Figure \ref{fig:opspace2} illustrate this idea.
 
 \begin{figure}[h!]
   \centering
@@ -128,67 +164,13 @@ Be default we regress the $(x,y,z)$ coordinates of each individual as it is conv
   \label{fig:opspace2}
 \end{figure}
 
-{\bf3.3  Novel Modification} \\
+\subsection{3.3  Improvement}
 
-% What is this for?
-By knowing the predicted densities of people within a defined radius of a certain point, we can do better crowd control. For example, given a prediction that people tend to crowd around a certain area at a certain point of time, obstacles can be reduced or shifted about. Personnel can also be deployed to facilitate crowd movement. This will be useful in cases of MRT breakdowns. \\
+To model less open spaces, we can use an alternative modelling, provided we know the layout of the area. Instead of using the Cartesian coordinates of each user, we can use shortest path distances as the attributes instead. \\
 
-% What is this for?
-In addition, by being able to predict the crowd density of an area in a future timestamp, we can do a certain form of path prediction. This can help in deciding building maps and object placements. For example, if we can model that generally if the crowd density of the facial shop increases, generally the crowd density of the restrooms will increase in the next timestamp, we might want to consider putting the restrooms in near proximity to the facial shop. Or if we can model that the crowd density streams from one product to another in a supermarket, we might want to consider placing both products near each other so shoppers can easily reach for both products at once, hence increasing the sales revenue.  \\
+We first define a set of reference points at significant points $p_1,p_2,\cdots,p_k$ in the area. For each data point $d$, we compute the shortest paths $s_i$ from the data point to each of the reference points $p_i$. This is shown in Figure \ref{fig:spaths}. \\
 
-\section{4.  Experimental Evaluation}
-
-{\bf4.2  Real-World Dataset} \\
-
-We test our approach using a Attendee Meta-Data (AMD) Hope RFID Dateset from which data is collected from 1224 hackers attending The Last HOPE Conference from 18-20 July 2008, located in Hotel Pennsylvania, New York City. The data set details the location of the people through the use of RFID badges that uniquely identify and track them across the conference space over the course of the conference. \\
-
-This dataset was used as it has some convenient properties which allow us to construct an experiement to test our model.\\
-Firstly, the position data is usually taken at regular intervals of about $30$ seconds apart. Secondly, the data provided is exhaustive (as each attendee to the conference is tagged). Thus the data provides enough information to find the number of people in each region at any point of time, by simply counting the number of people within the region, in a time window of $[t-15,t+15)$, where $t$ is the target point of time.
-
-{\bf4.1  Experimental Setup} \\
-
-In the experiment, we first divide the conference area into $8\times 7 \times 2$ square regions (on the $x$,$y$ and $z$ axes respectively) that tile the conference area. We then select $50$ different time points to test on. These data points are picked randomly, while ensuring a minimum of $200$ seconds between any two time points, and that there are at least $300$ unique active tags at that time point (measured by counting the number of tags with a data point in the region $[t-15,t+15)$, where $t$ is the candidate time point). This is done as the event spans multiple days, and there are periods where no or few people are active, like during the night.\\
-
-At each of the chosen time points, we then count the number of unique tags within each of the $112$ regions. This is the actual data which we will be comparing against. We then take a small fraction (about $10\%$) of the people, and use the Gaussian Process model above to estimate the number of people within each of the regions (note that since we are using only $10\%$ of the data, we need to multiply the final output values by $10$ so that the output data will be on the same scale as the actual data. \\
-
-Figures \ref{fig:t1dist} to \ref{fig:t4dist} the between the density plots between actual crowd densities and the predicted crowd densities. One way of testing the quality of the fit is by observing how the distributions differ in the plotted charts below. A more empirical way of testing the quality of the fit is by taking the mean-squared error of the data between the actual and the predicted number of people. This can be compared across different models to test how well the data fits. \\
-
-\begin{figure}[h!]
-  \centering
-    \includegraphics[width=150px,natwidth=320,natheight=280]{selected_renders/0_1216437924.png}
-  \caption{Actual distribution of people at time $t=1216437924$, first floor}
-  \label{fig:t1dist}
-\end{figure}
-
-\begin{figure}[h!]
-  \centering
-    \includegraphics[width=150px,natwidth=320,natheight=280]{selected_renders/0_1216437924p.png}
-  \caption{Predicted distribution of people at time $t=1216437924$, first floor}
-  \label{fig:t2dist}
-\end{figure}
-
-\begin{figure}[h!]
-  \centering
-    \includegraphics[width=150px,natwidth=320,natheight=280]{selected_renders/1_1216440525.png}
-  \caption{Actual distribution of people at time $t=1216440525$, second floor}
-  \label{fig:t3dist}
-\end{figure}
-
-\begin{figure}[h!]
-  \centering
-    \includegraphics[width=150px,natwidth=320,natheight=280]{selected_renders/1_1216440525p.png}
-  \caption{Predicted distribution of people at time $t=1216440525$, second floor}
-  \label{fig:t4dist}
-\end{figure}
-
-
-{\bf4.3  Are there more than one type of GP model/variant that can be used in your proposed application? Can other types of linear or non-linear regression models be used? If so, how do you plan to empirically compare their performance? What quantitative/ empirical advantages (and/or limitations) do the GP model or its variant offer over the other evaluated models?} \\
-
-Several types of GP models were experimented with, including Stochastic Variance Gaussian Processes and Sparse Gaussian Processes. We also performed experiments with all the different types of kernels provided by the GPy library, including linear kernel and white kernel. We also tweaked the input parameters, such as the variance of the kernels to experiment with the data. The GP model-variant that we proposed has the co-variance matrix and mean that fits the data the best. \\
-
-To model less open spaces, we can use an alternative modelling, provided we know the layout of the area. Instead of using the $x$, $y$ and $z$ coordinates of each user, we can use shortest path distances as the attributes instead. We first define a set of reference points at significant points $p_1,p_2,\cdots,p_k$ in the area. For each data point $d$, we compute the shortest paths $s_i$ from the data point to each of the reference points $p_i$. This is shown in Figure \ref{fig:spaths}. \\
-
-We then use the same Gaussian Process model as before using the values $s_i$ as the attributes. The advantage of using shortest paths as a metric is the geometry of the map has been abstracted out; two points with similar values of $s_i$ must be points that are close to each other. (given enough reference points)\\
+We then use the same GP model as before using the values $s_i$ as the attributes. The advantage of using shortest paths as a metric is the geometry of the map has been abstracted out; two points with similar values of $s_i$ must be points that are close to each other. (given enough reference points)
 
 \begin{figure}[h!]
   \centering
@@ -197,19 +179,103 @@ We then use the same Gaussian Process model as before using the values $s_i$ as 
   \label{fig:spaths}
 \end{figure}
 
-However, it is important to note that with this formulation, the reference points must be carefully picked for a good prediction. (spread out, and preferably near the areas one is concerned about) \\
+We note that there are many available algorithms for quickly and accurately computing shortest paths within the area, if an accurate map (or floor plan) of the area is provided. However, it is important to note that with this formulation, the reference points must be carefully picked for a good prediction. (spread out, and preferably near the areas one is concerned about)\\
 
-Note: Can run the kernels that failed and put plots if needed (i.e. not enough images)
+Integrations using the shortest path formulation will also be slightly more complex, as regions are now defined in terms of the path length to each of the reference points.
 
-\section{5.  Wow factor}
+\section{4.  Experimental Evaluation}
 
-\section{6.  Conclusion and Contribution}
+The reliability of our GP model is dependent on how the parameters of the data are used, as well as the kernel function. Therefore, an experimental evaluation is essential to assess the performance of the GP model.
+
+\subsection{4.1  Real-World Dataset}
+
+We test our approach using a Attendee Meta-Data (AMD) Hope RFID Dataset from which data is collected from 1224 hackers attending The Last HOPE Conference from 18-20 July 2008, located in Hotel Pennsylvania, New York City.\\
+
+The data set details the location of the attendees through the use of RFID badges that uniquely identify and track them across the conference space over the course of the conference. A plot of one of the position data over time of one of the attendees is shown in Figure \ref{fig:t4dist}.\\
+
+\begin{figure}[h!]
+  \centering
+    \includegraphics[width=150px,natwidth=675,natheight=493]{positiondata.png}
+  \caption{The $x$ and $y$ coordinates of Tag 3099 over time}
+  \label{fig:spaths}
+\end{figure}
+
+This dataset was used as it has some convenient properties which allow us to construct an experiment to test our model. Firstly, the position data is usually taken at regular intervals of about $30$ seconds apart. Secondly, the data provided is exhaustive (as each attendee to the conference is tagged). \\
+
+This provides enough information to find the actual number of people in each region at any point of time, by simply counting the number of people within the region, within in a time window of $[t-15,t+15)$, where $t$ is the target point of time.
+
+\subsection{4.2  Experimental Setup}
+
+In the experiment, the conference area is divided into $8\times 7 \times 2$ square regions (on the $x$, $y$ and $z$ axes respectively) that tile the conference area. $50$ time points are then picked to be used for the test. \\
+
+These time points are chosen randomly from the time interval of the data, while ensuring a minimum gap of $200$ seconds between any two time points, and that there are at least $300$ unique active tags near that time point. This is done to avoid testing on periods where no or few people are active, like during the night, as the event spans multiple days.\\
+
+At each chosen time point $t$, the number of unique tags within each of the $112$ regions is counted. This is the actual data to be compared against. A small fraction (about $10\%$) of the people is then taken, the probability distributions of the people are generated using the GP model above, which is then used to estimate the number of people within each of the regions. \\
+
+Figures \ref{fig:t1dist} to \ref{fig:t4dist} show the differences between the density plots between actual crowd densities and the predicted crowd densities from our experiment. One way of testing the quality of the fit is by observing how the distributions differ in the plotted charts below. \\
+
+A more empirical way of testing the quality of the fit is by taking the mean-squared error of the data between the actual and the predicted number of people. This can be compared across different models to test the accuracy of the prediction.
+
+\begin{figure}[h!]
+  \centering
+    \includegraphics[width=120px,natwidth=320,natheight=280]{selected_renders/0_1216437924.png}
+  \caption{Actual density at $t=1216437924$, at floor $0$ of the event. ($z = 0$)}
+  \label{fig:t1dist}
+\end{figure}
+
+\begin{figure}[h!]
+  \centering
+    \includegraphics[width=120px,natwidth=320,natheight=280]{selected_renders/0_1216437924p.png}
+  \caption{Predicted density at $t=1216437924$, at floor $0$ of the event. ($z = 0$)}
+  \label{fig:t2dist}
+\end{figure}
+
+\begin{figure}[h!]
+  \centering
+    \includegraphics[width=120px,natwidth=320,natheight=280]{selected_renders/1_1216440525.png}
+  \caption{Actual density at $t=1216440525$, at floor $1$ of the event. ($z = 1.2$)}
+  \label{fig:t3dist}
+\end{figure}
+
+\begin{figure}[h!]
+  \centering
+    \includegraphics[width=120px,natwidth=320,natheight=280]{selected_renders/1_1216440525p.png}
+  \caption{Predicted density at $t=1216440525$, at floor $1$ of the event. ($z = 1.2$)}
+  \label{fig:t4dist}
+\end{figure}
+
+We note that using the simplified version of the Gaussian Model (statistically independent $x$, $y$ and $z$ coordinates), the probability distributions roughly approximate the crowd densities within each region in the event. \\
+
+Using this experiment setup, we can test the amount of improvement in the prediction when we apply modifications to the model, like using Multivariate Gaussian Processes to produce a full covariance matrix between $x$, $y$ and $z$, or using the shortest path formulation of the space.
+
+\section{5.  Conclusion}
+
+The goal of the current work is to present a representation that allows for modelling of crowds. We described a framework for modeling noisy, and unevenly sampled
+data using the GP model and MLP with a bias constant, we demonstrated that our approach is able to represent the dataset we have as well as predict the population density at a given point of time.
+
+\section{6. Main Roles of Each Member}
+\begin{itemize}
+\item \textbf{Wei Ling}: 
+Writing of the report, keeping track of requirements, and research.
+\item \textbf{Nathan}: 
+Setting up of the experiment and running the tests using the dataset.
+\item \textbf{Lynnette}: 
+Setting up and experimenting with the various libraries and available tools, and fine-tuning the Gaussian Process models
+\item \textbf{Thien}: 
+Setting up and experimenting with the various libraries and available tools, and fine-tuning the Gaussian Process models
+\item \textbf{Shunhao}: 
+Problem formulation and modelling, mathematics, creating the visualisations and experiment, and writing the report.
+\end{itemize}
 
 \section{7.  References}
 
-[1] Marco A. F. Pimentel, David A. Clifton, Lionel Tarassenko, `` GAUSSIAN PROCESS CLUSTERING FOR THE FUNCTIONAL CHARACTERISATION OF VITAL-SIGN TRAJECTORIES"
- in {\it 2013 IEEE INTERNATIONAL WORKSHOP ON MACHINE LEARNING FOR SIGNAL PROCESSING}, SEPT. 22–25, 2013, SOUTHAMPTON, UK. \\
-
-[2] Antoni B. Chan, ``{\it Multivariate Generalized Gaussian Process Models}" NOV. 03, 2013
+\begin{itemize}
+\item
+[1] Marco A. F. Pimentel, David A. Clifton, Lionel Tarassenko, `` Gaussian Process Clustering For The Functional Characterisation Of Vital-Sign Trajectories" in {\it 2013 IEEE International Workshop On Machine Learning For Signal Processing}, SEPT. 22–25, 2013, SOUTHAMPTON, UK. \\
+\item
+[2] Antoni B. Chan, ``{ Multivariate Generalized Gaussian Process Models}" NOV. 03, 2013 \\
+\item
+[3] M. Ebden, ``{ Gaussian Processes for Regression: A Quick Introduction}" AUG, 2008 \\
+\end{itemize}
 
 \end{document}

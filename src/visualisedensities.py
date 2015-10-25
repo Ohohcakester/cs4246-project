@@ -4,6 +4,20 @@ import os
 from PIL import Image, ImageDraw
 import random
 
+#DEFAULT SETTINGS - DO NOT TOUCH
+y_tiles = 7
+x_tiles = 8
+tile_size = 40
+target_folder = 'renders/'
+#DEFAULT SETTINGS - END
+
+#ALTERNATE SETTINGS - START
+y_tiles = 35
+x_tiles = 40
+tile_size = 10
+target_folder = 'test_renders/'
+#DEFAULT SETTINGS - END
+
 def readData(fileName):
     data = pd.read_csv(fileName)
     #create unique list of names
@@ -22,9 +36,9 @@ def getMaxDensity(fileName):
 
 class Drawer(object):
     def __init__(self, timestamp, z):
-        self.tile_size = 40
-        resX = 8 * self.tile_size
-        resY = 7 * self.tile_size
+        self.tile_size = tile_size
+        resX = x_tiles * self.tile_size
+        resY = y_tiles * self.tile_size
 
         self.im = Image.new('RGB', (resX, resY), (0,0,0))
         self.draw = ImageDraw.Draw(self.im)
@@ -39,17 +53,17 @@ class Drawer(object):
         
         
     def drawDensity(self,x,y,density):
-        c = int((density**0.3)*255*1.5)
+        c = int((density**0.2)*255*2)
         colour = (c, 255-c, 0)
         self.drawSquare(x,y,colour)
 
     def render(self):
-        try: os.mkdir('renders/')
+        try: os.mkdir(target_folder)
         except: pass
-        self.im.save('renders/'+self.name+'.png', 'PNG')
+        self.im.save(target_folder+self.name+'.png', 'PNG')
         
     def open(self):
-        os.startfile('renders/'+self.name+'.png')
+        os.startfile(target_folder+self.name+'.png')
 
 def render(data, key, z):
     data = data[data.z_index == z]
@@ -60,7 +74,7 @@ def render(data, key, z):
     draw.render()
 
 
-dataDict = readData('true_densities.csv')
+dataDict = readData('test_densities.csv')
 for key in dataDict.keys():
     render(dataDict[key], key, 0)
     render(dataDict[key], key, 1)

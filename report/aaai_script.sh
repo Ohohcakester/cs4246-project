@@ -4,13 +4,13 @@
 # This shell script produces the latex source-package of a paper
 # as required by AAAI, in preparation for printed proceedings.
 # Copyright (C) 2009 Christian Fritz "fritz at cs dot toronto dot
-# edu" For the latest version of this script go to: 
+# edu" For the latest version of this script go to:
 # https://gist.github.com/chfritz/5447483
 # ----------------------------------------------------------------------
 # This program is free software: you can redistribute it and/or
 # modify it under the terms of the GNU General Public License as
 # published by the Free Software Foundation, either version 3 of
-# the License, or (at your option) any later version. 
+# the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -27,7 +27,7 @@ recurseStyles() {
     echo "..recursively processing required packages of $1"
     PACKAGES=`grep RequirePackage $1 | sed 's/RequirePackage\[[^]]*\]/RequirePackage/g' | sed 's/.*RequirePackage{\([^}]*\)}.*/\1/' | sed -e 's/, */\n/g'`
     for name in $PACKAGES; do
-	if [ ! -e sources/$name.sty ]; then 
+	if [ ! -e sources/$name.sty ]; then
 	    echo "..locating and copying: $name"
 	    FILE=`locate /$name.sty | head -n 1`
 	    if [ -e $FILE ]; then
@@ -42,7 +42,7 @@ recurseStyles() {
     done
 }
 
-#            -------------------------------              
+#            -------------------------------
 
 # give a tex file as parameter
 if (( $# < 1 )); then
@@ -50,10 +50,14 @@ if (( $# < 1 )); then
     exit;
 fi;
 
-mkdir sources
+if [ -d "sources" ]; then
+    find ./sources/* -type f -not -name '*.sty' -exec rm -r "{}" +
+else
+    mkdir sources
+fi
 
 echo "locating and copying all used packages"
-PACKAGES=`grep ^.usepackage $1 | sed -e 's/.*usepackage{\(.*.\)}.*/\1/' | sed -e 's/, /\n/g'`
+PACKAGES=`grep ^.usepackage $1 | sed -e 's/.*usepackage\(\\[.*.\\]\)*{\(.*.\)}.*/\2/' | sed -e 's/, /\n/g'`
 for name in $PACKAGES; do
     echo "locating and copying: $name"
     if [ -e $name.sty ]; then
@@ -95,11 +99,12 @@ echo "getting figures"
 FIGURES=`grep includegraphics __tmp2 | grep -v ^% | sed 's/.*{\([^}]*\)}*/\1/'`
 for name in $FIGURES; do
     echo "getting figure $name"
-    mkdir -p sources/`echo "$name" | sed 's/\(.*\)\/.*/\1/'`
-    cp $name.*ps sources/`echo "$name" | sed 's/\(.*\)\/.*/\1/'`
+    dir=$(dirname "$name")
+    mkdir -p sources/$dir
+    cp $name sources/$dir
 done
 
-#            -------------------------------              
+#            -------------------------------
 
 cd sources
 echo "latexing source"
@@ -108,8 +113,10 @@ echo "latexing source once more"
 latex full.tex
 
 echo "creating the PDF using"
-dvips -Ppdf -G0 -tletter full -o full.ps
-ps2pdf -sPAPERSIZE=letter -dMaxSubsetPct=100 -dCompatibilityLevel=1.2 -dSubsetFonts=false -dEmbedAllFonts=true full.ps
+dvipdfmx full
 cd ..
+
+cp sources/full.pdf report.pdf
+rm __tmp1 __tmp2
 
 echo "DONE"
