@@ -2,18 +2,33 @@ import java.util.Arrays;
 
 public class Compute {
 
-    public static final String fileName = "maze/100x100.txt";
+    //public static final String fileName = "maze/100x100.txt";
+    public static final String fileNamePrefix = "maze/";
+    public static final String fileNamePostFix = ".txt";
 
     public static void main(String[] args) {
-        GridGraph graph = GraphImporter.importGraphFromFile(fileName);
+        GridGraph graph = GraphImporter.importGraphFromFile(fileNamePrefix+args[0]+fileNamePostFix);
+        
+        String delim = "";
+        for (String query : args) {
+            if (query == args[0]) continue;
+            System.out.print(delim);
+            System.out.print(parseTest(graph, query));
+            delim = " ";
+        }
         //search(graph);
     }
+    
+    public static float parseTest(GridGraph graph, String query) {
+        String[] params = query.split("-");
+        return test(graph,Integer.parseInt(params[0]),Integer.parseInt(params[1]),Integer.parseInt(params[2]),Integer.parseInt(params[3]));
+    }
 
-    public static void test(GridGraph graph, int sx, int sy, int ex, int ey) {
+    public static float test(GridGraph graph, int sx, int sy, int ex, int ey) {
         JumpPointSearch jps = new JumpPointSearch(graph, sx, sy, ex, ey);
         jps.computePath();
-        int[][] path = jps.getPath();
-        float length = jps.getPathLength();
+        //int[][] path = jps.getPath();
+        return jps.getPathLength();
         //System.out.println(Arrays.deepToString(path));
         //System.out.println("Length: " + length);
     }
@@ -29,7 +44,7 @@ public class Compute {
     }
 
 
-    public static void testSpeed() {
+    public static void testSpeed(GridGraph graph) {
         System.out.println("Start");
         for (int i=0;i<1000;++i) {
             test(graph, 1,42,75,81);
