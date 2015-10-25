@@ -18,9 +18,9 @@ def runPathfinding(mazeName, testcases):
     results = []
     for chunk in testcasesList:
         results += runPathfindingChunk(mazeName, chunk)
-    #print len(results)
-    #print results[:10]
-    #print results[-10:]
+    print len(results)
+    print results[:10]
+    print results[-10:]
     return results
     
 if __name__ == '__main__':
