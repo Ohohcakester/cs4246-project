@@ -10,9 +10,18 @@ public class SingleSourceAllDestinations {
 
         GridGraph graph = GraphImporter.importGraphFromFile(fileNamePrefix+args[0]+fileNamePostFix);
 
-        int sx = Integer.parseInt(args[1]);
-        int sy = Integer.parseInt(args[2]);
+        String delim = "";
 
+        for (int i=1; i<args.length; i += 2) {
+            int sx = Integer.parseInt(args[i]);
+            int sy = Integer.parseInt(args[i+1]);
+            System.out.print(delim);
+            runSsad(graph, sx, sy);
+            delim = "|";
+        }
+    }
+
+    public static void runSsad(GridGraph graph, int sx, int sy) {
         String delim = "";
         for (int y=0;y<graph.sizeY; ++y) {
             for (int x=0;x<graph.sizeX; ++x) {

@@ -7,7 +7,7 @@ public class Compute {
     public static final String fileNamePostFix = ".txt";
 
     public static void main(String[] args) {
-        //testSpeed();
+        //testSpeed();if ("".isEmpty())return;
         GridGraph graph = GraphImporter.importGraphFromFile(fileNamePrefix+args[0]+fileNamePostFix);
         
         String delim = "";
@@ -51,14 +51,19 @@ public class Compute {
 
     public static void testPrint(GridGraph graph, int sx, int sy, int ex, int ey) {
         System.out.println(test(graph,sx,sy,ex,ey));
+        //test(graph,sx,sy,ex,ey);
     }
 
 
     public static void testSpeed() {
+        //String fileName = "maze/floor18map.txt";
         String fileName = "maze/100x100.txt";
         GridGraph graph = GraphImporter.importGraphFromFile(fileName);
         System.out.println("Start");
-        for (int i=0;i<1;++i) {
+        for (int i=0;i<1000;++i) {
+            /*testPrint(graph, 15,15,34,59);
+            testPrint(graph, 15,23,56,64);
+            testPrint(graph, 56,18,4,23);*/
             testPrint(graph, 1,42,75,81);
             testPrint(graph, 100,0,99,2);
             testPrint(graph, 11,56,56,16);
