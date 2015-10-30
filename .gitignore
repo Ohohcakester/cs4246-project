@@ -7,6 +7,7 @@ src/test_densities.csv
 src/evalall
 src/test_renders
 src/predicted/
+src/test_display
 img/output_draw.png
 img/locationmap.png
 src/pathfinding/maze/problems/
