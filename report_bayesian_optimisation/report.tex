@@ -28,18 +28,24 @@ Oh Shunhao, A0065475X\\
 \maketitle
 \begin{abstract}
 \begin{quote}
+Computing shortest paths is relevant to tackle issues in events such as resource management. Event space is usually limited and there are many concurrent activities at any point of time. Therefore, the computation of shortest paths allow the event committee to plan the layout and schedule of the programs in an event effectively and allows participants of the event to move around the event space efficiently so that they gain most out of attending the event. \\
 
+In this report, we illustrate the use of Bayesian Optimization to find a set of reference points at significant points in an area. For each data point, we compute the shortest paths from the data point to each of the reference points.
 \end{quote}
 \end{abstract}
 
 \section{1.  Introduction}
+In this report, we propose the use of Bayesian Optimization for computation of shortest paths. Particularly, we discuss how we exploit the properties of Bayesian Optimization to find a set of reference points at significant points in an area for path prediction, the critical requirements of our proposed application as well as how people can make use of the results of our analysis to plan and make decisions for future crowd controlling or crowd management. \\
+
+We also touch on the technical details which includes how the different components of the . We also outline the experimental plan we use to perform and evaluate the performance of Gaussian Processes for modelling of crowds. \\
+
+The rationale behind using Gaussian Processes for modelling of crowds is to do better crowd control by predicting the population density within any defined region. For example, it can be useful in the case of train breakdowns to facilitate crowd movements. In addition, we can perform path prediction using the GP model.
+
+\section{2.  Motivating Application}
 
 
-\section{2.  Gaussian Process Regression Model}
 
-
-
-\subsection{2.1  Modelling}
+\subsection{2.1  The use of Bayesian Optimization}
 
 
 
@@ -51,22 +57,26 @@ Oh Shunhao, A0065475X\\
 
 
 
-\subsection{2.4  Interpreting Outputs}
-
-
-
 \section{3.  Technical Approach}
 
 
 
-\subsection{3.1  Implementation Details}
+\subsection{3.1  Shortest Path}
 
 
+\subsection{3.2  Gaussian Process}
 
-\subsection{3.2  Additional Insights}
+
+\subsection{3.3  Density Computation}
 
 
-\subsection{3.3  Improvement}
+\subsection{3.4  Error Computation}
+
+
+\subsection{3.5  Additional Insights}
+
+
+\subsection{3.6  Improvement}
 
 
 
