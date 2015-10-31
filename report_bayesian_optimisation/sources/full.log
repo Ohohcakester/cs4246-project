@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/W32TeX) (preloaded format=latex 2015.10.2)  7 OCT 2015 23:47
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/W32TeX) (preloaded format=latex 2015.10.2)  31 OCT 2015 14:13
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -132,11 +132,7 @@ LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 )
 pdfTeX warning (\pdfinfo): not allowed in DVI mode (\pdfoutput <= 0); ignoring 
 it
-(./full.aux
-
-LaTeX Warning: Label `fig:spaths' multiply defined.
-
-)
+(./full.aux)
 \openout1 = `full.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 17.
@@ -178,301 +174,23 @@ File: omsptm.fd
 )
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <9> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 28.
-
-Underfull \hbox (badness 10000) in paragraph at lines 37--38
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 39--40
-
- []
-
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10.95> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 48.
-
-Underfull \hbox (badness 10000) in paragraph at lines 56--57
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 62--63
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 64--65
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 66--67
-
- []
-
-[1
-
-
-
-]
-Underfull \hbox (badness 10000) in paragraph at lines 68--69
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 70--71
-
- []
-
-File: selected_GP/3056.csv_X.png Graphic file (type eps)
-<selected_GP/3056.csv_X.png>
-Underfull \hbox (badness 10000) in paragraph at lines 81--82
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 87--88
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 89--90
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 95--96
-
- []
-
-
-Underfull \hbox (badness 1082) in paragraph at lines 105--106
-\OT1/ptm/m/n/10 The ex-pected value of $\OML/cmm/m/it/10 X[]$\OT1/ptm/m/n/10 , 
-is equal to the prob-a-bil-ity
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 112--113
-
- []
-
-[2]
-Underfull \hbox (badness 2680) in paragraph at lines 122--123
-\OT1/ptm/m/n/10 dif-fer-ent de-mo-graph-ics, we ex-per-i-mented with sev-eral
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 122--123
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 124--125
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 126--127
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 128--129
-
- []
-
-File: selected_GP/3064.csv_Y.png Graphic file (type eps)
-<selected_GP/3064.csv_Y.png>
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 141--142
-
- []
-
-
-Underfull \hbox (badness 1895) in paragraph at lines 143--144
-\OT1/ptm/m/n/10 func-tion as they con-sis-tently out-put ac-cept-able re-sults
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 143--144
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 145--146
-
- []
-
-
-Underfull \hbox (badness 2894) in paragraph at lines 147--148
-\OT1/ptm/m/n/10 in-clud-ing Stochas-tic Vari-ance Gaus-sian Pro-cesses and
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 147--148
-
- []
-
-
-Underfull \hbox (badness 1028) in paragraph at lines 149--150
-\OT1/ptm/m/n/10 (and in-te-grate over). How-ever, an is-sue with Carte-sian
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 149--150
-
- []
-
-[3]
-File: openspace1.png Graphic file (type bmp)
- <openspace1.png>
-File: openspace2.png Graphic file (type bmp)
- <openspace2.png>
-Underfull \hbox (badness 10000) in paragraph at lines 169--170
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 171--172
-
- []
-
-File: shortestpaths.png Graphic file (type bmp)
-<shortestpaths.png>
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 182--183
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 192--193
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 194--195
-
- []
-
-File: positiondata.png Graphic file (type bmp)
-<positiondata.png>
-Underfull \hbox (badness 10000) in paragraph at lines 203--204
-
- []
-
-[4]
-Underfull \hbox (badness 1112) in paragraph at lines 209--210
-\OT1/ptm/m/n/10 In the ex-per-i-ment, the con-fer-ence area is di-vided into
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 209--210
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 211--212
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 213--214
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 215--216
-
- []
-
-File: selected_renders/0_1216437924.png Graphic file (type bmp)
-<selected_renders/0_1216437924.png>
-File: selected_renders/0_1216437924p.png Graphic file (type bmp)
- <selected_renders/0_1216437924p.png>
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-File: selected_renders/1_1216440525.png Graphic file (type bmp)
-<selected_renders/1_1216440525.png>
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-File: selected_renders/1_1216440525p.png Graphic file (type bmp)
-<selected_renders/1_1216440525p.png>
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 247--248
-
- []
-
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 43.
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 258.
-
-Underfull \vbox (badness 1762) has occurred while \output is active []
-
- [5]
-Missing character: There is no â in font ptmr7t!
-Missing character: There is no € in font ptmr7t!
-Missing character: There is no “ in font ptmr7t!
-
-Underfull \hbox (badness 5446) in paragraph at lines 274--276
-[]\OT1/ptm/m/n/10 Marco A. F. Pi-mentel, David A. Clifton, Li-onel
- []
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 92.
+ [1
 
 
-Underfull \hbox (badness 2050) in paragraph at lines 274--276
-\OT1/ptm/m/n/10 Tarassenko, `` Gaus-sian Pro-cess Clus-ter-ing For The
- []
 
 
-Underfull \hbox (badness 2269) in paragraph at lines 274--276
-\OT1/ptm/m/n/10 in \OT1/ptm/m/it/10 2013 IEEE In-ter-na-tional Work-shop On Ma-
-chine
- []
-
-
-Underfull \hbox (badness 1383) in paragraph at lines 274--276
-\OT1/ptm/m/it/10 Learn-ing For Sig-nal Pro-cess-ing\OT1/ptm/m/n/10 , SEPT. 2225
-, 2013,
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 274--276
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 276--278
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 278--279
-
- []
-
-[6
-
-] (./full.aux)
-
-LaTeX Warning: There were multiply-defined labels.
-
- ) 
+] (./full.aux) ) 
 Here is how much of TeX's memory you used:
- 1563 strings out of 493092
- 19702 string characters out of 6138557
- 81794 words of memory out of 5000000
- 5032 multiletter control sequences out of 15000+600000
- 14524 words of font info for 44 fonts, out of 8000000 for 9000
+ 1507 strings out of 493092
+ 18892 string characters out of 6138557
+ 78794 words of memory out of 5000000
+ 4999 multiletter control sequences out of 15000+600000
+ 10205 words of font info for 32 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 27i,10n,24p,555b,249s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 27i,10n,24p,238b,249s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on full.dvi (6 pages, 31028 bytes).
+Output written on full.dvi (1 page, 2560 bytes).
