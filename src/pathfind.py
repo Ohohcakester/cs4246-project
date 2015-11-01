@@ -28,6 +28,24 @@ def runPathfinding(mazeName, testcases):
     #print results[-10:]
     return results
 
+def parseTupleWithSpaces(point):
+    return ' '.join(map(str,point))
+
+def parseShortestPathTuple(t):
+    t = t.split('-')
+    return int(t[0]), int(t[1]), float(t[2])
+
+def parseOutput(output):
+    return map(parseShortestPathTuple, output.split())
+
+
+def runSingleSourceAllDestinations(mazeName, points):
+    args = [mazeName] + list(map(parseTupleWithSpaces,points))
+    args = ' '.join(args)
+
+    output = subprocess.check_output('java SingleSourceAllDestinations '+args, cwd='pathfinding', shell=True)
+    return tuple(map(parseOutput, output.split('|')))
+
 
 def parseTestCase(testcase):
     return '-'.join(map(str,map(int,testcase)))
@@ -36,12 +54,20 @@ def runPathfindingChunk(mazeName, testcases):
     args = [mazeName] + list(map(parseTestCase,testcases))
     args = ' '.join(args)
 
-    output = subprocess.check_output('java Compute '+args, cwd='pathfinding', shell=False)
+    output = subprocess.check_output('java Compute '+args, cwd='pathfinding', shell=True)
     return list(map(float,output.split()))
-    
+
+
+
 # Sample / test
 if __name__ == '__main__':
     mazeName = 'floor18map'
+
+    # Test All Destinations
+    #points = [(15,15), (32,64), (15,16)]
+    #print list(map(len,runSingleSourceAllDestinations(mazeName, points)))
+
+    # Test Single Destination
     testcases = [
     (18,20,21,53),
     (18,20,21,54),
