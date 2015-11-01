@@ -1,6 +1,7 @@
 \def\year{2015}
 \documentclass[letterpaper]{article}
 \usepackage{aaai}
+\usepackage{fixbib}
 \usepackage{times}
 \usepackage{helvet}
 \usepackage{courier}
@@ -13,7 +14,6 @@
 \pdfinfo{
 /Title (Insert Your Title Here)
 /Author (Put All Your Authors Here, Separated by Commas)}
-\setcounter{secnumdepth}{0}
 \begin{document}
 %
 \title{Bayesian Optimization for Shortest Path Prediction}
@@ -34,36 +34,36 @@ In this report, we illustrate the use of Bayesian Optimization to find a set of 
 \end{quote}
 \end{abstract}
 
-\section{1.  Introduction}
+\section{Introduction}
 In this report, we propose the use of Bayesian Optimization for computation of shortest paths. Particularly, we discuss how we exploit the properties of Bayesian Optimization to find a set of reference points at significant points in an area for path prediction, the critical requirements of our proposed application as well as how people can make use of the results of our analysis to plan and make decisions for future crowd controlling or crowd management. \\
 
 We also touch on the technical details which includes how the different components of the . We also outline the experimental plan we use to perform and evaluate the performance of Gaussian Processes for modelling of crowds. \\
 
 The rationale behind using Gaussian Processes for modelling of crowds is to do better crowd control by predicting the population density within any defined region. For example, it can be useful in the case of train breakdowns to facilitate crowd movements. In addition, we can perform path prediction using the GP model.
 
-\section{2.  Motivating Application}
+\section{Motivating Application}
 
 
 
-\subsection{2.1  The use of Bayesian Optimization}
+\subsection{The use of Bayesian Optimization}
 
 Minimise $f(x)$
 
 In our case, $x$ refers to the input points $c1, c2, c3$
 
-\subsection{2.2  Qualitative Advantages}
+\subsection{Qualitative Advantages}
 
 
 
-\subsection{2.3  Important Requirements}
+\subsection{Important Requirements}
 
 
 
-\section{3.  Technical Approach}
+\section{Technical Approach}
 
 
 
-\subsection{3.1  Shortest Path}
+\subsection{Shortest Path}
 
 We obtain a floorplan of the area and abstract the floorplan into a grid of blocked and unblocked tiles.
 
@@ -73,7 +73,7 @@ We then compute the shortest any-angle path from the $(x,y)$ coordinate to each 
 
 Thus for each point, as there are three reference points, we obtain three shortest-path coordinates, $s_1, s_2, s_3$.
 
-\subsection{3.2  Gaussian Process}
+\subsection{Gaussian Process}
 
 Instead of applying the Gaussian Processes to the Cartesian coordinates as before, we apply it to the shortest-path coordinates, $s_1, s_2, s_3$, over time.
 
@@ -83,7 +83,7 @@ The hope is that with a good selection of reference points, the coordinates $s_1
 
 From the regression, we obtain, at each point of time, a probability distribution of each of the coordinates $s_1, s_2, s_3$, described as a joint a normal distribution $\mathcal{N}\tilde (\boldsymbol{\mu},\sigma^2)$.
 
-\subsection{3.3  Density Computation}
+\subsection{Density Computation}
 
 The use of shortest-path coordinates over Cartesian coordinates makes density computation more challenging. We can no longer simply select an arbitrary region (e.g. a rectangle) and integrate the probability distribution over all $x$ and $y$ values that fall within the region. We cannot even assume a one-to-one mapping between the shortest-path coordinates and the Cartesian coordinates.
 
@@ -93,29 +93,29 @@ To do this, we first note that for each shortest-path coordinate $s_i$, $s_i$ li
 
 
 
-\subsection{3.4  Error Computation}
+\subsection{Error Computation}
 
 
-\subsection{3.5  Additional Insights}
+\subsection{Additional Insights}
 
 
-\subsection{3.6  Improvement}
-
-
-
-\section{4.  Experimental Evaluation}
+\subsection{Improvement}
 
 
 
-\subsection{4.1  Real-World Dataset}
+\section{Experimental Evaluation}
 
 
 
-\subsection{4.2  Experimental Setup}
+\subsection{Real-World Dataset}
 
 
 
-\section{5.  Conclusion}
+\subsection{Experimental Setup}
+
+
+
+\section{Conclusion}
 
 
 
@@ -130,9 +130,10 @@ Setting up and experimenting with the various libraries and available tools, and
 \item \textbf{Thien}: 
 Setting up and experimenting with the various libraries and available tools, and fine-tuning the Gaussian Process models
 \item \textbf{Shunhao}: 
-Problem formulation and modelling, mathematics, creating the visualisations and experiment, and writing the report.
+Problem formulation and modelling, mathematics, creating the visualisations and experiment, and writing the report.\cite{manning_introduction_2008}
 \end{itemize}
 
-\section{7.  References}
+\bibliographystyle{aaai}
+\bibliography{report}
 
 \end{document}
