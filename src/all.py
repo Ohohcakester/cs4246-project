@@ -4,10 +4,9 @@
 To run all other files
 '''
 
-import pandas as pd
-import numpy as np
-
 import os
+
+import pandas as pd
 
 import pathfind
 import coordinateconverter
@@ -35,7 +34,6 @@ def shortest_paths_function(points, dataframe):
 
     return dataframe
 
-
 def test_shortest_paths_function():
     testcases = [
             (18,20),
@@ -44,7 +42,7 @@ def test_shortest_paths_function():
             (18,23)
     ]
 
-    df = pd.read_csv('../data/3004.csv')
+    df = pd.read_csv('./data/3004.csv')
     df['convertedX'] = np.nan
     df['convertedY'] = np.nan
 
@@ -61,7 +59,7 @@ def test_shortest_paths_function():
     return df_shortest
 
 def other_test():
-    directory = '../data/'
+    directory = './data/'
     f = os.listdir(directory)[0] # Testing with one file first
     df = pd.read_csv(directory + f)
     user = int(f[:4])   # Get the first four numbers as userID
