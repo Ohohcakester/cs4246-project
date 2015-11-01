@@ -31,6 +31,9 @@ report_bayesian_optimisation/sources/aaai.sty
 report_bayesian_optimisation/report.aux
 report_bayesian_optimisation/report.log
 report_bayesian_optimisation/report.pdf
+report_bayesian_optimisation/*.stackdump
+report_bayesian_optimisation/*.bbl
+report_bayesian_optimisation/*.blg
 
 src/*.png
 *.pyc
