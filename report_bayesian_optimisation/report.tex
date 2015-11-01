@@ -47,7 +47,9 @@ The rationale behind using Gaussian Processes for modelling of crowds is to do b
 
 \subsection{2.1  The use of Bayesian Optimization}
 
+Minimise $f(x)$
 
+In our case, $x$ refers to the input points $c1, c2, c3$
 
 \subsection{2.2  Qualitative Advantages}
 
@@ -63,11 +65,32 @@ The rationale behind using Gaussian Processes for modelling of crowds is to do b
 
 \subsection{3.1  Shortest Path}
 
+We obtain a floorplan of the area and abstract the floorplan into a grid of blocked and unblocked tiles.
+
+For each $(x,y)$ coordinate, we map it to the nearest unblocked tile on the grid using Kd-trees.
+
+We then compute the shortest any-angle path from the $(x,y)$ coordinate to each of the three reference points. This shortest path computation can be done efficiently on an approximately 100x100 grid by preprocessing a visibility graph and running the A* algorithm on it.
+
+Thus for each point, as there are three reference points, we obtain three shortest-path coordinates, $s_1, s_2, s_3$.
 
 \subsection{3.2  Gaussian Process}
 
+Instead of applying the Gaussian Processes to the Cartesian coordinates as before, we apply it to the shortest-path coordinates, $s_1, s_2, s_3$, over time.
+
+Similar to before, the shortest path coordinates are modelled as a time series, and each of the three coordinates are regressed independently over time using the Gaussian Process model.
+
+The hope is that with a good selection of reference points, the coordinates $s_1, s_2, s_3$ can be regarded as independent of each other without a significant loss of accuracy.
+
+From the regression, we obtain, at each point of time, a probability distribution of each of the coordinates $s_1, s_2, s_3$, described as a joint a normal distribution $\mathcal{N}\tilde (\boldsymbol{\mu},\sigma^2)$.
 
 \subsection{3.3  Density Computation}
+
+The use of shortest-path coordinates over Cartesian coordinates makes density computation more challenging. We can no longer simply select an arbitrary region (e.g. a rectangle) and integrate the probability distribution over all $x$ and $y$ values that fall within the region. We cannot even assume a one-to-one mapping between the shortest-path coordinates and the Cartesian coordinates.
+
+Thus the integration has to be carried out differently. Instead of picking a rectangle in the Cartesian plane, we integrate over rectangles defined over the shortest-path coordinates. A rectangle is defined as the set $\{(s_1,s_2,s_3) : a_1\leq s_1\leq b_1, a_2\leq s_2\leq b_2, a_3\leq s_3\leq b_3\}$ for some $a_1,b_1,a_2,b_2,a_3,b_3 \in \mathbb{R}$.
+
+To do this, we first note that for each shortest-path coordinate $s_i$, $s_i$ lies within some bounded interval $[0,D_i]$, for some $D_i > 0$.
+
 
 
 \subsection{3.4  Error Computation}
