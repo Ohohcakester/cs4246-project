@@ -22,6 +22,16 @@ report/sources/aaai.sty
 report/report.aux
 report/report.log
 report/report.pdf
+report_bayesian_optimisation/a
+report_bayesian_optimisation/b
+report_bayesian_optimisation/sources
+report_bayesian_optimisation/__tmp1
+report_bayesian_optimisation/__tmp2
+report_bayesian_optimisation/sources/aaai.sty
+report_bayesian_optimisation/report.aux
+report_bayesian_optimisation/report.log
+report_bayesian_optimisation/report.pdf
+
 src/*.png
 *.pyc
 *.out
