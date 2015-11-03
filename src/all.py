@@ -114,7 +114,7 @@ def runBayes(df):
     for user in uniqueUserID:
         userResult = bayes.predictGP(df[df['USER'] == user])
         result = pd.concat([result, userResult])
-        '''
+    '''
     return result
 
 def computeDensity(df, areas, level=1):
@@ -132,44 +132,6 @@ def computeDensity(df, areas, level=1):
     Note: to query, just densityDistribution.query(point)
     """
     return computedensities.compute(getMazeName(level), areas, df, quiet=True)
-
-def calculateError(predictedDensityDist, actualDensityDist):
-    """
-    Calculate Error from dataframe of densities
-    ---
-    predictedDensityDist: dict {timestamp: densityDistribution}
-    where densityDistribution defined in computedensities.py
-    actualDensityDistribution: dict {timestamp: densityDistribution}
-    ---
-    Returns: float error
-    """
-    # Assuming now the timestamps are the same
-    sum = 0.0
-    count = 0.0
-
-    zippedDensities = zip(predictedDensityDist.values(), actualDensityDist.values())
-
-    for pair in zippedDensities:
-        pairPredictedDensity = pair[0]
-        pairActualDensity = pair[1]
-
-        predictedDensityKeys = set(pairPredictedDensity.getPoints())
-        actualDensityKeys = set(pairActualDensity.getPoints())
-
-        # If keys in intersection, just compute difference
-        for point in predictedDensityKeys.intersection(actualDensityKeys):
-            sum += (predictedDensityDist.query(point)*10 -
-                    actualDensityDist.query(point)) ** 2
-            count += 1
-
-        # For keys that are in actual but not in predicted, add error
-        for point in (actualDensityKeys - predictedDensityKeys):
-            sum += actualDensityDist ** 2
-            count += 1
-
-        # For keys in predicted not in actual, ignore
-
-    return np.sqrt(sum/count)
 
 def bayesOpt():
     """
@@ -195,7 +157,6 @@ def computeAreaDensity(tags, focusPoints, areas):
     """
 
     dfFloor18 = generateTestCases(focusPoints, tags, level=1)
-
     dfFormattedFloor18 = formatDf(dfFloor18)
 
     bayesResult = runBayes(dfFormattedFloor18)
@@ -203,6 +164,63 @@ def computeAreaDensity(tags, focusPoints, areas):
     densityDist = computeDensity(bayesResult, areas, level=1)
 
     return densityDist
+
+def calculateError(predictedDensityDist, actualDensityDist):
+    """
+    Calculate Error from dataframe of densities
+    ---
+    predictedDensityDist: dict {timestamp: densityDistribution}
+    where densityDistribution is a computedensities.DensityDistribution
+    testTags: list of tags for test set
+    ---
+    Returns: float error
+    """
+
+    sum = 0.0
+    count = 0.0
+
+    for timestamp in predictedDensityDist:
+        predicted = predictedDensityDist[timestamp]
+        actual = actualDensityDist[timestamp]
+
+        for point in predicted:
+            sum += (predicted.query(point)*10 - actual.query(point))**2
+            count += 1
+
+    return np.sqrt(sum / count)
+
+class ActualDensityDist:
+    def __init__(self):
+        self.points = {}
+
+    def addPoint(self, point, density):
+        self.points[point] = density
+
+    def getPoints(self):
+        return self.points
+
+    def query(self, point):
+        return self.points[point]
+
+def computeActualDensityDist(predictedDensityDist, focusPoints, testTags):
+    radius = 5.
+    unitArea = np.pi * radius**2
+    dfFloor18 = generateTestCases(focusPoints, tags, level=1)
+    result = {}
+
+    for timestamp in predictedDensityDist:
+        df = dfFloor18[dfFloor18['SNAPSHOT_TIMESTAMP'] == timestamp]
+        actualDensityDist = ActualDensityDist()
+
+        for point in predictedDensityDist[timestamp].getPoints():
+            distsToPoint = ((df['X'] - point[0])**2 +
+                           (df['Y'] - point[1])**2).apply(np.sqrt)
+            count = df[distsToPoint <= radius].shape[0]
+            actualDensityDist.addPoint(point, count / unitArea)
+
+        result[timestamp] = actualDensityDist
+
+    return result
 
 if __name__ == '__main__':
     focusPoints = readPointFile('focuspoints.csv')
@@ -212,7 +230,7 @@ if __name__ == '__main__':
     testTags, trainTags = generatetest.splitTags(tags, proportion=0.5)
 
     predictedDensityDist = computeAreaDensity(trainTags, focusPoints, areas)
-
-    actualDensityDist = computeAreaDensity(tags, focusPoints, areas)
-
-    #error = calculateError(predictedDensityDist, actualDensityDist)
+    actualDensityDist = computeActualDensityDist(predictedDensityDist,
+                                                 focusPoints,
+                                                 testTags)
+    error = calculateError(predictedDensityDist, actualDensityDist)
