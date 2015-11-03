@@ -22,7 +22,7 @@ def cylinderIntegrate(cx, cy, r, zMin, zMax, f):
     return res, err
 
 # f is a function (probability distribution) of x, y, z.
-# Integrates over a cylinder at (cx,cy), radius r, from z = zMin to z = zMax
+# Integrates over a box at (cx,cy), radius r, from z = zMin to z = zMax
 def boxIntegrate(cx, cy, r, zMin, zMax, f):
     yBot = lambda x : cy - r
     yTop = lambda x : cy + r
@@ -30,6 +30,19 @@ def boxIntegrate(cx, cy, r, zMin, zMax, f):
     zTop = lambda x, y : zMax
     
     res, err = integrate.tplquad(f, cx - r, cx + r, yBot, yTop, zBot, zTop)
+    return (res,err)
+    
+# f is a function (probability distribution) of x, y, z.
+# Integrates over rectangle [a1,b1]x[a2,b2]x[a3,b3]
+def tripleRectIntegrate(bounds, f):
+    a1 = bounds[0][0]
+    b1 = bounds[0][1]
+    a2 = lambda x : bounds[1][0]
+    b2 = lambda x : bounds[1][1]
+    a3 = lambda x, y : bounds[2][0]
+    b3 = lambda x, y : bounds[2][1]
+    
+    res, err = integrate.tplquad(f, a1,b1,a2,b2,a3,b3)
     return (res,err)
 
 # Returns a multivariate gaussian pdf using the parameters given.

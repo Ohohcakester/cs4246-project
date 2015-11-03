@@ -1,9 +1,23 @@
 import pathfind
+import integrate
 
 nDivisions = 10 # all divisions are 5.
 
-
-
+class DensityDistribution(object):
+    def __init__(self, regions, densities):
+        #regions: dict {point -> region index}
+        #densities: dict {region index -> density}
+        self.densities = {}
+        for point in regions.keys():
+            self.densities[point] = densities[regions[point]]
+        
+    def query(self, point):
+        #Throws an error if the point does not exist in the density map.
+        return self.densities[point]
+        
+    def getPoints(self):
+        return self.densities.keys()
+    
 def drawRegions(regions):
     maxX = max(map(lambda t : t[0], regions.keys()))
     maxY = max(map(lambda t : t[1], regions.keys()))
@@ -103,18 +117,72 @@ def classifyAndDrawAreas(mazeName, points):
     print "Number of Regions: ", len(regionCounts)
     drawRegions(regions)
 
-def getRegionDensities(mazeName, points, distributions):
-    regions, regionCounts, distanceMaps = classifyAreas(mazeName, points)
-
+# distributions is a list of probability density functions.
+def getRegionDensities(regions, regionCounts, distributions):
     densities = {}
     for region in regionCounts.keys():
         bounds = tuple([dm.getBounds[index] for index, dm in zip(region,distanceMaps)])
-        density = integrate(bounds, distributions) / regionCounts[region] #regionCounts is the approximate area
+        density = sum(map(integ(bounds), distributions)) / regionCounts[region] #regionCounts is the approximate area
         densities[region] = density
-    return density
+    return DensityDistribution(regions, densities)
 
-def integrate(bounds, distributions):
-    pass
+def integ(bounds):
+    def fun(distributions):
+        res, err = integrate.tripleRectIntegrate(bounds, f)
+        return res
+    return fun
+
+"""
+Input: Maze Name (string), tuple of reference points, dataframe['MU','TIMESTAMP','VAR']
+Output: A dictionary {timestamp -> DensityDistribution}
+
+A DensityDistribution object (defined above) allows you to query the density at any grid point on the map.
+"""
+def compute(mazeName, points, df, quiet = False):
+    # build dictionary timestamp -> mu, var
+    # one user, one entry
+    densityFunctions = {}
+    keys = tuple(df)
+    index_timestamp = keys.index('TIMESTAMP')
+    index_mu = keys.index('MU')
+    index_var = keys.index('VAR')
+    for row in df.iterrows():
+        mus = row[1][index_mu]
+        vars = row[1][index_var]
+        f = integrate.multivariateIndepGaussian(mus[0],mus[1],mus[2],vars[0],vars[1],vars[2])
+        timestamp = row[1][index_timestamp]
+        if timestamp in densityFunctions:
+            densityFunctions[timestamp].append(f)
+        else:
+            densityFunctions[timestamp] = [f]
+    
+    #confirm lengths are the same
+    nUsers = None
+    for key in densityFunctions:
+        length = len(densityFunctions[key])
+        if nUsers == None:
+            nUsers = length
+        elif nUsers != length:
+            print "ERROR: Number of users not consistent"
+    
+    if not quiet:
+        print 'Computing density: ' + str(nUsers) + ' users'
+
+    # Classify areas into regions
+    regions, regionCounts, distanceMaps = classifyAreas(mazeName, points)
+    
+    # Compute density map for each timestamp
+    densityDistributions = {}
+    for timestamp in densityFunctions:
+        densityDistributions[timestamp] = getRegionDensities(regions, regionCounts, densityFunctions[timestamp])
+    
+    if not quiet:
+        print 'Finished computing densities'
+    
+    # return dict {timestamp -> density map}
+    return densityDistributions
+    
+    
 
 if __name__ == '__main__':
     classifyAreas('floor18map', [(8,8), (89,60), (55,5)])
