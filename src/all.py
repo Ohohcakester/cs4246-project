@@ -18,32 +18,32 @@ def getMazeName(z):
 	"""
 	zToMazename = {0: 'floor2map', 1: 'floor18map'}
 	return zToMazename[z]
-
-def readFocusPoints(filename):
-	"""
-	Reads in focus points from a file and returns the points as tuples in a list
 	
-	Can be changed such that each line is a set of focus points
+def readPointFile(filename):
+	"""
+	Reads in points from a file and returns the points as tuples in a list
+	
+	Can be changed such that each line is a set of areas
 	---
 	filename: string
-			focus points formatted as (a, b), (c, d), (e, f)
+			points formatted as (a, b), (c, d), (e, f)
 	---
-	Returns: list of focus points
+	Returns: list of point tuples
 			[(a, b), (c, d), (e, f)] where a through f are floats
 	"""
 	file = open(filename, 'r')
 	fileContents = file.read()
-	m = re.findall('\(.*?\)', fileContents)
 	
-	focusPointsList = []
+	listPoints = []
+	m = re.findall('\(.*?\)', fileContents)
 	
 	for group in m:
 		group = group.replace('(', '')
 		group = group.replace(')', '')
 		groupArr = [float(x) for x in group.split(',')]
-		focusPointsList.append((groupArr[0], groupArr[1]))
+		listPoints.append((groupArr[0], groupArr[1]))	
 	
-	return focusPointsList
+	return listPoints
 	
 def generateTestCases(focusPoints, trainTags, level=1):
 	"""
@@ -109,7 +109,7 @@ def runBayes(df):
 	result = bayes.predictGP(df[df['USER'] == userID])
 	return result
 	
-def computeDensity(df, level=1, areas):
+def computeDensity(df, areas, level=1):
 	"""
 	Computes the predicted density for a list of areas for a level
 	---
@@ -134,8 +134,10 @@ def calculateError():
 	pass	
 	
 if __name__ == '__main__':
-	focusPoints = readFocusPoints('focuspoints.csv')
-	tags = generatetest.listTags()
+	focusPoints = readPointFile('focuspoints.csv')
+	areas = readPointFile('areas.csv')
+	
+	tags = generatetest.listTags()[0:100]
 	testTags, trainTags = generatetest.splitTags(tags, proportion=0.5)
 	
 	dfFloor18 = generateTestCases(focusPoints, trainTags, level=1)
@@ -144,4 +146,4 @@ if __name__ == '__main__':
 	bayesResult = runBayes(dfFormattedFloor18)
 	
 	# Can also let areas be read in from file
-	#computeDensity(df, level=1, areas)
+	#computeDensity(df, areas, level=1)
