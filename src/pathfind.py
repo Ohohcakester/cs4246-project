@@ -41,7 +41,7 @@ def parseOutput(output):
 
 def runSingleSourceAllDestinations(mazeName, points):
     args = [mazeName] + list(map(parseTupleWithSpaces,points))
-    args = ' '.join(args)
+    args = ' '.join(map(str,map(int(args))))
 
     output = subprocess.check_output('java SingleSourceAllDestinations '+args, cwd='pathfinding', shell=True)
     return tuple(map(parseOutput, output.split('|')))
