@@ -184,7 +184,7 @@ def calculateError(predictedDensityDist, actualDensityDist):
         predicted = predictedDensityDist[timestamp]
         actual = actualDensityDist[timestamp]
 
-        for point in predicted:
+        for point in predicted.getPoints():
             sum += (predicted.query(point)*10 - actual.query(point))**2
             count += 1
 
