@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class Compute {
 
@@ -10,9 +11,11 @@ public class Compute {
         //testSpeed();if ("".isEmpty())return;
         GridGraph graph = GraphImporter.importGraphFromFile(fileNamePrefix+args[0]+fileNamePostFix);
         
+        Scanner sc = new Scanner(System.in);
+        String[] inputs = sc.nextLine().split(" ");
         String delim = "";
-        for (String query : args) {
-            if (query == args[0]) continue;
+        for (String query : inputs) {
+            //if (query == args[0]) continue;
             System.out.print(delim);
             System.out.print(parseTest(graph, query));
             delim = " ";

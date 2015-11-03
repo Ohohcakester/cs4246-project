@@ -3,7 +3,7 @@ import subprocess
 # look at the comments for the function runPathfinding(mazeName,testcases). This is what you want to call.
 
 # Because some platforms (i.e. windows) don't accept command lengths above 32768 characters. Can set higher if you want it to run faster.
-maxQuerySize = 2500
+maxQuerySize = None # NO LONGER BEING USED
 
 # Call this function for shortest path computation.
 # (calling with a batch of testcases is faster than calling multiple time separately)
@@ -19,6 +19,8 @@ maxQuerySize = 2500
 # - a list of floats representing the shortest path distances
 #              for each of the test cases.
 def runPathfinding(mazeName, testcases):
+    return runPathfindingChunk(mazeName, testcases)
+    """
     testcasesList = [testcases[i:i+maxQuerySize] for i in xrange(0,len(testcases),maxQuerySize)]
     results = []
     for chunk in testcasesList:
@@ -27,6 +29,7 @@ def runPathfinding(mazeName, testcases):
     #print results[:10]
     #print results[-10:]
     return results
+    """
 
 def parseTupleWithSpaces(point):
     return ' '.join(map(str,map(int,point)))
@@ -51,11 +54,13 @@ def parseTestCase(testcase):
     return '-'.join(map(str,map(int,testcase)))
 
 def runPathfindingChunk(mazeName, testcases):
-    args = [mazeName] + list(map(parseTestCase,testcases))
+    args = map(parseTestCase,testcases)
     args = ' '.join(args)
 
-    output = subprocess.check_output('java Compute '+args, cwd='pathfinding', shell=True)
-    return list(map(float,output.split()))
+    process = subprocess.Popen('java Compute ' + mazeName, shell=True, cwd='pathfinding', stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+    output = process.communicate(args)
+
+    return list(map(float,output[0].split()))
 
 
 
@@ -73,6 +78,6 @@ if __name__ == '__main__':
     (18,20,21,54),
     (18,20,21,55),
     (18,20,21,56),
-    ]*5000
-    runPathfinding(mazeName, testcases)
+    ]*50000
+    print runPathfindingChunk(mazeName, testcases)
     
