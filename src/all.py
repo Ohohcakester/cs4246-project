@@ -211,20 +211,33 @@ def computeActualDensityDist(predictedDensityDist, focusPoints, testTags):
     floor18grid = coordinateconverter.Grid(getMazeName(1))
     def convertCoord(point):
         return floor18grid.convertToGridFloating(point[0], point[1])
-
-    dfFloor18 = generateTestCases(focusPoints, tags, level=1)
+    def withinRadius(point, radius):
+        def fun(coord):
+            dx = point[0]-coord[0]
+            dy = point[1]-coord[1]
+            return dx*dx+dy*dy <= radius*radius
+        return fun
+        
+    dfFloor18 = map(generatetest.loadData, tags)
+    dfFloor18 = pd.concat(dfFloor18)
+    #dfFloor18 = generateTestCases(focusPoints, tags, level=1)
+    
     converted = dfFloor18[['X', 'Y']].apply(convertCoord, axis=1)
     dfFloor18['X'] = converted.apply(lambda p: p[0])
     dfFloor18['Y'] = converted.apply(lambda p: p[1])
-
+    
+    print 'No. of Timestamps: ' + str(len(predictedDensityDist.keys()))
     for timestamp in predictedDensityDist:
-        df = dfFloor18[dfFloor18['SNAPSHOT_TIMESTAMP'] == timestamp]
+        print 'Computing actual density: ' + str(timestamp)
+        df = dfFloor18[abs(dfFloor18['SNAPSHOT_TIMESTAMP'] - timestamp) <= 15]
+        values = df[['X','Y']].values.tolist()
         actualDensityDist = ActualDensityDist()
 
         for point in predictedDensityDist[timestamp].getPoints():
-            distsToPoint = ((df['X'] - point[0])**2 +
-                            (df['Y'] - point[1])**2).apply(np.sqrt)
-            count = distsToPoint[distsToPoint <= radius].shape[0]
+            count = len(filter(withinRadius(point,radius), values))
+            #distsToPoint = ((df['X'] - point[0])*(df['X'] - point[0]) +
+            #                (df['Y'] - point[1])*(df['Y'] - point[1]))
+            #count = distsToPoint[distsToPoint <= radius*radius].shape[0]
             actualDensityDist.addPoint(point, count / unitArea)
 
         result[timestamp] = actualDensityDist
