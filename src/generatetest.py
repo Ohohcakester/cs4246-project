@@ -49,9 +49,9 @@ def convertData(df, level, focusPoints):
                     d3 = map(lambda index: result[3*index+2], range(0, len(df.index))))
 
 
-
-tags = listTags()[0:100]
-data = map(loadData, tags)
-concatenated = pandas.concat(data)
-
-convertData(filterData(concatenated, 1), 1, getFocusPoints())
+if __name__ == '__main__':
+    tags = listTags()[0:100]
+    data = map(loadData, tags)
+    concatenated = pandas.concat(data)
+    
+    df = convertData(filterData(concatenated, 1), 1, getFocusPoints())

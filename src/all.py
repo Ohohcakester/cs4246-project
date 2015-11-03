@@ -1,89 +1,53 @@
 #!/usr/bin/python
 
-'''
-To run all other files
-'''
-
-import os
-
 import pandas as pd
+import numpy as np
 
-import pathfind
-import coordinateconverter
+import generatetest
 
-floor2map = 'floor2map'
-floor2grid = coordinateconverter.Grid(floor2map)
-
-floor18map = 'floor18map'
-floor18grid = coordinateconverter.Grid(floor18map)
-
-# Takes in a list of points and a dataframe and returns a dataframe of shortest paths to each of the point
-def shortest_paths_function(points, dataframe):
-    for index, row in dataframe.iterrows():
-        point_coordinate = (row.convertedX, row.convertedY)
-        point_list = [point_coordinate + point for point in points]
-
-        if row.Z == 0:
-            shortest_paths = pathfind.runPathfinding(floor2map, point_list)
-        else:
-            shortest_paths = pathfind.runPathfinding(floor18map, point_list)
-
-        
-        for path_index, dist in enumerate(shortest_paths):
-            dataframe = dataframe.set_value(index, 'distToPoint' + str(path_index), dist)
-
-    return dataframe
-
-def test_shortest_paths_function():
-    testcases = [
-            (18,20),
-            (18,21),
-            (18,22),
-            (18,23)
-    ]
-
-    df = pd.read_csv('./data/3004.csv')
-    df['convertedX'] = np.nan
-    df['convertedY'] = np.nan
-
-    for index, row in df.iterrows():
-        if row.Z == 0:
-            actual_coord = floor2grid.queryActual(row.X, row.Y)
-        else:
-            actual_coord = floor18grid.queryActual(row.X, row.Y)
-        df = df.set_value(index, 'convertedX', actual_coord[0])
-        df = df.set_value(index, 'convertedY', actual_coord[1])
-
-    df_shortest = shortest_paths_function(testcases, df)
-
-    return df_shortest
-
-def other_test():
-    directory = './data/'
-    f = os.listdir(directory)[0] # Testing with one file first
-    df = pd.read_csv(directory + f)
-    user = int(f[:4])   # Get the first four numbers as userID
-    df_pairs_floor2 = pd.DataFrame(columns=['timestamp', 'user', 'pair', 'Z'])
-    df_pairs_floor18 = pd.DataFrame(columns=['timestamp', 'user', 'pair', 'Z'])
-
-    # If z = 0: use floor2, else use floor18
-    # Assume no shortest path between floor2 and floor18 first
-    for index, row in df.iterrows():
-        if index != 0 and row.Z == df.iloc[index-1].Z:
-            if row.Z == 0:        
-                current_coordinate = floor2grid.queryActual(row.X, row.Y)
-                prev_coordinate = floor2grid.queryActual(df.iloc[index-1].X, df.iloc[index-1].Y)
-                df_pairs_floor2 = df_pairs_floor2.append({'timestamp': row.SNAPSHOT_TIMESTAMP, 'Z': row.Z, 'user': user, 'pair': (prev_coordinate + current_coordinate)}, ignore_index=True)
-            else:
-                current_coordinate = floor18grid.queryActual(row.X, row.Y)
-                prev_coordinate = floor18grid.queryActual(df.iloc[index-1].X, df.iloc[index-1].Y)
-                df_pairs_floor18 = df_pairs_floor18.append({'timestamp': row.SNAPSHOT_TIMESTAMP, 'Z': row.Z, 'user': user, 'pair': (prev_coordinate + current_coordinate)}, ignore_index=True)
-
-    list_pairs_floor2 = list(df_pairs_floor2.pair)
-    list_pairs_floor18 = list(df_pairs_floor18.pair)
-    df_pairs_floor2['shortestpaths'] = pathfind.runPathfinding(floor2map, list_pairs_floor2)
-    df_pairs_floor18['shortestpaths'] = pathfind.runPathfinding(floor18map, list_pairs_floor18)
-    df_new = pd.concat([df_pairs_floor2, df_pairs_floor18])
-    df_new = df_new.sort('timestamp')
-
-
+def calculateError():
+	pass
+	
+def readFocusPoints(filename):
+	"""
+	Reads in focus points from a file and returns the points as tuples in a list
+	
+	Can be changed such that each line is a set of focus points
+	---
+	filename: string
+			focus points formatted as (a, b), (c, d), (e, f)
+	---
+	Returns: list of focus points
+			[(a, b), (c, d), (e, f)] where a through f are floats
+	"""
+	file = open(filename, 'r')
+	fileContents = file.read()
+	m = re.findall('\(.*?\)', fileContents)
+	
+	focusPointsList = []
+	
+	for group in m:
+		group = group.replace('(', '')
+		group = group.replace(')', '')
+		groupArr = [float(x) for x in group.split(',')]
+		focusPointsList.append((groupArr[0], groupArr[1]))
+	
+	return focusPointsList
+	
+def generateTestCases(focusPoints):
+	"""
+	Takes in the set of focus points read from file earlier and runs generatetest.py
+	---
+	focusPoints: list of focus points
+				[(a, b), (c, d), (e, f)] where a through f are floats
+	---
+	Returns: dataframe with 3 additional columns of each row's shortest distance
+			to the focus points in float
+	"""
+	tags = generatetest.listTags()[0:100]
+	
+	
+if __name__ == '__main__':
+	focusPoints = readFocusPoints('focuspoints.csv')
+	df = generateTestCases(focusPoints)
+	
