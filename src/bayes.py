@@ -22,12 +22,12 @@ def regressGP(df):
     X = df['TIMESTAMP'].values.reshape(-1, 1)
     Y = df[['Y1', 'Y2', 'Y3']].values.astype(float)
 
-    kernel = GPy.kern.MLP(1) + GPy.kern.Bias(1)
+    kernel = GPy.kern.RBF(1)
     m = GPy.models.GPRegression(X, Y, kernel)
     m['.*Gaussian_noise'] = 0.05
     m['.*noise'].unconstrain()
     m['.*noise'].fix()
-    #m.optimize(messages=True, max_f_eval=1000)
+    m.optimize(messages=True, max_f_eval=1000)
 
     return m
 

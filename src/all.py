@@ -156,7 +156,7 @@ def calculateError(predictedDensityDist, actualDensityDist):
 		
 		# If keys in intersection, just compute difference
 		for point in predictedDensityKeys.intersection(actualDensityKeys):
-			sum += (predictedDensityDist.query(point) - actualDensityDist.query(point)) ** 2
+			sum += (predictedDensityDist.query(point)*10 - actualDensityDist.query(point)) ** 2
 			count += 1
 		
 		# For keys that are in actual but not in predicted, add error
@@ -210,6 +210,6 @@ if __name__ == '__main__':
 	
 	predictedDensityDist = computeAreaDensity(trainTags, focusPoints, areas)
 	
-	#actualDensityDist = computeAreaDensity(testTags, focusPoints, areas)
+	actualDensityDist = computeAreaDensity(tags, focusPoints, areas)
 	
-	#calculateError(predictedDensityDist, actualDensityDist)
+	error = calculateError(predictedDensityDist, actualDensityDist)
