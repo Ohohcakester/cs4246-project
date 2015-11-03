@@ -166,7 +166,7 @@ def compute(mazeName, points, df, quiet = False):
             print "ERROR: Number of users not consistent"
     
     if not quiet:
-        print 'Classifying areas'
+        print 'Classifying map into regions'
 
     # Classify areas into regions
     regions, regionCounts, distanceMaps = classifyAreas(mazeName, points)
