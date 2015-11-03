@@ -144,7 +144,7 @@ Output: A dictionary {timestamp -> DensityDistribution}
 
 A DensityDistribution object (defined above) allows you to query the density at any grid point on the map.
 """
-def compute(mazeName, points, df, quiet = False):
+def compute(mazeName, points, df, quiet=False):
     # build dictionary timestamp -> mu, var
     # one user, one entry
     muVars = {}

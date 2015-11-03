@@ -129,7 +129,7 @@ def computeDensity(df, areas, level=1):
 	Returns: dict {timestamp: densityDistribution}
 			Note: to query, just densityDistribution.query(point)
 	"""
-	return computedensities.compute(getMazeName(level), areas, df)
+	return computedensities.compute(getMazeName(level), areas, df, quiet=True)
 	
 def calculateError(predictedDensityDist, actualDensityDist):
 	"""
@@ -212,4 +212,4 @@ if __name__ == '__main__':
 	
 	actualDensityDist = computeAreaDensity(tags, focusPoints, areas)
 	
-	error = calculateError(predictedDensityDist, actualDensityDist)
+	#error = calculateError(predictedDensityDist, actualDensityDist)
