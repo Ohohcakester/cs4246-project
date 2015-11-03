@@ -29,7 +29,7 @@ def runPathfinding(mazeName, testcases):
     return results
 
 def parseTupleWithSpaces(point):
-    return ' '.join(map(str,point))
+    return ' '.join(map(str,map(int,point)))
 
 def parseShortestPathTuple(t):
     t = t.split('-')
@@ -41,7 +41,7 @@ def parseOutput(output):
 
 def runSingleSourceAllDestinations(mazeName, points):
     args = [mazeName] + list(map(parseTupleWithSpaces,points))
-    args = ' '.join(map(str,map(int(args))))
+    args = ' '.join(args)
 
     output = subprocess.check_output('java SingleSourceAllDestinations '+args, cwd='pathfinding', shell=True)
     return tuple(map(parseOutput, output.split('|')))

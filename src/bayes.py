@@ -45,7 +45,6 @@ def predictGP(df):
         'MU' and 'VAR' both contains series of 3-tuples
     """
     
-    print "HELLOOOO"
     m = regressGP(df)
 
     mu, var = m.predict(df['TIMESTAMP'].values.reshape(-1, 1))
