@@ -6,9 +6,9 @@ def regressGP(df):
     """
     Regress a GP with data in df.
     ---
-    df: a DataFrame of ['TIMESTAMP', 'Z', SHORTEST_PATHS']. 'SHORTEST_PATHS' should
-        be a series of 3-tuples, each of which contain shortest distances to
-        each of the 3 selected points.
+    df: a DataFrame of ['TIMESTAMP', 'Z', SHORTEST_PATHS'].
+        'SHORTEST_PATHS' should be a series of 3-tuples, each of which contains
+        shortest distances to each of the 3 selected points.
     ---
     Return:
         A GPy model
@@ -44,7 +44,7 @@ def predictGP(df):
         A DataFrame of ['TIMESTAMP', 'Z', 'MU', 'VAR']
         'MU' and 'VAR' both contains series of 3-tuples
     """
-    
+
     m = regressGP(df)
 
     mu, var = m.predict(df['TIMESTAMP'].values.reshape(-1, 1))
@@ -64,7 +64,9 @@ if __name__ == '__main__':
 
     result = predictGP(df)
     import computedensities
-    densityDistribution = computedensities.compute('floor18map', [(8,8), (89,60), (55,5)], result)
+    densityDistribution = computedensities.compute('floor18map',
+                                                   [(8,8), (89,60), (55,5)],
+                                                   result)
     print densityDistribution
 
     #userID = df['USER'][0]
