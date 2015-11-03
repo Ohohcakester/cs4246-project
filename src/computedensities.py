@@ -1,7 +1,7 @@
 import pathfind
 import integrate
 
-nDivisions = 10 # all divisions are 5.
+nDivisions = 5 # all divisions are 5.
 
 class DensityDistribution(object):
     def __init__(self, regions, densities):
@@ -118,17 +118,17 @@ def classifyAndDrawAreas(mazeName, points):
     drawRegions(regions)
 
 # distributions is a list of probability density functions.
-def getRegionDensities(regions, regionCounts, distributions):
+def getRegionDensities(regions, regionCounts, distanceMaps, distributions):
     densities = {}
     for region in regionCounts.keys():
-        bounds = tuple([dm.getBounds[index] for index, dm in zip(region,distanceMaps)])
+        bounds = tuple([dm.getBounds(index) for index, dm in zip(region,distanceMaps)])
         density = sum(map(integ(bounds), distributions)) / regionCounts[region] #regionCounts is the approximate area
         densities[region] = density
     return DensityDistribution(regions, densities)
 
 def integ(bounds):
-    def fun(distributions):
-        res, err = integrate.tripleRectIntegrate(bounds, f)
+    def fun(distribution):
+        res, err = integrate.tripleRectIntegrate(bounds, distribution)
         return res
     return fun
 
@@ -166,15 +166,21 @@ def compute(mazeName, points, df, quiet = False):
             print "ERROR: Number of users not consistent"
     
     if not quiet:
-        print 'Computing density: ' + str(nUsers) + ' users'
+        print 'Classifying areas'
 
     # Classify areas into regions
     regions, regionCounts, distanceMaps = classifyAreas(mazeName, points)
     
+    if not quiet:
+        print 'Number of regions: ' + str(len(regionCounts))
+        print 'Computing density: ' + str(nUsers) + ' users'
+    
     # Compute density map for each timestamp
     densityDistributions = {}
     for timestamp in densityFunctions:
-        densityDistributions[timestamp] = getRegionDensities(regions, regionCounts, densityFunctions[timestamp])
+        if not quiet:
+            print 'Computing for timestamp: ' + str(timestamp)
+        densityDistributions[timestamp] = getRegionDensities(regions, regionCounts, distanceMaps, densityFunctions[timestamp])
     
     if not quiet:
         print 'Finished computing densities'
