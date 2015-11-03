@@ -27,7 +27,7 @@ def regressGP(df):
     m['.*Gaussian_noise'] = 0.05
     m['.*noise'].unconstrain()
     m['.*noise'].fix()
-    m.optimize(messages=True, max_f_eval=1000)
+    #m.optimize(messages=True, max_f_eval=1000)
 
     return m
 
@@ -44,6 +44,8 @@ def predictGP(df):
         A DataFrame of ['TIMESTAMP', 'Z', 'MU', 'VAR']
         'MU' and 'VAR' both contains series of 3-tuples
     """
+    
+    print "HELLOOOO"
     m = regressGP(df)
 
     mu, var = m.predict(df['TIMESTAMP'].values.reshape(-1, 1))

@@ -83,7 +83,7 @@ def formatDf(df):
 		+ str(df.iloc[index].d2) + "," + str(df.iloc[index].d3), range(0, len(df.index))))
 	dfNew = dfNew.reset_index()
 
-	return dfNew
+	return dfNew.drop(['index'], axis=1)
 	
 def runBayes(df):
 	"""
@@ -106,10 +106,13 @@ def runBayes(df):
 
 	# Iterate through each user and regress then concat the output
 	
+	result = bayes.predictGP(df[df['USER'] == uniqueUserID[0]])
+	
+	'''
 	for user in uniqueUserID:
 		userResult = bayes.predictGP(df[df['USER'] == user])
 		result = pd.concat([result, userResult])
-		
+	'''
 	return result
 	
 def computeDensity(df, areas, level=1):
@@ -191,10 +194,12 @@ def computeAreaDensity(tags, focusPoints, areas):
 	dfFloor18 = generateTestCases(focusPoints, tags, level=1)
 	
 	dfFormattedFloor18 = formatDf(dfFloor18)
+
 	bayesResult = runBayes(dfFormattedFloor18)
 	
-	# Note: BayesResult returns some non-positive definite error
-	densityDist = computeDensity(df, areas, level=1)	
+	densityDist = computeDensity(bayesResult, areas, level=1)	
+	
+	return densityDist
 
 if __name__ == '__main__':
 	focusPoints = readPointFile('focuspoints.csv')
@@ -205,6 +210,6 @@ if __name__ == '__main__':
 	
 	predictedDensityDist = computeAreaDensity(trainTags, focusPoints, areas)
 	
-	actualDensityDist = computeAreaDensity(testTags, focusPoints, areas)
+	#actualDensityDist = computeAreaDensity(testTags, focusPoints, areas)
 	
-	calculateError(predictedDensityDist, actualDensityDist)
+	#calculateError(predictedDensityDist, actualDensityDist)
