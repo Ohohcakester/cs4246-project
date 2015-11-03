@@ -118,17 +118,23 @@ def classifyAndDrawAreas(mazeName, points):
     drawRegions(regions)
 
 # distributions is a list of probability density functions.
-def getRegionDensities(regions, regionCounts, distanceMaps, distributions):
+def getRegionDensities(regions, regionCounts, distanceMaps, muVar):
     densities = {}
     for region in regionCounts.keys():
         bounds = tuple([dm.getBounds(index) for index, dm in zip(region,distanceMaps)])
-        density = sum(map(integ(bounds), distributions)) / regionCounts[region] #regionCounts is the approximate area
+        density = sum(map(integGaussian(bounds), muVar)) / regionCounts[region] #regionCounts is the approximate area
         densities[region] = density
     return DensityDistribution(regions, densities)
 
 def integ(bounds):
     def fun(distribution):
         res, err = integrate.tripleRectIntegrate(bounds, distribution)
+        return res
+    return fun
+    
+def integGaussian(bounds):
+    def fun(muVar):
+        res = integrate.tripleRectIntegrate2(bounds, muVar[0], muVar[1])
         return res
     return fun
 
@@ -141,7 +147,7 @@ A DensityDistribution object (defined above) allows you to query the density at 
 def compute(mazeName, points, df, quiet = False):
     # build dictionary timestamp -> mu, var
     # one user, one entry
-    densityFunctions = {}
+    muVars = {}
     keys = tuple(df)
     index_timestamp = keys.index('TIMESTAMP')
     index_mu = keys.index('MU')
@@ -149,17 +155,18 @@ def compute(mazeName, points, df, quiet = False):
     for row in df.iterrows():
         mus = row[1][index_mu]
         vars = row[1][index_var]
-        f = integrate.multivariateIndepGaussian(mus[0],mus[1],mus[2],vars[0],vars[1],vars[2])
+        muVar = (mus, vars)
+        #f = integrate.multivariateIndepGaussian(mus[0],mus[1],mus[2],vars[0],vars[1],vars[2])
         timestamp = row[1][index_timestamp]
-        if timestamp in densityFunctions:
-            densityFunctions[timestamp].append(f)
+        if timestamp in muVars:
+            muVars[timestamp].append(muVar)
         else:
-            densityFunctions[timestamp] = [f]
+            muVars[timestamp] = [muVar]
     
     #confirm lengths are the same
     nUsers = None
-    for key in densityFunctions:
-        length = len(densityFunctions[key])
+    for key in muVars:
+        length = len(muVars[key])
         if nUsers == None:
             nUsers = length
         elif nUsers != length:
@@ -177,10 +184,10 @@ def compute(mazeName, points, df, quiet = False):
     
     # Compute density map for each timestamp
     densityDistributions = {}
-    for timestamp in densityFunctions:
+    for timestamp in muVars:
         if not quiet:
             print 'Computing for timestamp: ' + str(timestamp)
-        densityDistributions[timestamp] = getRegionDensities(regions, regionCounts, distanceMaps, densityFunctions[timestamp])
+        densityDistributions[timestamp] = getRegionDensities(regions, regionCounts, distanceMaps, muVars[timestamp])
     
     if not quiet:
         print 'Finished computing densities'

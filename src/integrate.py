@@ -1,4 +1,5 @@
 from scipy import integrate
+from scipy.stats import mvn
 import numpy as np
 
 # f is a function (probability distribution) of x, y.
@@ -44,6 +45,13 @@ def tripleRectIntegrate(bounds, f):
     
     res, err = integrate.tplquad(f, a1,b1,a2,b2,a3,b3)
     return (res,err)
+    
+# f is a function (probability distribution) of x, y, z.
+# Integrates over rectangle [a1,b1]x[a2,b2]x[a3,b3]
+def tripleRectIntegrate2(bounds, mu, var):
+    lower, upper = tuple(map(tuple, zip(*bounds)))
+    value, inform = mvn.mvnun(lower, upper, mu, np.diag(var))
+    return value
 
 # Returns a multivariate gaussian pdf using the parameters given.
 # cov_matrix is a 3-d np.array. Should be symmetric, positive definite.
@@ -62,17 +70,20 @@ def multivariateIndepGaussian(mean_x, mean_y, mean_z, var_x, var_y, var_z):
     
 # Testing code
 if __name__ == '__main__':
-    cx = 0.6
-    cy = 0.6
-    zMin = 0.6
-    zMax = 1.8
-    radius = 2
+    a1 = -1
+    b1 = 1
+    a2 = 0.5
+    b2 = 0.9
+    a3 = 0.6
+    b3 = 1.8
     muX = -0.6181
-    muY = -0.24793
-    muZ = 1.1999
+    muY = 0.24793
+    muZ = 1.32
     varX = 0.0519
     varY =0.0520
     varZ = 0.0526
     distribution = multivariateIndepGaussian(muX, muY, muZ, varX, varY, varZ)
-    (result, error) = boxIntegrate(cx, cy, radius, zMin, zMax, distribution)
+    (result, error) = tripleRectIntegrate(((a1,b1),(a2,b2),(a3,b3)), distribution)
     print result, error
+    result = tripleRectIntegrate2(((a1,b1),(a2,b2),(a3,b3)), (muX,muY,muZ),(varX,varY,varZ))#((varX,0,0),(0,varY,0),(0,0,varZ)))
+    print result
