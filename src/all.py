@@ -96,17 +96,20 @@ def runBayes(df):
 		distances of each of the 3 selected points
 	---
 	Returns:
-        A DataFrame of ['TIMESTAMPE', 'MU', 'VAR']
+        A DataFrame of ['TIMESTAMP', 'MU', 'VAR'] for all users concatenated
         'MU' and 'VAR' both contains series of 3-tuples
 	"""
 	df['SHORTEST_PATHS'] = df['SHORTEST_PATHS'].str.split(',')
 	uniqueUserID = df['USER'].unique()
-	# TODO: Iterate through the list and predict 
-	
-	userID = df['USER'][1]
-	df[df['USER']==userID].to_csv('testuser.csv', index=None)
 
-	result = bayes.predictGP(df[df['USER'] == userID])
+	result = pd.DataFrame()
+
+	# Iterate through each user and regress then concat the output
+	
+	for user in uniqueUserID:
+		userResult = bayes.predictGP(df[df['USER'] == user])
+		result = pd.concat([result, userResult])
+		
 	return result
 	
 def computeDensity(df, areas, level=1):
@@ -120,18 +123,40 @@ def computeDensity(df, areas, level=1):
 			[(a, b), (c, d), (e, f)] where a through f are floats
 	level: integer 0 or 1 representing floor2 or floor18
 	---
-	Returns: Not sure yet
+	Returns: dict {timestamp: densityDistribution}
+			Note: to query, just densityDistribution.query(point)
 	"""
 	return computedensities.compute(getMazeName(level), areas, df)
 	
-def calculateError():
+def calculateError(predictedDensityDist, actualDensityDist):
 	"""
 	Calculate Error from dataframe of densities
 	---
+	predictedDensityDist: dict {timestamp: densityDistribution}
+				where densityDistribution defined in computedensities.py
+	actualDensityDistribution: dict {timestamp: densityDistribution}
 	---
 	Returns: float error
 	"""
-	pass	
+	sum = 0.0
+	count = 0.0
+	
+	predictedDensityKeys = set(predictedDensityDist.getPoints())
+	actualDensityKeys = set(actualDensityDist.getPoints())
+	
+	# If keys in intersection, just compute difference
+	for point in predictedDensityKeys.intersection(actualDensityKeys):
+		sum += (predictedDensityDist.query(point) - actualDensityDist.query(point)) ** 2
+		count += 1
+	
+	# For keys that are in actual but not in predicted, add error
+	for point in (actualDensityKeys - predictedDensityKeys):
+		sum += actualDensityDist ** 2
+		count += 1
+	
+	# For keys in predicted not in actual, ignore
+
+	return sum/count
 	
 def bayesOpt():
 	"""
@@ -139,6 +164,31 @@ def bayesOpt():
 	"""
 	pass
 	
+def computeAreaDensity(tags, focusPoints, areas):	
+	"""
+	Takes in tags and compute densities for all the users
+	for the areas specified
+	
+	Note: This only needs to be run once per run, no need to do bayes opt
+	so maybe we can preprocess and store in file?
+	--
+    tags: list of user tags 
+	focusPoints: list of focus points
+			[(a, b), (c, d), (e, f)] where a through f are floats
+	areas: list of areas
+			[(a, b), (c, d), (e, f)] where a through f are floats
+	--
+	Returns: dict {timestamp: densityDistribution} 
+	"""
+	
+	dfFloor18 = generateTestCases(focusPoints, tags, level=1)
+	
+	dfFormattedFloor18 = formatDf(dfFloor18)
+	bayesResult = runBayes(dfFormattedFloor18)
+	
+	# Note: BayesResult returns some non-positive definite error
+	#densityDist = computeDensity(df, areas, level=1)	
+
 if __name__ == '__main__':
 	focusPoints = readPointFile('focuspoints.csv')
 	areas = readPointFile('areas.csv')
@@ -146,9 +196,8 @@ if __name__ == '__main__':
 	tags = generatetest.listTags()[0:100]
 	testTags, trainTags = generatetest.splitTags(tags, proportion=0.5)
 	
-	dfFloor18 = generateTestCases(focusPoints, trainTags, level=1)
+	predictedDensityDist = computeAreaDensity(trainTags, focusPoints, areas)
 	
-	dfFormattedFloor18 = formatDf(dfFloor18)
-	bayesResult = runBayes(dfFormattedFloor18)
+	actualDensityDist = computeAreaDensity(testTags, focusPoints, areas)
 	
-	densityDist = computeDensity(df, areas, level=1)
+	#calculateError(predictedDensityDist, actualDensityDist)
