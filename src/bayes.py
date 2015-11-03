@@ -58,7 +58,12 @@ if __name__ == '__main__':
     df = pd.read_csv('testGP.csv')
     df['SHORTEST_PATHS'] = df['SHORTEST_PATHS'].str.split(',')
 
-    userID = df['USER'][0]
-    result = predictGP(df[df['USER'] == userID])
+    result = predictGP(df)
+    import computedensities
+    computedensities.compute('floor18map', [(8,8), (89,60), (55,5)], result)
+    
+    
+    #userID = df['USER'][0]
+    #result = predictGP(df[df['USER'] == userID])
 
     print result
