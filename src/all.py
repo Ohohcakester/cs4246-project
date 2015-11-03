@@ -138,25 +138,32 @@ def calculateError(predictedDensityDist, actualDensityDist):
 	---
 	Returns: float error
 	"""
+	# Assuming now the timestamps are the same
 	sum = 0.0
 	count = 0.0
 	
-	predictedDensityKeys = set(predictedDensityDist.getPoints())
-	actualDensityKeys = set(actualDensityDist.getPoints())
+	zippedDensities = zip(predictedDensityDist.values(), actualDensityDist.values())
 	
-	# If keys in intersection, just compute difference
-	for point in predictedDensityKeys.intersection(actualDensityKeys):
-		sum += (predictedDensityDist.query(point) - actualDensityDist.query(point)) ** 2
-		count += 1
-	
-	# For keys that are in actual but not in predicted, add error
-	for point in (actualDensityKeys - predictedDensityKeys):
-		sum += actualDensityDist ** 2
-		count += 1
-	
-	# For keys in predicted not in actual, ignore
+	for pair in zippedDensities:
+		pairPredictedDensity = pair[0]
+		pairActualDensity = pair[1]
+		
+		predictedDensityKeys = set(pairPredictedDensity.getPoints())
+		actualDensityKeys = set(pairActualDensity.getPoints())
+		
+		# If keys in intersection, just compute difference
+		for point in predictedDensityKeys.intersection(actualDensityKeys):
+			sum += (predictedDensityDist.query(point) - actualDensityDist.query(point)) ** 2
+			count += 1
+		
+		# For keys that are in actual but not in predicted, add error
+		for point in (actualDensityKeys - predictedDensityKeys):
+			sum += actualDensityDist ** 2
+			count += 1
+		
+		# For keys in predicted not in actual, ignore
 
-	return sum/count
+	return np.sqrt(sum/count)
 	
 def bayesOpt():
 	"""
@@ -187,7 +194,7 @@ def computeAreaDensity(tags, focusPoints, areas):
 	bayesResult = runBayes(dfFormattedFloor18)
 	
 	# Note: BayesResult returns some non-positive definite error
-	#densityDist = computeDensity(df, areas, level=1)	
+	densityDist = computeDensity(df, areas, level=1)	
 
 if __name__ == '__main__':
 	focusPoints = readPointFile('focuspoints.csv')
@@ -200,4 +207,4 @@ if __name__ == '__main__':
 	
 	actualDensityDist = computeAreaDensity(testTags, focusPoints, areas)
 	
-	#calculateError(predictedDensityDist, actualDensityDist)
+	calculateError(predictedDensityDist, actualDensityDist)
