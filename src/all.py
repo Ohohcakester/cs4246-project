@@ -122,7 +122,7 @@ def computeDensity(df, areas, level=1):
 	---
 	Returns: Not sure yet
 	"""
-	computedensities.compute(getMazeName(level), areas, df)
+	return computedensities.compute(getMazeName(level), areas, df)
 	
 def calculateError():
 	"""
@@ -132,6 +132,12 @@ def calculateError():
 	Returns: float error
 	"""
 	pass	
+	
+def bayesOpt():
+	"""
+	Supposed to do some bayesian optimisation here
+	"""
+	pass
 	
 if __name__ == '__main__':
 	focusPoints = readPointFile('focuspoints.csv')
@@ -145,5 +151,4 @@ if __name__ == '__main__':
 	dfFormattedFloor18 = formatDf(dfFloor18)
 	bayesResult = runBayes(dfFormattedFloor18)
 	
-	# Can also let areas be read in from file
-	#computeDensity(df, areas, level=1)
+	densityDist = computeDensity(df, areas, level=1)

@@ -45,10 +45,13 @@ def predictGP(df):
         'MU' and 'VAR' both contains series of 3-tuples
     """
     m = regressGP(df)
+
     mu, var = m.predict(df['TIMESTAMP'].values.reshape(-1, 1))
 
     mu = map(tuple, mu)
-    var = map(tuple, var)
+    
+    varlist = var.flatten().tolist()
+    var = map(tuple, [[x]*3 for x in varlist])
 
     result_df = pd.DataFrame({'TIMESTAMP': df['TIMESTAMP'], 'Z': df['Z'],
                               'MU': mu, 'VAR': var})
@@ -58,12 +61,12 @@ if __name__ == '__main__':
     df = pd.read_csv('testGP.csv')
     df['SHORTEST_PATHS'] = df['SHORTEST_PATHS'].str.split(',')
 
-    #result = predictGP(df)
-    #import computedensities
-    #computedensities.compute('floor18map', [(8,8), (89,60), (55,5)], result)
+    result = predictGP(df)
+    import computedensities
+    densityDistribution = computedensities.compute('floor18map', [(8,8), (89,60), (55,5)], result)
+    print densityDistribution
     
-    
-    userID = df['USER'][0]
-    result = predictGP(df[df['USER'] == userID])
+    #userID = df['USER'][0]
+    #result = predictGP(df[df['USER'] == userID])
 
     #print result
