@@ -6,7 +6,7 @@ def regressGP(df):
     """
     Regress a GP with data in df.
     ---
-    df: a DataFrame of ['TIMESTAMP', 'SHORTEST_PATHS']. 'SHORTEST_PATH' should
+    df: a DataFrame of ['TIMESTAMP', 'Z', SHORTEST_PATHS']. 'SHORTEST_PATHS' should
         be a series of 3-tuples, each of which contain shortest distances to
         each of the 3 selected points.
     ---
@@ -41,7 +41,7 @@ def predictGP(df):
         each of the 3 selected points.
     ---
     Return:
-        A DataFrame of ['TIMESTAMPE', 'MU', 'VAR']
+        A DataFrame of ['TIMESTAMP', 'Z', 'MU', 'VAR']
         'MU' and 'VAR' both contains series of 3-tuples
     """
     m = regressGP(df)
@@ -50,7 +50,7 @@ def predictGP(df):
     mu = map(tuple, mu)
     var = map(tuple, var)
 
-    result_df = pd.DataFrame({'TIMESTAMP': df['TIMESTAMP'],
+    result_df = pd.DataFrame({'TIMESTAMP': df['TIMESTAMP'], 'Z': df['Z'],
                               'MU': mu, 'VAR': var})
     return result_df
 
@@ -58,12 +58,12 @@ if __name__ == '__main__':
     df = pd.read_csv('testGP.csv')
     df['SHORTEST_PATHS'] = df['SHORTEST_PATHS'].str.split(',')
 
-    result = predictGP(df)
-    import computedensities
-    computedensities.compute('floor18map', [(8,8), (89,60), (55,5)], result)
+    #result = predictGP(df)
+    #import computedensities
+    #computedensities.compute('floor18map', [(8,8), (89,60), (55,5)], result)
     
     
-    #userID = df['USER'][0]
-    #result = predictGP(df[df['USER'] == userID])
+    userID = df['USER'][0]
+    result = predictGP(df[df['USER'] == userID])
 
-    print result
+    #print result

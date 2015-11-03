@@ -13,8 +13,8 @@ def listTags():
     return map(int, map((lambda filename: filename[:-4]), os.listdir('data/')))
 
 def splitTags(tags, proportion):
-    num = int(math.floor(proportion * len(tags)))
-    return (tags[:num], tags[num:])
+    num = int(math.floor(proportion* len(tags)))
+    return tags[:num], tags[num:]
 
 def filterData(df, z):
     if z == 1:
@@ -25,7 +25,7 @@ def filterData(df, z):
 def getFocusPoints():
     return [(0.0, 0.5), (0.2, 0.3), (0.5, 0.2)]
 
-def convertData(df, level, focusPoints):
+def convertData(df, focusPoints, level=1):
     print("TEST")
     mazeName = zToMazename[level]
     coordinates = df.loc[:, ['X', 'Y']].values.tolist()
@@ -48,10 +48,14 @@ def convertData(df, level, focusPoints):
                     d2 = map(lambda index: result[3*index+1], range(0, len(df.index))),
                     d3 = map(lambda index: result[3*index+2], range(0, len(df.index))))
 
+def run(data, focusPoints, level=1):
+    df = convertData(filterData(data, 1), focusPoints, level=level)
+    return df
 
 if __name__ == '__main__':
     tags = listTags()[0:100]
     data = map(loadData, tags)
     concatenated = pandas.concat(data)
     
-    df = convertData(filterData(concatenated, 1), 1, getFocusPoints())
+    #df = convertData(filterData(concatenated, 1), 1, getFocusPoints())
+    df = run(concatenated, getFocusPoints())
