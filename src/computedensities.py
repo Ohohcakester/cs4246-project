@@ -10,14 +10,14 @@ class DensityDistribution(object):
         self.densities = {}
         for point in regions.keys():
             self.densities[point] = densities[regions[point]]
-        
+
     def query(self, point):
         #Throws an error if the point does not exist in the density map.
         return self.densities[point]
-        
+
     def getPoints(self):
         return self.densities.keys()
-    
+
 def drawRegions(regions):
     maxX = max(map(lambda t : t[0], regions.keys()))
     maxY = max(map(lambda t : t[1], regions.keys()))
@@ -34,19 +34,19 @@ def drawRegions(regions):
             self.im = Image.new('RGB', (resX, resY), (0,0,0))
             self.draw = ImageDraw.Draw(self.im)
             self.name = name
-        
+
         def drawSquare(self,x,y,colour):
             x1 = self.tile_size*x
             y1 = self.tile_size*y
             x2 = x1+self.tile_size
             y2 = y1+self.tile_size
             self.draw.rectangle((x1,y1,x2,y2),colour)
-            
+
         def render(self):
             try: os.mkdir(target_folder)
             except: pass
             self.im.save(target_folder+self.name+'.png', 'PNG')
-            
+
         def open(self):
             os.startfile(target_folder+self.name+'.png')
 
@@ -131,7 +131,7 @@ def integ(bounds):
         res, err = integrate.tripleRectIntegrate(bounds, distribution)
         return res
     return fun
-    
+
 def integGaussian(bounds):
     def fun(muVar):
         res = integrate.tripleRectIntegrate2(bounds, muVar[0], muVar[1])
@@ -162,7 +162,7 @@ def compute(mazeName, points, df, quiet=False):
             muVars[timestamp].append(muVar)
         else:
             muVars[timestamp] = [muVar]
-    
+
     #confirm lengths are the same
     nUsers = None
     for key in muVars:
@@ -171,31 +171,31 @@ def compute(mazeName, points, df, quiet=False):
             nUsers = length
         elif nUsers != length:
             print "ERROR: Number of users not consistent"
-    
+
     if not quiet:
         print 'Classifying map into regions'
 
     # Classify areas into regions
     regions, regionCounts, distanceMaps = classifyAreas(mazeName, points)
-    
+
     if not quiet:
         print 'Number of regions: ' + str(len(regionCounts))
         print 'Computing density: ' + str(nUsers) + ' users'
-    
+
     # Compute density map for each timestamp
     densityDistributions = {}
     for timestamp in muVars:
         if not quiet:
             print 'Computing for timestamp: ' + str(timestamp)
         densityDistributions[timestamp] = getRegionDensities(regions, regionCounts, distanceMaps, muVars[timestamp])
-    
+
     if not quiet:
         print 'Finished computing densities'
-    
+
     # return dict {timestamp -> density map}
     return densityDistributions
-    
-    
+
+
 
 if __name__ == '__main__':
     classifyAreas('floor18map', [(8,8), (89,60), (55,5)])

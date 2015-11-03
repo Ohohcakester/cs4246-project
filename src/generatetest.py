@@ -41,7 +41,7 @@ def convertData(df, focusPoints, level=1):
         testcases.append((coordinate[0], coordinate[1], focus[0][0], focus[0][1]))
         testcases.append((coordinate[0], coordinate[1], focus[1][0], focus[1][1]))
         testcases.append((coordinate[0], coordinate[1], focus[2][0], focus[2][1]))
-    print("Tsetcases generated")
+    print("Test cases generated")
     print(len(testcases))
     result = runPathfinding(mazeName, testcases)
     return df.assign(d1 = map(lambda index: result[3*index  ], range(0, len(df.index))),
