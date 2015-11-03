@@ -83,7 +83,7 @@ def formatDf(df):
 		+ str(df.iloc[index].d2) + "," + str(df.iloc[index].d3), range(0, len(df.index))))
 	dfNew = dfNew.reset_index()
 
-	return dfNew
+	return dfNew.drop(['index'], axis=1)
 
 def runBayes(df):
 	"""
@@ -105,11 +105,13 @@ def runBayes(df):
 	result = pd.DataFrame()
 
 	# Iterate through each user and regress then concat the output
+	result = bayes.predictGP(df[df['USER'] == uniqueUserID[0]])
 
+	'''
 	for user in uniqueUserID:
 		userResult = bayes.predictGP(df[df['USER'] == user])
 		result = pd.concat([result, userResult])
-
+	'''
 	return result
 
 def computeDensity(df, areas, level=1):
@@ -153,7 +155,7 @@ def calculateError(predictedDensityDist, actualDensityDist):
 
 		# If keys in intersection, just compute difference
 		for point in predictedDensityKeys.intersection(actualDensityKeys):
-			sum += (predictedDensityDist.query(point) - actualDensityDist.query(point)) ** 2
+			sum += (predictedDensityDist.query(point)*10 - actualDensityDist.query(point)) ** 2
 			count += 1
 
 		# For keys that are in actual but not in predicted, add error
@@ -179,7 +181,7 @@ def computeAreaDensity(tags, focusPoints, areas):
 	Note: This only needs to be run once per run, no need to do bayes opt
 	so maybe we can preprocess and store in file?
 	--
-    tags: list of user tags
+        tags: list of user tags
 	focusPoints: list of focus points
 			[(a, b), (c, d), (e, f)] where a through f are floats
 	areas: list of areas
@@ -191,10 +193,12 @@ def computeAreaDensity(tags, focusPoints, areas):
 	dfFloor18 = generateTestCases(focusPoints, tags, level=1)
 
 	dfFormattedFloor18 = formatDf(dfFloor18)
+
 	bayesResult = runBayes(dfFormattedFloor18)
 
-	# Note: BayesResult returns some non-positive definite error
-	densityDist = computeDensity(df, areas, level=1)
+	densityDist = computeDensity(bayesResult, areas, level=1)
+
+	return densityDist
 
 if __name__ == '__main__':
 	focusPoints = readPointFile('focuspoints.csv')
@@ -205,6 +209,6 @@ if __name__ == '__main__':
 
 	predictedDensityDist = computeAreaDensity(trainTags, focusPoints, areas)
 
-	actualDensityDist = computeAreaDensity(testTags, focusPoints, areas)
+	actualDensityDist = computeAreaDensity(tags, focusPoints, areas)
 
-	calculateError(predictedDensityDist, actualDensityDist)
+	error = calculateError(predictedDensityDist, actualDensityDist)

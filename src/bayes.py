@@ -22,7 +22,7 @@ def regressGP(df):
     X = df['TIMESTAMP'].values.reshape(-1, 1)
     Y = df[['Y1', 'Y2', 'Y3']].values.astype(float)
 
-    kernel = GPy.kern.MLP(1) + GPy.kern.Bias(1)
+    kernel = GPy.kern.RBF(1)
     m = GPy.models.GPRegression(X, Y, kernel)
     m['.*Gaussian_noise'] = 0.05
     m['.*noise'].unconstrain()
@@ -44,6 +44,7 @@ def predictGP(df):
         A DataFrame of ['TIMESTAMP', 'Z', 'MU', 'VAR']
         'MU' and 'VAR' both contains series of 3-tuples
     """
+    
     m = regressGP(df)
 
     mu, var = m.predict(df['TIMESTAMP'].values.reshape(-1, 1))

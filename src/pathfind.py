@@ -29,7 +29,7 @@ def runPathfinding(mazeName, testcases):
     return results
 
 def parseTupleWithSpaces(point):
-    return ' '.join(map(str,point))
+    return ' '.join(map(str,map(int,point)))
 
 def parseShortestPathTuple(t):
     t = t.split('-')
