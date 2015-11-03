@@ -49,7 +49,7 @@ def predictGP(df):
     mu, var = m.predict(df['TIMESTAMP'].values.reshape(-1, 1))
 
     mu = map(tuple, mu)
-    
+
     varlist = var.flatten().tolist()
     var = map(tuple, [[x]*3 for x in varlist])
 
@@ -65,7 +65,7 @@ if __name__ == '__main__':
     import computedensities
     densityDistribution = computedensities.compute('floor18map', [(8,8), (89,60), (55,5)], result)
     print densityDistribution
-    
+
     #userID = df['USER'][0]
     #result = predictGP(df[df['USER'] == userID])
 
