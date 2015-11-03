@@ -7,6 +7,7 @@ import re
 import generatetest
 import bayes
 import computedensities
+import coordinateconverter
 
 def getMazeName(z):
     """
@@ -205,8 +206,16 @@ class ActualDensityDist:
 def computeActualDensityDist(predictedDensityDist, focusPoints, testTags):
     radius = 5.
     unitArea = np.pi * radius**2
-    dfFloor18 = generateTestCases(focusPoints, tags, level=1)
     result = {}
+
+    floor18grid = coordinateconverter.Grid(getMazeName(1))
+    def convertCoord(point):
+        return floor18grid.convertToGridFloating(point[0], point[1])
+
+    dfFloor18 = generateTestCases(focusPoints, tags, level=1)
+    converted = dfFloor18[['X', 'Y']].apply(convertCoord, axis=1)
+    dfFloor18['X'] = converted.apply(lambda p: p[0])
+    dfFloor18['Y'] = converted.apply(lambda p: p[1])
 
     for timestamp in predictedDensityDist:
         df = dfFloor18[dfFloor18['SNAPSHOT_TIMESTAMP'] == timestamp]
@@ -214,8 +223,8 @@ def computeActualDensityDist(predictedDensityDist, focusPoints, testTags):
 
         for point in predictedDensityDist[timestamp].getPoints():
             distsToPoint = ((df['X'] - point[0])**2 +
-                           (df['Y'] - point[1])**2).apply(np.sqrt)
-            count = df[distsToPoint <= radius].shape[0]
+                            (df['Y'] - point[1])**2).apply(np.sqrt)
+            count = distsToPoint[distsToPoint <= radius].shape[0]
             actualDensityDist.addPoint(point, count / unitArea)
 
         result[timestamp] = actualDensityDist

@@ -73,7 +73,7 @@ class Grid(object):
         gx = (rx+0.9)*111/1.6 - self.baseX
         gy = (rx+0.7)*97/1.4 - self.baseY
         return self.queryGrid(gx,gy)
-        
+
     def convertToGridFloating(self,rx,ry):
         gx = (rx+0.9)*111/1.6 - self.baseX
         gy = (rx+0.7)*97/1.4 - self.baseY
