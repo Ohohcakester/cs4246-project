@@ -89,7 +89,7 @@ def formatDf(df):
 
     return dfNew.drop(['index'], axis=1)
 
-def runBayes(df):
+def runBayes(df, testTimes):
     """
     Takes in a dataframe of ['TIMESTAMP', 'USER', 'Z', SHORTEST_PATHS'] and
     performs a GP regression and a GP prediction
@@ -109,7 +109,7 @@ def runBayes(df):
     result = pd.DataFrame()
 
     # Iterate through each user and regress then concat the output
-    result = bayes.predictGP(df[df['USER'] == uniqueUserID[0]])
+    result = bayes.predictGP(df[df['USER'] == uniqueUserID[0]], testTimes)
 
     '''
     for user in uniqueUserID:
@@ -140,7 +140,7 @@ def bayesOpt():
     """
     pass
 
-def computeAreaDensity(tags, focusPoints, areas):
+def computeAreaDensity(tags, focusPoints, areas, testTimes):
     """
     Takes in tags and compute densities for all the users
     for the areas specified
@@ -160,7 +160,7 @@ def computeAreaDensity(tags, focusPoints, areas):
     dfFloor18 = generateTestCases(focusPoints, tags, level=1)
     dfFormattedFloor18 = formatDf(dfFloor18)
 
-    bayesResult = runBayes(dfFormattedFloor18)
+    bayesResult = runBayes(dfFormattedFloor18, testTimes)
 
     densityDist = computeDensity(bayesResult, areas, level=1)
 
@@ -247,11 +247,12 @@ def computeActualDensityDist(predictedDensityDist, focusPoints, testTags):
 if __name__ == '__main__':
     focusPoints = readPointFile('focuspoints.csv')
     areas = readPointFile('areas.csv')
+    testTimes = pd.read_csv('test_times.csv')
 
     tags = generatetest.listTags()[0:100]
     testTags, trainTags = generatetest.splitTags(tags, proportion=0.5)
 
-    predictedDensityDist = computeAreaDensity(trainTags, focusPoints, areas)
+    predictedDensityDist = computeAreaDensity(trainTags, focusPoints, areas, testTimes)
     actualDensityDist = computeActualDensityDist(predictedDensityDist,
                                                  focusPoints,
                                                  testTags)

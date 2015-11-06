@@ -33,7 +33,7 @@ def regressGP(df):
 
     return m
 
-def predictGP(df):
+def predictGP(df, testTimes):
     """
     Predict the mean and variance for each timestamp in a DataFrame, assuming
     that all data in the DataFrame is regressed in the same series
@@ -49,22 +49,23 @@ def predictGP(df):
 
     m = regressGP(df)
 
-    mu, var = m.predict(df['TIMESTAMP'].values.reshape(-1, 1))
+    mu, var = m.predict(testTimes['TIME'].values.reshape(-1, 1))
 
     mu = map(tuple, mu)
 
     varlist = var.flatten().tolist()
     var = map(tuple, [[x]*3 for x in varlist])
 
-    result_df = pd.DataFrame({'TIMESTAMP': df['TIMESTAMP'], 'Z': df['Z'],
+    result_df = pd.DataFrame({'TIMESTAMP': testTimes['TIME'],
                               'MU': mu, 'VAR': var})
     return result_df
 
 if __name__ == '__main__':
     df = pd.read_csv('testGP.csv')
+    testTimes = pd.read_csv('test_times.csv')
     df['SHORTEST_PATHS'] = df['SHORTEST_PATHS'].str.split(',')
 
-    result = predictGP(df)
+    result = predictGP(df, testTimes)
     import computedensities
     densityDistribution = computedensities.compute('floor18map',
                                                    [(8,8), (89,60), (55,5)],
