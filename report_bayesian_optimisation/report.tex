@@ -16,7 +16,7 @@
 /Author (Put All Your Authors Here, Separated by Commas)}
 \begin{document}
 %
-\title{Bayesian Optimization for Shortest Path Prediction}
+\title{Bayesian Optimization for Crowd Density Prediction}
 \author{CS4246 Project: Planning and Decision Making in the Real World  \\ \\
 {\bf Team 04} \\
 Huang Wei Ling, A0101200R\\
@@ -28,28 +28,30 @@ Oh Shunhao, A0065475X\\
 \maketitle
 \begin{abstract}
 \begin{quote}
-Computing shortest paths is relevant to tackle issues in events such as resource management. Event space is usually limited and there are many concurrent activities at any point of time. Therefore, the computation of shortest paths allow the event committee to plan the layout and schedule of the programs in an event effectively and allows participants of the event to move around the event space efficiently so that they gain most out of attending the event. \\
+Crowd density prediction is relevant to tackle issues in events such as resource management. Event space is usually limited and there are many concurrent activities at any point of time. Therefore, crowd density prediction is useful for the event committee to plan the layout and schedule of the programs in an event effectively and allows participants of the event to move around the event space efficiently so that they gain most out of attending the event. \\
 
-In this report, we illustrate the use of Bayesian Optimization to find a set of reference points at significant points in an area. For each data point, we compute the shortest paths from the data point to each of the reference points.
+In this report, we illustrate the use of Bayesian Optimization to find a set of reference points at significant points in an area. For each data point, we compute the shortest path distance from the data point to each of the reference points and used it for GP regression to predict the crowd densities.
 \end{quote}
 \end{abstract}
 
 \section{Introduction}
-In this report, we propose the use of Bayesian Optimization for computation of shortest paths. Particularly, we discuss how we exploit the properties of Bayesian Optimization to find a set of reference points at significant points in an area for path prediction, how we conduct training on the set of reference points chosen to find the optimal set of reference points that minimises the function $f$ as well as the important requirements of our proposed application. \\
+In this report, we propose the use of Bayesian Optimization for crowd density prediction. Particularly, we discuss how Bayesian Optimization is used to find a set of reference points in an area for crowd density prediction, how we conduct training on the set of reference points chosen to find the optimal set of reference points that minimises the function $f$ as well as the important requirements of our proposed application. \\
 
-We will touch on the technical details which includes how we compute the shortest path, modelling the distance using GP regression, density and error computations. We will also outline the experimental plan we used to perform and evaluate the performance of Bayesian Optimization for shortest path prediction. \\
+We will touch on the technical details which includes how we compute the shortest path, modelling the distance using GP regression, density and error computations. We will also outline the experimental plan we used to perform and evaluate the performance of Bayesian Optimization for crowd density prediction. \\
 
-The rationale behind using Bayesian Optimization for path prediction is to find the shortest path by predicting a set of reference points given an environment setup to find the fastest way to get to other locations in the same environment from the reference points.
+The rationale behind using Bayesian Optimization for crowd density prediction is to minimise the error by predicting whether a set of reference points given an environment setup is suitable to predict the crowd density in the environment.
 
-\section{Shortest Path Prediction}
+\section{Crowd Density Prediction}
 
-Bayesian Optimisation method is used to predict the shortest paths using a set of $3$ reference points from a known environment. In this section we describe the details of the use of Bayesian Optimization, to later present details on the specific algorithm for calculating the shortest paths and the implementation of the function $f$ in Bayesian Optimization.
+Bayesian Optimisation method is used to predict the crowd density prediction using a set of $3$ reference points from a known environment. In this section we describe the details of the use of Bayesian Optimization, to later present details on the specific algorithm for calculating the shortest paths and the use of GP regression in the implementation of the function $f$ in Bayesian Optimization.
+
+\subsection{Processing of data}
 
 \subsection{Bayesian Optimization}
 
-In general, the main objective of Bayesian Optimization is to find the optimal (maximum or minimum) of an unknown and costly $x$ to evaluate function $f$, which is to find $x^* = arg max_x f(x)$ or $x^* = arg min_x f(x)$. \\
+In general, the main objective of Bayesian Optimization is to find the optimal (maximum or minimum) of an unknown and costly $x$ to evaluate function $f$, which is to find $x^* = \text{argmax}_x f(x)$ or $x^* = \text{argmin}_x f(x)$. \\
 
-In our proposed application of shortest path prediction, we are interested to minimise $f(x)$, and $x$ refers to the input points $c1, c2, c3$ which each of the input points is represented by the $x$ and $y$ coordinates of a location in the floor plan provided.   
+In our proposed application of crowd density prediction, we are interested to minimise the function $f(x)$, which $f(x)$ refers to the error of the crowd density prediction. The $x$ in the function $f(x)$ refers to the input points $c_1, c_2, c_3$ which each of the input points is represented by the $x$ and $y$ coordinates of a location in the floor plan provided.   
 
 
 
@@ -112,7 +114,20 @@ To do this, we first note that for each shortest-path coordinate $s_i$, $s_i$ li
 
 \subsection{Real-World Dataset}
 
+We test our approach using a Attendee Meta-Data (AMD) Hope RFID Dataset from which data is collected from 1224 hackers attending The Last HOPE Conference from 18-20 July 2008, located in Hotel Pennsylvania, New York City.\\
 
+The data set details the location of the attendees through the use of RFID badges that uniquely identify and track them across the conference space over the course of the conference. A plot of one of the position data over time of one of the attendees is shown in Figure \ref{fig:t4dist}.\\
+
+\begin{figure}[h!]
+  \centering
+    \includegraphics[width=150px,natwidth=675,natheight=493]{positiondata.png}
+  \caption{The $x$ and $y$ coordinates of Tag 3099 over time}
+  \label{fig:spaths}
+\end{figure}
+
+This dataset was used as it has some convenient properties which allow us to construct an experiment to test our model. Firstly, the position data is usually taken at regular intervals of about $30$ seconds apart. Secondly, the data provided is exhaustive (as each attendee to the conference is tagged). \\
+
+This provides enough information to find the actual number of people in each region at any point of time, by simply counting the number of people within the region, within in a time window of $[t-15,t+15)$, where $t$ is the target point of time.
 
 \subsection{Experimental Setup}
 
