@@ -3,6 +3,7 @@
 import pandas as pd
 import numpy as np
 import re
+import GPyOpt
 
 import generatetest
 import bayes
@@ -256,5 +257,23 @@ if __name__ == '__main__':
     areas = readPointFile('areas.csv')
     testTimes = pd.read_csv('test_times.csv')
 
+    print testTimes
+
     tags = generatetest.listTags()[0:100]
     testTags, trainTags = generatetest.splitTags(tags, proportion=0.5)
+
+    acquisition_par = 0.01
+    max_iter = 15
+    bounds = [(np.min(testTimes), np.max(testTimes))]
+    optFunc = makeOptFunc(areas, testTimes, trainTags, testTags)
+
+    bOpt = GPyOpt.methods.BayesianOptimization(f=optFunc,
+                                                bounds=bounds,
+                                                acquisition='EI',
+                                                acquisition_par=acquisition_par)
+    bOpt.run_optimization(max_iter,
+                          acqu_optimize_method = 'fast_random',
+                          acqu_optimize_restarts = 30,
+                          eps=10e-6)
+    print bOpt.x_opt
+    print bOpt.fx_opt
