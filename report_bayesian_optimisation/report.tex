@@ -68,7 +68,7 @@ As we use time-series data for the Gaussian Process, there are potentially a lar
 
 
 
-\subsection{Shortest Path}
+\subsection{Generating Shortest Path Coordinates}
 
 We note that in the original data, the positions of each individual at any point of time is given in Cartesian coordinates $(x,y)$. The first step is thus to convert the existing Cartesian coordinates of each person's location specified in the data into a 3-tuple of shortest-path coordinates, $s_1, s_2, s_3$, referring to the shortest paths from the current position to each of the three reference points respectively.\\
 
@@ -90,27 +90,32 @@ Shortest path coordinates are computed using Any-Angle Pathfinding algorithms on
 
 We then apply an optimal any-angle pathfinding algorithm to compute the shortest path from the $(x,y)$ coordinate to each of the three reference points. This generates three shortest-path queries for each user position. This shortest path computation can be done efficiently as a batch, on an approximately 100x100 grid by preprocessing a visibility graph like shown on Figure \ref{fig:floor18vg}, which can be reused to process each of the shortest path queries (Figure \ref{fig:floor18sps}). Running the A* algorithm on visibility graphs is an optimal offline algorithm for Any-Angle Pathfinding.\footnote{Visibility graph algorithm \url{https://github.com/Ohohcakester/Any-Angle-Pathfinding}}\\
 
-Thus for each point, as there are three reference points, we obtain three shortest-path coordinates, $s_1, s_2, s_3$.\\
+Thus for each point, as there are three reference points, we obtain three shortest-path coordinates, $s_1, s_2, s_3$.
 
-\subsection{Gaussian Process}
+\subsection{Gaussian Processes for Probability Distributions}
 
-Instead of applying the Gaussian Processes to the Cartesian coordinates as before, we apply it to the shortest-path coordinates, $s_1, s_2, s_3$, over time.
+Instead of applying the Gaussian Processes to the Cartesian coordinates as before, we apply it to the shortest-path coordinates, $s_1, s_2, s_3$, over time. Similar to before, the shortest path coordinates are modelled as a time series, and each of the three coordinates are regressed independently over time using the Gaussian Process model.\\
 
-Similar to before, the shortest path coordinates are modelled as a time series, and each of the three coordinates are regressed independently over time using the Gaussian Process model.
+The hope is that with a good selection of reference points, the coordinates $s_1, s_2, s_3$ can be regarded as independent of each other without a significant loss of accuracy. From the regression, we obtain, at each point of time, a probability distribution of each of the coordinates $s_1, s_2, s_3$, described as a trivariate normal distribution $\mathcal{N}\tilde (\boldsymbol{\mu},\sigma^2)$.
 
-The hope is that with a good selection of reference points, the coordinates $s_1, s_2, s_3$ can be regarded as independent of each other without a significant loss of accuracy.
+\subsection{Crowd Density Computation}
 
-From the regression, we obtain, at each point of time, a probability distribution of each of the coordinates $s_1, s_2, s_3$, described as a joint a normal distribution $\mathcal{N}\tilde (\boldsymbol{\mu},\sigma^2)$.
+The use of shortest-path coordinates over Cartesian coordinates makes density computation more challenging. One can no longer simply select an arbitrary region (e.g. a rectangle) and integrate the probability distribution over all $x$ and $y$ values that fall within the region. One cannot even assume a one-to-one mapping between the shortest-path coordinates and the Cartesian coordinates. \\
 
-\subsection{Density Computation}
+Thus the integration has to be carried out differently. Instead of picking a rectangle in the Cartesian plane, we integrate over rectangles defined over the shortest-path coordinates. A rectangle is defined as the set
+\[\{(s_1,s_2,s_3) : a_1\leq s_1\leq b_1, a_2\leq s_2\leq b_2, a_3\leq s_3\leq b_3\}\]
+for some boundary values $a_1,b_1,a_2,b_2,a_3,b_3 \in \mathbb{R}$.\\
 
-The use of shortest-path coordinates over Cartesian coordinates makes density computation more challenging. We can no longer simply select an arbitrary region (e.g. a rectangle) and integrate the probability distribution over all $x$ and $y$ values that fall within the region. We cannot even assume a one-to-one mapping between the shortest-path coordinates and the Cartesian coordinates.
+\begin{figure}[!h]
+  \centering
+    \includegraphics[width=170px]{diagrams/sprectangles.png}
+  \caption{Illustration of the rectangles defined by shortest path coordinates, where $k_1 = k_2 = k_3 = 5$. Each colour corresponds to a different rectangle.}
+  \label{fig:sprectangles}
+\end{figure}
 
-Thus the integration has to be carried out differently. Instead of picking a rectangle in the Cartesian plane, we integrate over rectangles defined over the shortest-path coordinates. A rectangle is defined as the set $\{(s_1,s_2,s_3) : a_1\leq s_1\leq b_1, a_2\leq s_2\leq b_2, a_3\leq s_3\leq b_3\}$ for some $a_1,b_1,a_2,b_2,a_3,b_3 \in \mathbb{R}$.
+To define the rectangles, we first note that for each shortest-path coordinate $s_i$, $i \in \{1,2,3\}$, $s_i$ lies within some bounded interval $[0,D_i]$, for some $D_i > 0$. We then divide this interval into $k_i$ intervals of equal length. Interval $j$, where $j \in \{0,1,\cdots,k_i-1\}$ would correspond to the interval $[\frac{j}{k_i}D_i, \frac{j+1}{k_i}D_i]$.\\
 
-To do this, we first note that for each shortest-path coordinate $s_i$, $s_i$ lies within some bounded interval $[0,D_i]$, for some $D_i > 0$.
-
-
+Thus we define $\prod_{i=1}^3 k_i$ rectangles, each corresponding to a selection of intervals. For example, the rectangle indexed by the tuple $(0,2,1)$ would refer to $[0,\frac{D_1}{k_1}]\times [\frac{2D_2}{k_2},\frac{3D_2}{k_2}]\times [\frac{D_3}{k_3},\frac{2D_3}{k_3}]$. An illustration of what the rectangles look like in the original map is shown in Figure \ref{fig:sprectangles}.
 
 \subsection{Error Computation}
 
