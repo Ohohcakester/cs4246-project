@@ -47,9 +47,9 @@ The rationale behind using Bayesian Optimization for crowd density prediction is
 
 Bayesian Optimisation method is used to predict the crowd density by using a set of $3$ reference points from a known environment. In this section we describe the details of the use of Bayesian Optimization, to later present details on the specific algorithm for calculating the shortest paths and the use of GP regression in the implementation of the function $f$ in Bayesian Optimization.
 
-\subsection{Processing of data}
+\subsection{Training of data}
 
-For our proposed application, we are using a set of 100 locations of people to train the set of reference points selected. First, we divide the set of 100 data into groups of 10. Each group is used together with the set of reference points to compute the shortest path distances and modelled using GP regression to predict the crowd density of 100 people. Then, we can compute the error of the prediction with the set of 100 locations of people and output this result to the Bayesian Optimization process to pick a new set of reference points which are more optimal than the previous set for training.
+For our proposed application, we are using a subset of the population in the area, $M$ which are the locations of people, to train the set of reference points selected. First, we divide $M$ into smaller groups. Each group is used together with the set of reference points to compute the shortest path distances and modelled using GP regression to predict the crowd density of $M$. Then, we can compute the error of the prediction with the set of $M$ locations of people and output this result to the Bayesian Optimization process to generate a new set of reference points which are more optimal than the previous set for training.
 
 \subsection{Bayesian Optimization}
 
