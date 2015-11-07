@@ -35,11 +35,11 @@ In this report, we illustrate the use of Bayesian Optimization to find a set of 
 \end{abstract}
 
 \section{Introduction}
-In this report, we propose the use of Bayesian Optimization for computation of shortest paths. Particularly, we discuss how we exploit the properties of Bayesian Optimization to find a set of reference points at significant points in an area for path prediction, the critical requirements of our proposed application as well as how people can make use of the results of our analysis to plan and make decisions for future crowd controlling or crowd management. \\
+In this report, we propose the use of Bayesian Optimization for computation of shortest paths. Particularly, we discuss how we exploit the properties of Bayesian Optimization to find a set of reference points at significant points in an area for path prediction, how we conduct training on the set of reference points chosen to find the optimal set of reference points that minimises the function $f$ as well as the important requirements of our proposed application. \\
 
-We also touch on the technical details which includes how the different components of the . We also outline the experimental plan we use to perform and evaluate the performance of Gaussian Processes for modelling of crowds. \\
+We will touch on the technical details which includes how we compute the shortest path, modelling the distance using GP regression, density and error computations. We will also outline the experimental plan we used to perform and evaluate the performance of Bayesian Optimization for shortest path prediction. \\
 
-The rationale behind using Gaussian Processes for modelling of crowds is to do better crowd control by predicting the population density within any defined region. For example, it can be useful in the case of train breakdowns to facilitate crowd movements. In addition, we can perform path prediction using the GP model.
+The rationale behind using Bayesian Optimization for path prediction is to find the shortest path by predicting a set of reference points given an environment setup to find the fastest way to get to other locations in the same environment from the reference points.
 
 \section{Motivating Application}
 
