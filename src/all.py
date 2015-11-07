@@ -109,12 +109,12 @@ def runBayes(df, testTimes):
 
     result = pd.DataFrame()
 
-    # Iterate through each user and regress then concat the output
     result = bayes.predictGP(df[df['USER'] == uniqueUserID[0]], testTimes)
 
     '''
+    # Iterate through each user and regress then concat the output
     for user in uniqueUserID:
-        userResult = bayes.predictGP(df[df['USER'] == user])
+        userResult = bayes.predictGP(df[df['USER'] == user], testTimes)
         result = pd.concat([result, userResult])
     '''
     return result
@@ -186,7 +186,10 @@ def calculateError(predictedDensityDist, actualDensityDist):
         actual = actualDensityDist[timestamp]
 
         for point in predicted.getPoints():
-            sum += (predicted.query(point)*10 - actual.query(point))**2
+            predictedDensity = predicted.query(point)
+            if np.isnan(predictedDensity):
+                predictedDensity = 0.
+            sum += (predictedDensity*10 - actual.query(point))**2
             count += 1
 
     return np.sqrt(sum / count)
@@ -248,29 +251,29 @@ def makeOptFunc(areas, testTimes, trainTags, testTags):
         actualDensityDist = computeActualDensityDist(predictedDensityDist,
                                                     focusPoints,
                                                     testTags)
-        return calculateError(predictedDensityDist, actualDensityDist)
+        error = calculateError(predictedDensityDist, actualDensityDist)
+        return np.array([[error]])
 
     return optFunc
 
 if __name__ == '__main__':
-    focusPoints = readPointFile('focuspoints.csv')
     areas = readPointFile('areas.csv')
     testTimes = pd.read_csv('test_times.csv')
-
-    print testTimes
 
     tags = generatetest.listTags()[0:100]
     testTags, trainTags = generatetest.splitTags(tags, proportion=0.5)
 
     acquisition_par = 0.01
     max_iter = 15
-    bounds = [(np.min(testTimes), np.max(testTimes))]
+    bounds = [(0, 0, 0), (100, 100, 100)]
     optFunc = makeOptFunc(areas, testTimes, trainTags, testTags)
 
+    optFunc(readPointFile('focuspoints.csv'))
+
     bOpt = GPyOpt.methods.BayesianOptimization(f=optFunc,
-                                                bounds=bounds,
-                                                acquisition='EI',
-                                                acquisition_par=acquisition_par)
+                                               bounds=bounds,
+                                               acquisition='EI',
+                                               acquisition_par=acquisition_par)
     bOpt.run_optimization(max_iter,
                           acqu_optimize_method = 'fast_random',
                           acqu_optimize_restarts = 30,
