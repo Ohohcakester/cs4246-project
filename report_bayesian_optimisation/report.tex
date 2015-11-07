@@ -41,22 +41,25 @@ We will touch on the technical details which includes how we compute the shortes
 
 The rationale behind using Bayesian Optimization for path prediction is to find the shortest path by predicting a set of reference points given an environment setup to find the fastest way to get to other locations in the same environment from the reference points.
 
-\section{Motivating Application}
+\section{Shortest Path Prediction}
 
+Bayesian Optimisation method is used to predict the shortest paths using a set of $3$ reference points from a known environment. In this section we describe the details of the use of Bayesian Optimization, to later present details on the specific algorithm for calculating the shortest paths and the implementation of the function $f$ in Bayesian Optimization.
 
+\subsection{Bayesian Optimization}
 
-\subsection{The use of Bayesian Optimization}
+In general, the main objective of Bayesian Optimization is to find the optimal (maximum or minimum) of an unknown and costly $x$ to evaluate function $f$, which is to find $x^* = arg max_x f(x)$ or $x^* = arg min_x f(x)$. \\
 
-Minimise $f(x)$
-
-In our case, $x$ refers to the input points $c1, c2, c3$
-
-\subsection{Qualitative Advantages}
+In our proposed application of shortest path prediction, we are interested to minimise $f(x)$, and $x$ refers to the input points $c1, c2, c3$ which each of the input points is represented by the $x$ and $y$ coordinates of a location in the floor plan provided.   
 
 
 
 \subsection{Important Requirements}
 
+An important requirement of our task is we must have the floor plan in order to perform Bayesian Optimisation for shortest path prediction. Our experiment uses 2 different floor plans from the same event which we apply Bayesian Optimization to each floor, thus assuming statistical independence between the different floors. \\
+
+However, the actual coordinates are likely to have a significant correlation and structure. Thus, one possible improvement is to construct GP models with correlated output, by passing the independent GP priors through a function, such as multi-class classification, as described in a paper by {\it Antoni B.Chan} on the topic of Multivariate Generalized Gaussian Process Models. \\
+
+As we use time-series data for the Gaussian Process, there are potentially a large amount of data points, especially for time periods that last multiple days. Thus the efficiency of the algorithm is important. As we construct separate Gaussian Distributions for each person, the computations can be distributed over multiple machines.
 
 
 \section{Technical Approach}
