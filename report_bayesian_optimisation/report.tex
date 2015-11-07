@@ -5,9 +5,11 @@
 \usepackage{times}
 \usepackage{helvet}
 \usepackage{courier}
-\usepackage[dvipdfmx]{graphicx}
+%\usepackage[dvipdfmx]{graphicx}
+\usepackage{graphicx}
 \usepackage{amsmath}
 \usepackage{amsfonts}
+\usepackage{url}
 \frenchspacing
 \setlength{\pdfpagewidth}{8.5in}
 \setlength{\pdfpageheight}{11in}
@@ -65,13 +67,27 @@ In our case, $x$ refers to the input points $c1, c2, c3$
 
 \subsection{Shortest Path}
 
-We obtain a floorplan of the area and abstract the floorplan into a grid of blocked and unblocked tiles.
+We note that in the original data, the positions of each individual at any point of time is given in Cartesian coordinates $(x,y)$. The first step is thus to convert the existing Cartesian coordinates of each person's location specified in the data into a 3-tuple of shortest-path coordinates, $s_1, s_2, s_3$, referring to the shortest paths from the current position to each of the three reference points respectively.\\
 
-For each $(x,y)$ coordinate, we map it to the nearest unblocked tile on the grid using Kd-trees.
+\begin{figure}[!h]
+  \centering
+    \includegraphics[width=170px]{diagrams/floor18visibilitygraph.png}
+  \caption{Visibility Graph generated over the 18th floor of the XXXX building}
+  \label{fig:floor18vg}
+\end{figure}
 
-We then compute the shortest any-angle path from the $(x,y)$ coordinate to each of the three reference points. This shortest path computation can be done efficiently on an approximately 100x100 grid by preprocessing a visibility graph and running the A* algorithm on it.
+Shortest path coordinates are computed using Any-Angle Pathfinding algorithms on grids. A floorplan of the area is used, and abstracted into a grid of blocked and unblocked tiles, representing impassable and passable areas in the actual space respectively. Then, for each $(x,y)$ coordinate in the data, we map it to the nearest unblocked tile on the grid. This can be done efficiently using Kd-trees.\\
 
-Thus for each point, as there are three reference points, we obtain three shortest-path coordinates, $s_1, s_2, s_3$.
+\begin{figure}[!h]
+  \centering
+    \includegraphics[width=170px]{diagrams/floor18shortestpaths.png}
+  \caption{Shortest any-angle paths computed from a single point to three different reference points.}
+  \label{fig:floor18sps}
+\end{figure}
+
+We then apply an optimal any-angle pathfinding algorithm to compute the shortest path from the $(x,y)$ coordinate to each of the three reference points. This generates three shortest-path queries for each user position. This shortest path computation can be done efficiently as a batch, on an approximately 100x100 grid by preprocessing a visibility graph like shown on Figure \ref{fig:floor18vg}, which can be reused to process each of the shortest path queries (Figure \ref{fig:floor18sps}). Running the A* algorithm on visibility graphs is an optimal offline algorithm for Any-Angle Pathfinding.\footnote{Visibility graph algorithm \url{https://github.com/Ohohcakester/Any-Angle-Pathfinding}}\\
+
+Thus for each point, as there are three reference points, we obtain three shortest-path coordinates, $s_1, s_2, s_3$.\\
 
 \subsection{Gaussian Process}
 
@@ -130,7 +146,7 @@ Setting up and experimenting with the various libraries and available tools, and
 \item \textbf{Thien}: 
 Setting up and experimenting with the various libraries and available tools, and fine-tuning the Gaussian Process models
 \item \textbf{Shunhao}: 
-Problem formulation and modelling, mathematics, creating the visualisations and experiment, and writing the report.\cite{manning_introduction_2008}
+Problem formulation and modelling, mathematics, creating the visualisations and experiment, and writing the report.
 \end{itemize}
 
 \bibliographystyle{aaai}
