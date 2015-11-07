@@ -217,15 +217,14 @@ def computeActualDensityDist(predictedDensityDist, focusPoints, testTags):
             dy = point[1]-coord[1]
             return dx*dx+dy*dy <= radius*radius
         return fun
-        
+
     dfFloor18 = map(generatetest.loadData, tags)
     dfFloor18 = pd.concat(dfFloor18)
-    #dfFloor18 = generateTestCases(focusPoints, tags, level=1)
-    
+
     converted = dfFloor18[['X', 'Y']].apply(convertCoord, axis=1)
     dfFloor18['X'] = converted.apply(lambda p: p[0])
     dfFloor18['Y'] = converted.apply(lambda p: p[1])
-    
+
     print 'No. of Timestamps: ' + str(len(predictedDensityDist.keys()))
     for timestamp in predictedDensityDist:
         print 'Computing actual density: ' + str(timestamp)
@@ -235,14 +234,22 @@ def computeActualDensityDist(predictedDensityDist, focusPoints, testTags):
 
         for point in predictedDensityDist[timestamp].getPoints():
             count = len(filter(withinRadius(point,radius), values))
-            #distsToPoint = ((df['X'] - point[0])*(df['X'] - point[0]) +
-            #                (df['Y'] - point[1])*(df['Y'] - point[1]))
-            #count = distsToPoint[distsToPoint <= radius*radius].shape[0]
             actualDensityDist.addPoint(point, count / unitArea)
 
         result[timestamp] = actualDensityDist
 
     return result
+
+def makeOptFunc(areas, testTimes, trainTags, testTags):
+    def optFunc(focusPoints):
+        predictedDensityDist = computeAreaDensity(trainTags, focusPoints,
+                                                  areas, testTimes)
+        actualDensityDist = computeActualDensityDist(predictedDensityDist,
+                                                    focusPoints,
+                                                    testTags)
+        return calculateError(predictedDensityDist, actualDensityDist)
+
+    return optFunc
 
 if __name__ == '__main__':
     focusPoints = readPointFile('focuspoints.csv')
@@ -251,9 +258,3 @@ if __name__ == '__main__':
 
     tags = generatetest.listTags()[0:100]
     testTags, trainTags = generatetest.splitTags(tags, proportion=0.5)
-
-    predictedDensityDist = computeAreaDensity(trainTags, focusPoints, areas, testTimes)
-    actualDensityDist = computeActualDensityDist(predictedDensityDist,
-                                                 focusPoints,
-                                                 testTags)
-    error = calculateError(predictedDensityDist, actualDensityDist)
