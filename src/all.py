@@ -133,6 +133,9 @@ def computeDensity(df, areas, level=1):
     Returns: dict {timestamp: densityDistribution}
     Note: to query, just densityDistribution.query(point)
     """
+    print 'COMPUTING PREDICTED DENSITY'
+    print 'Reference points = ' + str(areas)
+    print 'mazeName = ' + str(getMazeName(level))
     return computedensities.compute(getMazeName(level), areas, df, quiet=True)
 
 def bayesOpt():
@@ -188,6 +191,7 @@ def calculateError(predictedDensityDist, actualDensityDist):
         for point in predicted.getPoints():
             predictedDensity = predicted.query(point)
             if np.isnan(predictedDensity):
+                print 'NAN DETECTED', predictedDensity, point
                 predictedDensity = 0.
             sum += (predictedDensity*10 - actual.query(point))**2
             count += 1
@@ -229,9 +233,10 @@ def computeActualDensityDist(predictedDensityDist, focusPoints, testTags):
     dfFloor18['X'] = converted.apply(lambda p: p[0])
     dfFloor18['Y'] = converted.apply(lambda p: p[1])
 
+    print 'COMPUTING ACTUAL DENSITY'
     print 'No. of Timestamps: ' + str(len(predictedDensityDist.keys()))
     for timestamp in predictedDensityDist:
-        print 'Computing actual density: ' + str(timestamp)
+        #print 'Computing actual density: ' + str(timestamp)
         df = dfFloor18[abs(dfFloor18['SNAPSHOT_TIMESTAMP'] - timestamp) <= 15]
         values = df[['X','Y']].values.tolist()
         actualDensityDist = ActualDensityDist()

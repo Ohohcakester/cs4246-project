@@ -170,7 +170,7 @@ def compute(mazeName, points, df, quiet=False):
         if nUsers == None:
             nUsers = length
         elif nUsers != length:
-            print "ERROR: Number of users not consistent"
+            print "computedensities.py: ERROR: Number of users not consistent"
 
     if not quiet:
         print 'Classifying map into regions'
