@@ -103,7 +103,7 @@ The hope is that with a good selection of reference points, the coordinates $s_1
 
 Several types of GP models were experimented with, including Stochastic Variance Gaussian Processes and Sparse Gaussian Processes. We also performed experiments with all the different types of kernels provided by the Sheffield GPy library, including linear kernel and white kernel. We also tweaked the input parameters, such as the variance of the kernels to experiment with the data. The GP model-variant that we proposed has the co-variance matrix and mean that fits the data the best. \\ 
 
-Some of the kernels such as RBF kernel return matrices that are not positive semi-definite, hence causing an error in the next iteration of the GP regression. We hence use a squared exponential kernel with a variance of 1. 
+Some of the kernels such as RBF kernel return matrices that are not positive semi-definite, hence causing an error in the next iteration of the GP regression. We hence use a squared exponential kernel with a variance of 1. We also add some noise to the kernel to simulate the noise variable in the GP model. 
 
 \subsection{Crowd Density Computation}
 
@@ -126,6 +126,7 @@ Thus we define $\prod_{i=1}^3 k_i$ rectangles, each corresponding to a selection
 
 \subsection{Error Computation}
 
+For the area of the Floor 18 of the Hotel, we calculated a predicted density distribution of the 10\% of users used in the training set. These density distribution is then scaled up ten times to find estimate the actual density distribution of the 100 users in the conference. A root mean square error is computed from the differences between the actual density distribution and the predicted density distribution. This root mean square error is to be minimized in the Bayesian Optimisation process where the function picks the most optimal 3 points to estimate the crowd density in the hotel.
 
 \subsection{Additional Insights}
 
