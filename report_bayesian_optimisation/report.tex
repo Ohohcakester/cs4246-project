@@ -102,11 +102,11 @@ Thus for each point, as there are three reference points, we obtain three shorte
 
 Instead of applying the Gaussian Processes to the Cartesian coordinates as before, we apply it to the shortest-path coordinates, $s_1, s_2, s_3$, over time.The shortest path coordinates are modelled as a time series, and each of the three coordinates are regressed independently over time using the Gaussian Process model.\\
 
-The hope is that with a good selection of reference points, the coordinates $s_1, s_2, s_3$ can be regarded as independent of each other without a significant loss of accuracy. From the regression, we obtain, at each point of time, a probability distribution of each of the coordinates $s_1, s_2, s_3$, described as a trivariate normal distribution $\mathcal{N}\tilde (\boldsymbol{\mu},\sigma^2)$. \\
+The hope is that with a good selection of reference points, the coordinates $s_1, s_2, s_3$ can be regarded as independent of each other without a significant loss of accuracy. From the regression, we obtain, at each point of time, a probability distribution of each of the coordinates $s_1, s_2, s_3$, described as a trivariate normal distribution $\mathcal{N}\tilde (\boldsymbol{\mu},\boldsymbol{\Sigma})$. \\
 
 Several types of GP models were experimented with, including Stochastic Variance Gaussian Processes and Sparse Gaussian Processes. We also performed experiments with all the different types of kernels provided by the Sheffield GPy library, including linear kernel and white kernel. We also tweaked the input parameters, such as the variance of the kernels to experiment with the data. The GP model-variant that we proposed has the co-variance matrix and mean that fits the data the best. \\ 
 
-Some of the kernels such as RBF kernel return matrices that are not positive semi-definite, hence causing an error in the next iteration of the GP regression. We hence use a squared exponential kernel with a variance of 1. We also add some noise to the kernel to simulate the noise variable in the GP model.  
+Some of the kernels such as RBF kernel return matrices that are not positive semi-definite, hence causing an error in the next iteration of the GP regression. We hence use a squared exponential kernel with a variance of 1. We also add some noise to the kernel to simulate the noise variable in the GP model.
 
 \subsection{Crowd Density Computation}
 
@@ -125,7 +125,19 @@ for some boundary values $a_1,b_1,a_2,b_2,a_3,b_3 \in \mathbb{R}$.\\
 
 To define the rectangles, we first note that for each shortest-path coordinate $s_i$, $i \in \{1,2,3\}$, $s_i$ lies within some bounded interval $[0,D_i]$, for some $D_i > 0$. We then divide this interval into $k_i$ intervals of equal length. Interval $j$, where $j \in \{0,1,\cdots,k_i-1\}$ would correspond to the interval $[\frac{j}{k_i}D_i, \frac{j+1}{k_i}D_i]$.\\
 
-Thus we define $\prod_{i=1}^3 k_i$ rectangles, each corresponding to a selection of intervals. For example, the rectangle indexed by the tuple $(0,2,1)$ would refer to $[0,\frac{D_1}{k_1}]\times [\frac{2D_2}{k_2},\frac{3D_2}{k_2}]\times [\frac{D_3}{k_3},\frac{2D_3}{k_3}]$. An illustration of what the rectangles look like in the original map is shown in Figure \ref{fig:sprectangles}.
+Thus we define $\prod_{i=1}^3 k_i$ rectangles, each corresponding to a selection of intervals. For example, the rectangle indexed by the tuple $(0,2,1)$ would refer to $[0,\frac{D_1}{k_1}]\times [\frac{2D_2}{k_2},\frac{3D_2}{k_2}]\times [\frac{D_3}{k_3},\frac{2D_3}{k_3}]$. An illustration of what the rectangles look like in the original map is shown in Figure \ref{fig:sprectangles}.\\
+
+\begin{figure}[!h]
+  \centering
+    \includegraphics[width=170px]{diagrams/spsinglerectangle.png}
+  \caption{Illustration of the rectangles defined by shortest path coordinates, where $k_1 = k_2 = k_3 = 5$. Each colour corresponds to a different rectangle.}
+  \label{fig:sprectangles}
+\end{figure}
+
+
+At any point of time, for each rectangle, by integrating the probability distributions for each individual over the rectangle, we are able to obtain a prediction for the number of people within the rectangle. To obtain the predicted crowd density within the rectangle, we need to divide this value by the area of the region defined by the rectangle in the map.\\
+
+
 
 \subsection{Error Computation}
 
