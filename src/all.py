@@ -126,6 +126,7 @@ def runBayes(df, testTimes):
         userResult = bayes.predictGP(df[df['USER'] == user], testTimes)
         result = pd.concat([result, userResult])
     '''
+    
     return result
 
 def computeDensity(df, focusPoints, level=1):
@@ -133,10 +134,10 @@ def computeDensity(df, focusPoints, level=1):
     Computes the predicted density for a list of focus points for a level
     ---
     df: Output dataframe from bayes step
-    ['TIMESTAMP', 'Z', MU', 'VAR']
-    where 'MU' and 'VAR' both contains series of 3-tuples
+        ['TIMESTAMP', 'Z', MU', 'VAR']
+        where 'MU' and 'VAR' both contains series of 3-tuples
     focusPoints: list of focus points
-    [(a, b), (c, d), (e, f)] where a through f are floats
+        [(a, b), (c, d), (e, f)] where a through f are floats
     level: integer 0 or 1 representing floor2 or floor18
     ---
     Returns: dict {timestamp: densityDistribution}
@@ -147,11 +148,6 @@ def computeDensity(df, focusPoints, level=1):
     print 'mazeName = ' + str(getMazeName(level))
     return computedensities.compute(getMazeName(level), focusPoints, df, quiet=True)
 
-def bayesOpt():
-    """
-    Supposed to do some bayesian optimisation here
-    """
-    pass
 
 def computeAreaDensity(zCoord, tags, focusPoints, testTimes):
     """
@@ -170,10 +166,40 @@ def computeAreaDensity(zCoord, tags, focusPoints, testTimes):
 
     dfFloor18 = generateTestCases(focusPoints, tags, level=zCoord)
     dfFormattedFloor18 = formatDf(dfFloor18)
+    
+    uniqueUserID = df['USER'].unique()
 
-    bayesResult = runBayes(dfFormattedFloor18, testTimes)
+    result = pd.DataFrame()
 
-    densityDist = computeDensity(bayesResult, focusPoints, level=zCoord)
+    result = bayes.predictGP(df[df['USER'] == uniqueUserID[0]], testTimes)
+
+    densityDist = None
+
+    # Iterate through each user
+    for user in uniqueUserID:
+        userResult = bayes.predictGP(df[df['USER'] == user], testTimes)
+        result = pd.concat([result, userResult])
+
+        userDensityDist = computeDensity(bayesResult, focusPoints, level=zCoord)
+
+        if densityDist is None:
+            densityDist = userDensityDist
+        else: 
+            for timestamp in userDensityDist:
+                if timestamp in densityDist:
+                    # Add points
+                    userDensityDistTimestamp = userDensityDist[timestamp]
+                    densityDistTimestamp = densityDist[timestamp]
+                    userDensityDistTimestampPoints = userDensityDistTimestamp.getPoints()
+                    densityDistTimestampPoints = densityDistTimestamp.getPoints() 
+                    for point in userDensityDistTimestampPoints:
+                        if point in densityDistTimestampPoints:
+                            densityDistTimestamp[point] = densityDistTimestamp.query(point) + userDensityDistTimestamp.query(point)
+                        else:
+                            densityDistTimestamp.update(userDensityDistTimestamp[point])
+                else: 
+                    # Add timestamp
+                    densityDist.update(userDensityDist[timestamp])
 
     return densityDist
 
@@ -260,7 +286,7 @@ def makeOptFunc(testTimes, trainTags, testTags):
     zCoord = 1
 
     def optFunc(samples):
-        print samples
+        #print samples
         rval = np.zeros((samples.shape[0], 1))
 
         for index, focusPoints in enumerate(samples):
@@ -282,6 +308,7 @@ def makeOptFunc(testTimes, trainTags, testTags):
                                                       trainTags,
                                                       focusPoints,
                                                       testTimes)
+
             actualDensityDist = computeActualDensityDist(zCoord,
                                                          predictedDensityDist,
                                                          focusPoints,
@@ -307,13 +334,16 @@ if __name__ == '__main__':
     bounds = [(0, 100)] * 6
     optFunc = makeOptFunc(testTimes, trainTags, testTags)
 
+
     bOpt = GPyOpt.methods.BayesianOptimization(optFunc,
                                                bounds=bounds,
                                                acquisition='LCB',
                                                acquisition_par=acquisition_par)
+
     bOpt.run_optimization(max_iter,
                           acqu_optimize_method = 'fast_random',
                           acqu_optimize_restarts = 30,
                           eps=10e-6)
     print bOpt.x_opt
     print bOpt.fx_opt
+
