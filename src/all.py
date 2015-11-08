@@ -11,6 +11,15 @@ import bayes
 import computedensities
 import coordinateconverter
 
+_coordGrids = {
+    'floor2map' : coordinateconverter.Grid('floor2map'),
+    'floor18map' : coordinateconverter.Grid('floor18map'),
+}
+_zToMazename = {
+    0: 'floor2map', 
+    1: 'floor18map',
+}
+
 def getMazeName(z):
     """
     Reads in a z value and returns the maze name
@@ -19,14 +28,13 @@ def getMazeName(z):
     ---
     Returns: String of maze name
     """
-    zToMazename = {0: 'floor2map', 1: 'floor18map'}
-    return zToMazename[z]
+    return _zToMazename[z]
 
 def readPointFile(filename):
     """
     Reads in points from a file and returns the points as tuples in a list
 
-    Can be changed such that each line is a set of areas
+    Can be changed such that each line is a set of focus points
     ---
     filename: string
     points formatted as (a, b), (c, d), (e, f)
@@ -120,14 +128,14 @@ def runBayes(df, testTimes):
     '''
     return result
 
-def computeDensity(df, areas, level=1):
+def computeDensity(df, focusPoints, level=1):
     """
-    Computes the predicted density for a list of areas for a level
+    Computes the predicted density for a list of focus points for a level
     ---
     df: Output dataframe from bayes step
     ['TIMESTAMP', 'Z', MU', 'VAR']
     where 'MU' and 'VAR' both contains series of 3-tuples
-    areas: list of areas
+    focusPoints: list of focus points
     [(a, b), (c, d), (e, f)] where a through f are floats
     level: integer 0 or 1 representing floor2 or floor18
     ---
@@ -135,9 +143,9 @@ def computeDensity(df, areas, level=1):
     Note: to query, just densityDistribution.query(point)
     """
     print 'COMPUTING PREDICTED DENSITY'
-    print 'Reference points = ' + str(areas)
+    print 'Reference points = ' + str(focusPoints)
     print 'mazeName = ' + str(getMazeName(level))
-    return computedensities.compute(getMazeName(level), areas, df, quiet=True)
+    return computedensities.compute(getMazeName(level), focusPoints, df, quiet=True)
 
 def bayesOpt():
     """
@@ -145,10 +153,10 @@ def bayesOpt():
     """
     pass
 
-def computeAreaDensity(tags, focusPoints, areas, testTimes):
+def computeAreaDensity(zCoord, tags, focusPoints, testTimes):
     """
     Takes in tags and compute densities for all the users
-    for the areas specified
+    for the focus points specified
 
     Note: This only needs to be run once per run, no need to do bayes opt
     so maybe we can preprocess and store in file?
@@ -156,18 +164,16 @@ def computeAreaDensity(tags, focusPoints, areas, testTimes):
     tags: list of user tags
     focusPoints: list of focus points
     [(a, b), (c, d), (e, f)] where a through f are floats
-    areas: list of areas
-    [(a, b), (c, d), (e, f)] where a through f are floats
     --
     Returns: dict {timestamp: densityDistribution}
     """
 
-    dfFloor18 = generateTestCases(focusPoints, tags, level=1)
+    dfFloor18 = generateTestCases(focusPoints, tags, level=zCoord)
     dfFormattedFloor18 = formatDf(dfFloor18)
 
     bayesResult = runBayes(dfFormattedFloor18, testTimes)
 
-    densityDist = computeDensity(bayesResult, areas, level=1)
+    densityDist = computeDensity(bayesResult, focusPoints, level=zCoord)
 
     return densityDist
 
@@ -212,12 +218,12 @@ class ActualDensityDist:
     def query(self, point):
         return self.points[point]
 
-def computeActualDensityDist(predictedDensityDist, focusPoints, testTags):
+def computeActualDensityDist(zCoord, predictedDensityDist, focusPoints, testTags):
     radius = 5.
     unitArea = np.pi * radius**2
     result = {}
 
-    floor18grid = coordinateconverter.Grid(getMazeName(1))
+    floor18grid = _coordGrids[getMazeName(zCoord)]
     def convertCoord(point):
         return floor18grid.convertToGridFloating(point[0], point[1])
     def withinRadius(point, radius):
@@ -250,7 +256,9 @@ def computeActualDensityDist(predictedDensityDist, focusPoints, testTags):
 
     return result
 
-def makeOptFunc(areas, testTimes, trainTags, testTags):
+def makeOptFunc(testTimes, trainTags, testTags):
+    zCoord = 1
+
     def optFunc(samples):
         print samples
         rval = np.zeros((samples.shape[0], 1))
@@ -265,9 +273,17 @@ def makeOptFunc(areas, testTimes, trainTags, testTags):
             focusPoints = zip(xCoords, yCoords)
             print "Computing function value for:", focusPoints
 
-            predictedDensityDist = computeAreaDensity(trainTags, focusPoints,
-                                                      areas, testTimes)
-            actualDensityDist = computeActualDensityDist(predictedDensityDist,
+            #Snap to nearest grid coordinate
+            for i in range(0,len(focusPoints)):
+                focusPoint = focusPoints[i]
+                focusPoints[i] = _coordGrids[getMazeName(zCoord)].queryGrid(focusPoint[0], focusPoint[1])
+
+            predictedDensityDist = computeAreaDensity(zCoord,
+                                                      trainTags,
+                                                      focusPoints,
+                                                      testTimes)
+            actualDensityDist = computeActualDensityDist(zCoord,
+                                                         predictedDensityDist,
                                                          focusPoints,
                                                          testTags)
             error = calculateError(predictedDensityDist, actualDensityDist)
@@ -279,7 +295,6 @@ def makeOptFunc(areas, testTimes, trainTags, testTags):
     return optFunc
 
 if __name__ == '__main__':
-    areas = readPointFile('areas.csv')
     testTimes = pd.read_csv('test_times.csv')
 
     tags = generatetest.listTags()[0:100]
@@ -288,7 +303,7 @@ if __name__ == '__main__':
     acquisition_par = 0.01
     max_iter = 15
     bounds = [(0, 100)] * 6
-    optFunc = makeOptFunc(areas, testTimes, trainTags, testTags)
+    optFunc = makeOptFunc(testTimes, trainTags, testTags)
 
     bOpt = GPyOpt.methods.BayesianOptimization(optFunc,
                                                bounds=bounds,
