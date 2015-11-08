@@ -1,4 +1,5 @@
 #!/usr/bin/python
+import sys
 
 import pandas as pd
 import numpy as np
@@ -250,14 +251,30 @@ def computeActualDensityDist(predictedDensityDist, focusPoints, testTags):
     return result
 
 def makeOptFunc(areas, testTimes, trainTags, testTags):
-    def optFunc(focusPoints):
-        predictedDensityDist = computeAreaDensity(trainTags, focusPoints,
-                                                  areas, testTimes)
-        actualDensityDist = computeActualDensityDist(predictedDensityDist,
-                                                    focusPoints,
-                                                    testTags)
-        error = calculateError(predictedDensityDist, actualDensityDist)
-        return np.array([[error]])
+    def optFunc(samples):
+        print samples
+        rval = np.zeros((samples.shape[0], 1))
+
+        for index, focusPoints in enumerate(samples):
+            xCoords = filter(lambda x: x,
+                             [p[1] if p[0] % 2 == 0 else None
+                              for p in enumerate(focusPoints)])
+            yCoords = filter(lambda x: x,
+                             [p[1] if p[0] % 2 == 1 else None
+                              for p in enumerate(focusPoints)])
+            focusPoints = zip(xCoords, yCoords)
+            print "Computing function value for:", focusPoints
+
+            predictedDensityDist = computeAreaDensity(trainTags, focusPoints,
+                                                      areas, testTimes)
+            actualDensityDist = computeActualDensityDist(predictedDensityDist,
+                                                         focusPoints,
+                                                         testTags)
+            error = calculateError(predictedDensityDist, actualDensityDist)
+            rval[index, 0] = error
+
+        print "Batch result:", rval
+        return rval
 
     return optFunc
 
@@ -270,14 +287,12 @@ if __name__ == '__main__':
 
     acquisition_par = 0.01
     max_iter = 15
-    bounds = [(0, 0, 0), (100, 100, 100)]
+    bounds = [(0, 100)] * 6
     optFunc = makeOptFunc(areas, testTimes, trainTags, testTags)
 
-    optFunc(readPointFile('focuspoints.csv'))
-
-    bOpt = GPyOpt.methods.BayesianOptimization(f=optFunc,
+    bOpt = GPyOpt.methods.BayesianOptimization(optFunc,
                                                bounds=bounds,
-                                               acquisition='EI',
+                                               acquisition='LCB',
                                                acquisition_par=acquisition_par)
     bOpt.run_optimization(max_iter,
                           acqu_optimize_method = 'fast_random',
