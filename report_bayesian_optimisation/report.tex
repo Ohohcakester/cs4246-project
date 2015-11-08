@@ -69,8 +69,7 @@ As we use time-series data for the Gaussian Process, there are potentially a lar
 
 
 \section{Technical Approach}
-
-
+The experiment is conducted using Python. For the Gaussian Process modelling and regression, we use the library Sheffield GPy with the help of Scipy and Numpy for numerical calculation and representation. The Bayesian Optimization process was done with the Sheffield GPyOpt library, an extension of the Gpy library. We use the data structure and data analysis tools provided by the module Pandas to store, access and analyze our dataset.
 
 \subsection{Generating Shortest Path Coordinates}
 
@@ -79,7 +78,7 @@ We note that in the original data, the positions of each individual at any point
 \begin{figure}[!h]
   \centering
     \includegraphics[width=170px]{diagrams/floor18visibilitygraph.png}
-  \caption{Visibility Graph generated over the 18th floor of the XXXX building}
+  \caption{Visibility Graph generated over the 18th floor of the Hotel Pennsylvania, New York City, building}
   \label{fig:floor18vg}
 \end{figure}
 
@@ -98,9 +97,13 @@ Thus for each point, as there are three reference points, we obtain three shorte
 
 \subsection{Gaussian Processes for Probability Distributions}
 
-Instead of applying the Gaussian Processes to the Cartesian coordinates as before, we apply it to the shortest-path coordinates, $s_1, s_2, s_3$, over time. Similar to before, the shortest path coordinates are modelled as a time series, and each of the three coordinates are regressed independently over time using the Gaussian Process model.\\
+Instead of applying the Gaussian Processes to the Cartesian coordinates as before, we apply it to the shortest-path coordinates, $s_1, s_2, s_3$, over time.The shortest path coordinates are modelled as a time series, and each of the three coordinates are regressed independently over time using the Gaussian Process model.\\
 
-The hope is that with a good selection of reference points, the coordinates $s_1, s_2, s_3$ can be regarded as independent of each other without a significant loss of accuracy. From the regression, we obtain, at each point of time, a probability distribution of each of the coordinates $s_1, s_2, s_3$, described as a trivariate normal distribution $\mathcal{N}\tilde (\boldsymbol{\mu},\sigma^2)$.
+The hope is that with a good selection of reference points, the coordinates $s_1, s_2, s_3$ can be regarded as independent of each other without a significant loss of accuracy. From the regression, we obtain, at each point of time, a probability distribution of each of the coordinates $s_1, s_2, s_3$, described as a trivariate normal distribution $\mathcal{N}\tilde (\boldsymbol{\mu},\sigma^2)$. \\
+
+Several types of GP models were experimented with, including Stochastic Variance Gaussian Processes and Sparse Gaussian Processes. We also performed experiments with all the different types of kernels provided by the Sheffield GPy library, including linear kernel and white kernel. We also tweaked the input parameters, such as the variance of the kernels to experiment with the data. The GP model-variant that we proposed has the co-variance matrix and mean that fits the data the best. \\ 
+
+Some of the kernels such as RBF kernel return matrices that are not positive semi-definite, hence causing an error in the next iteration of the GP regression. We hence use a squared exponential kernel with a variance of 1. 
 
 \subsection{Crowd Density Computation}
 
