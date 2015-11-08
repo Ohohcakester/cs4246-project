@@ -60,13 +60,13 @@ In general, the main objective of Bayesian Optimization is to find the optimal (
 
 In our proposed application of crowd density prediction, we are interested to minimise the function $f(x)$, which $f(x)$ refers to the error of the crowd density prediction. The $x$ in the function $f(x)$ refers to the input points $c_1, c_2, c_3$ which each of the input points is represented by the $x$ and $y$ coordinates of a location in the floor plan provided.  \\
 
-
+The Bayesian Optimization is done with GPyOpt library, which is run with the Lower Confidence Bound acquisition function, as we seek to reduce the RMSE. We use a maximum iterations, or exploration horizon of 15;.The method used to optimize the acquisition function is fast\_random, which means the function runs only one optimizer in the best location. The input function $f$ that we optimize is the entire system of predicting the crowd density.
 
 \subsection{Important Requirements}
 
 An important requirement of our task is we must have the floor plan in order to perform Bayesian Optimisation for shortest path prediction. Our experiment uses 2 different floor plans from the same event which we apply Bayesian Optimization to each floor, thus assuming statistical independence between the different floors.\\
 
-However, the actual coordinates are likely to have a significant correlation and structure. Thus, one possible improvement is to construct GP models with correlated output, by passing the independent GP priors through a function, such as multi-class classification, as described in a paper by {\it Antoni B.Chan} on the topic of Multivariate Generalized Gaussian Process Models. \\
+However, the actual coordinates are likely to have a significant correlation and structure. Thus, one possible improvement is to construct GP models with correlated output, by passing the independent GP priors through a function, such as multi-class classification, as described in a paper by {\it Antoni B.Chan} on the topic of Multivariate Generalized Gaussian Process Models \cite{achan}. \\
 
 As we use time-series data for the Gaussian Process, there are potentially a large amount of data points, especially for time periods that last multiple days. Thus the efficiency of the algorithm is important. As we construct separate Gaussian Distributions for each person, the computations can be distributed over multiple machines.
 
@@ -106,7 +106,7 @@ The hope is that with a good selection of reference points, the coordinates $s_1
 
 Several types of GP models were experimented with, including Stochastic Variance Gaussian Processes and Sparse Gaussian Processes. We also performed experiments with all the different types of kernels provided by the Sheffield GPy library, including linear kernel and white kernel. We also tweaked the input parameters, such as the variance of the kernels to experiment with the data. The GP model-variant that we proposed has the co-variance matrix and mean that fits the data the best. \\ 
 
-Some of the kernels such as RBF kernel return matrices that are not positive semi-definite, hence causing an error in the next iteration of the GP regression. We hence use a squared exponential kernel with a variance of 1. We also add some noise to the kernel to simulate the noise variable in the GP model. 
+Some of the kernels such as RBF kernel return matrices that are not positive semi-definite, hence causing an error in the next iteration of the GP regression. We hence use a squared exponential kernel with a variance of 1. We also add some noise to the kernel to simulate the noise variable in the GP model.  
 
 \subsection{Crowd Density Computation}
 
@@ -140,8 +140,6 @@ For the area of the Floor 18 of the Hotel, we calculated a predicted density dis
 
 \section{Experimental Evaluation}
 
-
-
 \subsection{Real-World Dataset}
 
 We test our approach using a Attendee Meta-Data (AMD) Hope RFID Dataset from which data is collected from 1224 hackers attending The Last HOPE Conference from 18-20 July 2008, located in Hotel Pennsylvania, New York City.\\
@@ -154,7 +152,7 @@ This dataset was used as it has some convenient properties which allow us to con
 This provides enough information to find the actual number of people in each region at any point of time, by simply counting the number of people within the region, within in a time window of $[t-15,t+15)$, where $t$ is the target point of time.
 
 \subsection{Experimental Setup}
-
+In the experiment, the 100 conference users were divided in to a 10-90 proportion. 10\% of the user data were used for predicting the crowd density and the other 90\% of the data were used for calculating the actual density of the regions at the conference. A ten-fold cross validation was run on this experimental setup.
 
 
 \section{Conclusion}
@@ -172,7 +170,7 @@ Setting up and experimenting with the various libraries and available tools, and
 \item \textbf{Thien}: 
 Setting up and experimenting with the various libraries and available tools, and fine-tuning the Gaussian Process models
 \item \textbf{Shunhao}: 
-Problem formulation and modelling, mathematics, creating the visualisations and experiment, and writing the report.\cite{manning_introduction_2008}
+Problem formulation and modelling, mathematics, creating the visualisations and experiment, and writing the report.
 \end{itemize}
 
 \bibliographystyle{aaai}
