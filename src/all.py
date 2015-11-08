@@ -287,6 +287,8 @@ def makeOptFunc(testTimes, trainTags, testTags):
                                                          focusPoints,
                                                          testTags)
             error = calculateError(predictedDensityDist, actualDensityDist)
+
+            print 'Error: ', str(error)
             rval[index, 0] = error
 
         print "Batch result:", rval
