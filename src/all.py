@@ -181,7 +181,7 @@ def computeAreaDensity(zCoord, tags, focusPoints, testTimes):
         userResult = bayes.predictGP(dfFormattedFloor18[dfFormattedFloor18['USER'] == user], testTimes)
         #result = pd.concat([result, userResult])
 
-        userDensityDist = computeDensity(bayesResult, focusPoints, level=zCoord)
+        userDensityDist = computeDensity(userResult, focusPoints, level=zCoord)
 
         if densityDist is None:
             densityDist = userDensityDist
