@@ -31,23 +31,23 @@ def getFocusPoints():
     return [(0.0, 0.5), (0.2, 0.3), (0.5, 0.2)]
 
 def convertData(df, focusPoints, level=1):
-    print("TEST")
+    #print("TEST")
     mazeName = zToMazename[level]
     coordinates = df.loc[:, ['X', 'Y']].values.tolist()
-    print("COORDINATE GENERATED")
+    #print("COORDINATE GENERATED")
     grid = Grid(mazeName)
     normalized = []
     for coordinate in coordinates:
         normalized.append(grid.queryActual(coordinate[0], coordinate[1]))
-    print("COORDINATE Normalized")
+    #print("COORDINATE Normalized")
     focus = map(lambda point: grid.queryGrid(point[0], point[1]), focusPoints)
     testcases = []
     for coordinate in normalized:
         testcases.append((coordinate[0], coordinate[1], focus[0][0], focus[0][1]))
         testcases.append((coordinate[0], coordinate[1], focus[1][0], focus[1][1]))
         testcases.append((coordinate[0], coordinate[1], focus[2][0], focus[2][1]))
-    print("Test cases generated")
-    print(len(testcases))
+    #print("Test cases generated")
+    #print(len(testcases))
     result = runPathfinding(mazeName, testcases)
     return df.assign(d1 = map(lambda index: result[3*index  ], range(0, len(df.index))),
                     d2 = map(lambda index: result[3*index+1], range(0, len(df.index))),
