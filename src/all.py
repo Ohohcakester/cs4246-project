@@ -187,20 +187,22 @@ def computeAreaDensity(zCoord, tags, focusPoints, testTimes):
             densityDist = userDensityDist
         else: 
             for timestamp in userDensityDist:
-                if timestamp in densityDist:
-                    # Add points
-                    userDensityDistTimestamp = userDensityDist[timestamp]
-                    densityDistTimestamp = densityDist[timestamp]
-                    userDensityDistTimestampPoints = userDensityDistTimestamp.getPoints()
-                    densityDistTimestampPoints = densityDistTimestamp.getPoints() 
-                    for point in userDensityDistTimestampPoints:
-                        if point in densityDistTimestampPoints:
-                            densityDistTimestamp[point] = densityDistTimestamp.query(point) + userDensityDistTimestamp.query(point)
-                        else:
-                            densityDistTimestamp.update(userDensityDistTimestamp[point])
-                else: 
-                    # Add timestamp
-                    densityDist.update(userDensityDist[timestamp])
+                # All timestamps the same
+                # Add points
+                userDensityDistTimestamp = userDensityDist[timestamp]
+                densityDistTimestamp = densityDist[timestamp]
+                userDensityDistTimestampPoints = userDensityDistTimestamp.getPoints()
+                densityDistTimestampPoints = densityDistTimestamp.getPoints() 
+
+                for point in userDensityDistTimestampPoints:
+                    userPoint = userDensityDistTimestamp.query(point)
+                    densityDistPoint = densityDistTimestamp.query(point)
+                    
+                    if np.isnan(densityDistPoint):
+                        densityDistPoint = 0
+
+                    addedProb = densityDistTimestamp.query(point) + userDensityDistTimestamp.query(point)
+                    densityDist[timestamp].setPoint(point, addedProb)
 
     return densityDist
 
@@ -212,7 +214,7 @@ def calculateError(predictedDensityDist, actualDensityDist):
     where densityDistribution is a computedensities.DensityDistribution
     testTags: list of tags for test set
     ---
-    Returns: float error
+    Returns: float root mean square error
     """
 
     sum = 0.0
@@ -225,7 +227,7 @@ def calculateError(predictedDensityDist, actualDensityDist):
         for point in predicted.getPoints():
             predictedDensity = predicted.query(point)
             if np.isnan(predictedDensity):
-                print 'NAN DETECTED', predictedDensity, point
+                #print 'NAN DETECTED', predictedDensity, point
                 predictedDensity = 0.
             sum += (predictedDensity*10 - actual.query(point))**2
             count += 1
