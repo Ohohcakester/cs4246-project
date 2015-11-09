@@ -176,12 +176,8 @@ def computeAreaDensity(zCoord, tags, focusPoints, testTimes):
 
     densityDist = None
 
-    count = 0
     # Iterate through each user
     for user in uniqueUserID:
-        count += 1
-        if count == 3:
-            break
         userResult = bayes.predictGP(dfFormattedFloor18[dfFormattedFloor18['USER'] == user], testTimes)
         #result = pd.concat([result, userResult])
 
