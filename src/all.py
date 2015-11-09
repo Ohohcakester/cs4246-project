@@ -224,6 +224,8 @@ def calculateError(predictedDensityDist, actualDensityDist, numOfSkippedFile=0):
     sum = 0.0
     count = 0.0
 
+    scalebackRatio = 100 / (10 - numOfSkippedFile)
+
     for timestamp in predictedDensityDist:
         predicted = predictedDensityDist[timestamp]
         actual = actualDensityDist[timestamp]
@@ -233,7 +235,7 @@ def calculateError(predictedDensityDist, actualDensityDist, numOfSkippedFile=0):
             if np.isnan(predictedDensity):
                 #print 'NAN DETECTED', predictedDensity, point
                 predictedDensity = 0.
-            sum += (predictedDensity*(10 + numOfSkippedFile) -
+            sum += (predictedDensity*scalebackRatio -
                     actual.query(point))**2
             count += 1
 
