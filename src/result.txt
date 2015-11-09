@@ -1,0 +1,1035 @@
+COMPUTING PREDICTED DENSITY
+Reference points = [(94, 50), (64, 87), (12, 91)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s67  0007   1.132290e+06   1.805624e+10
+    02s05  0020   8.078037e+03   6.633162e+02
+    03s00  0032   5.354349e+03   3.187806e-04
+    03s78  0042   5.341858e+03   5.060868e-15
+Runtime:     03s78
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(94, 50), (64, 87), (12, 91)]
+mazeName = floor18map
+COMPUTING ACTUAL DENSITY
+No. of Timestamps: 50
+Error:  0.0292280326677
+Computing function value for: [(29.879274441364334, 71.608056264265926), (61.88218937410069, 29.702322851730557), (77.777165644070692, 25.205016057610674)]
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s21  0003   1.008385e+06   1.348350e+11
+    01s95  0019   7.055779e+03   2.367316e+02
+    02s30  0024   6.285873e+03   3.371072e+00
+    02s63  0029   6.056467e+03   1.405857e-02
+    03s27  0039   6.030030e+03   1.095665e-09
+    03s40  0041   6.030030e+03   4.923946e-11
+Runtime:     03s40
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(26, 72), (62, 30), (72, 25)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    01s51  0005   8.071485e+05   2.817135e+10
+    02s93  0011   1.541086e+05   3.199764e+07
+    04s17  0017   1.458778e+04   3.648949e+04
+    05s04  0021   9.155885e+03   7.186109e+01
+    06s66  0029   8.234632e+03   8.170121e-03
+    07s03  0031   8.222527e+03   2.850748e-04
+    07s85  0035   8.218370e+03   2.277369e-07
+    08s56  0039   8.218358e+03   1.265463e-10
+Runtime:     08s56
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(26, 72), (62, 30), (72, 25)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    01s79  0004   1.823324e+06   2.512645e+11
+    03s70  0008   5.815614e+05   2.649921e+09
+    06s61  0014   1.173835e+05   3.078515e+06
+    10s88  0018   1.477567e+04   4.985704e+03
+    12s17  0020   1.241245e+04   5.857090e+02
+    13s56  0023   1.041007e+04   3.145869e+01
+    18s08  0033   9.251137e+03   1.775147e-03
+    21s36  0040   9.248201e+03   5.981019e-11
+    21s79  0041   9.248201e+03   5.981019e-11
+Runtime:     21s79
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(26, 72), (62, 30), (72, 25)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    01s27  0011   8.588752e+04   9.727239e+06
+    01s99  0018   7.037196e+03   1.094393e+02
+    02s68  0027   6.381214e+03   3.370211e-01
+    03s53  0039   6.332764e+03   2.541215e-11
+Runtime:     03s53
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(26, 72), (62, 30), (72, 25)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s61  0014   3.646209e+04   2.859319e+05
+    01s25  0026   4.278405e+03   1.274520e-01
+    01s56  0034   4.218766e+03   1.912746e-05
+    01s94  0043   4.217416e+03   4.486385e-12
+Runtime:     01s94
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(26, 72), (62, 30), (72, 25)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    01s78  0009   2.518600e+05   2.754445e+08
+    03s75  0017   1.156098e+04   1.303460e+03
+    06s96  0028   9.222504e+03   6.530506e-02
+    07s67  0032   9.199328e+03   1.433380e-04
+    08s02  0034   9.198325e+03   1.165190e-04
+    09s25  0041   9.198218e+03   1.086056e-09
+Runtime:     09s25
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(26, 72), (62, 30), (72, 25)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s95  0010   1.728491e+05   7.388315e+07
+    02s70  0027   5.556638e+03   4.527353e-02
+    03s32  0035   5.482727e+03   3.358933e-05
+    03s97  0043   5.482340e+03   2.122912e-14
+Runtime:     03s97
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(26, 72), (62, 30), (72, 25)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s27  0002   1.883151e+06   7.515227e+11
+    00s98  0007   4.050544e+05   2.264282e+09
+    03s70  0019   9.107384e+03   5.011882e+02
+    05s61  0032   7.245801e+03   2.592492e-04
+    06s89  0041   7.239939e+03   4.814922e-09
+Runtime:     06s89
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(26, 72), (62, 30), (72, 25)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s57  0007   4.157892e+05   2.405350e+09
+    01s60  0019   5.559290e+03   4.150683e+00
+    01s94  0024   5.368526e+03   4.905472e-01
+    02s66  0034   5.174876e+03   4.250137e-03
+    03s70  0049   5.170374e+03   4.692984e-11
+Runtime:     03s70
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(26, 72), (62, 30), (72, 25)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s27  0003   1.425248e+06   2.697609e+11
+    01s42  0015   5.065559e+04   3.197423e+05
+    01s78  0018   7.694385e+03   1.278865e+03
+    03s56  0032   5.336148e+03   3.693115e-04
+    04s56  0044   5.330076e+03   2.423148e-13
+Runtime:     04s56
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(26, 72), (62, 30), (72, 25)]
+mazeName = floor18map
+COMPUTING ACTUAL DENSITY
+No. of Timestamps: 50
+Error:  0.0279129386258
+Computing function value for: [(62.415786592732168, 75.008279972880629), (47.512911489258535, 40.891666425949623), (2.0420564651174811, 26.71253447639128)]
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s00  0000   2.840499e+06           nan
+    00s29  0004   8.521963e+05   5.488279e+10
+    01s01  0014   5.493409e+04   6.723050e+05
+    01s68  0022   7.041078e+03   1.649299e+01
+    02s30  0032   6.408748e+03   9.006388e-03
+    03s05  0044   6.388979e+03   5.844434e-11
+Runtime:     03s05
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(62, 75), (48, 39), (2, 27)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s60  0003   1.877699e+06   4.679476e+11
+    02s63  0013   1.114152e+05   5.134738e+06
+    03s96  0019   1.107050e+04   9.960919e+02
+    06s06  0031   8.922831e+03   1.575183e-03
+    06s38  0033   8.912918e+03   2.099849e-04
+    07s95  0042   8.910099e+03   3.748062e-11
+Runtime:     07s95
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(62, 75), (48, 39), (2, 27)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s93  0002   4.053798e+06   3.487065e+12
+    04s16  0009   4.993610e+05   1.105567e+09
+    05s99  0013   1.700959e+05   1.222781e+07
+    08s61  0017   1.711383e+04   1.786644e+04
+    12s84  0023   1.078520e+04   2.922988e+01
+    15s83  0030   9.788909e+03   2.148574e-02
+    18s02  0035   9.752264e+03   2.426394e-05
+    18s87  0037   9.751597e+03   6.173827e-06
+    19s72  0039   9.751583e+03   1.293265e-06
+    20s99  0042   9.751582e+03   3.167554e-11
+Runtime:     20s99
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(62, 75), (48, 39), (2, 27)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s00  0000   2.633915e+06           nan
+    00s26  0003   1.107331e+06   1.626279e+11
+    01s68  0018   7.745962e+03   1.593966e+02
+    02s74  0031   6.753481e+03   2.314031e-01
+    03s38  0040   6.728896e+03   6.072678e-10
+Runtime:     03s38
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(62, 75), (48, 39), (2, 27)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s29  0006   3.708397e+05   3.370732e+09
+    01s26  0027   4.727984e+03   4.432555e-01
+    01s81  0043   4.641529e+03   2.499933e-11
+Runtime:     01s81
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(62, 75), (48, 39), (2, 27)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    01s31  0007   5.432379e+05   4.087268e+09
+    02s18  0011   1.819488e+05   4.521107e+07
+    03s72  0017   1.157087e+04   7.767624e+02
+    05s92  0024   1.022273e+04   1.522857e+01
+    06s27  0026   9.926108e+03   2.420635e+00
+    07s68  0034   9.731122e+03   2.495952e-06
+    08s56  0039   9.731051e+03   1.369660e-09
+Runtime:     08s56
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(62, 75), (48, 39), (2, 27)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s16  0002   2.084947e+06   9.224357e+11
+    00s89  0011   1.487745e+05   3.077849e+07
+    02s06  0021   6.745422e+03   5.763272e+01
+    02s75  0031   5.910863e+03   5.794611e-04
+    03s38  0040   5.898052e+03   2.578533e-11
+Runtime:     03s38
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(62, 75), (48, 39), (2, 27)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    01s21  0008   3.769047e+05   1.112251e+09
+    02s77  0018   9.734533e+03   8.287486e+02
+    03s09  0020   8.764065e+03   1.364794e+02
+    04s14  0028   7.614225e+03   7.282562e-02
+    05s62  0040   7.577098e+03   6.163545e-09
+    05s87  0042   7.577098e+03   8.567192e-10
+Runtime:     05s87
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(62, 75), (48, 39), (2, 27)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s61  0007   4.600617e+05   2.950489e+09
+    01s27  0014   6.916364e+04   1.112838e+06
+    01s89  0022   5.460606e+03   1.875926e+00
+    02s54  0032   5.174547e+03   1.829982e-02
+    03s18  0042   5.137914e+03   4.312207e-06
+    03s65  0049   5.137564e+03   4.088133e-11
+Runtime:     03s65
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(62, 75), (48, 39), (2, 27)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s57  0006   6.268525e+05   9.657195e+09
+    01s62  0016   2.714492e+04   1.968093e+06
+    02s66  0030   5.829269e+03   1.370106e-03
+    03s03  0035   5.817928e+03   1.737530e-06
+    03s46  0041   5.817864e+03   7.554975e-14
+Runtime:     03s46
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(62, 75), (48, 39), (2, 27)]
+mazeName = floor18map
+COMPUTING ACTUAL DENSITY
+No. of Timestamps: 50
+Error:  0.0292197753297
+Batch result: [[ 0.02982545]
+ [ 0.02756138]
+ [ 0.03107199]
+ [ 0.02609868]
+ [ 0.02651905]
+ [ 0.02674937]
+ [ 0.03352366]
+ [ 0.02886537]
+ [ 0.02734988]
+ [ 0.02763302]
+ [ 0.02684482]
+ [ 0.04503486]
+ [ 0.02918378]
+ [ 0.03435874]
+ [ 0.02739467]
+ [ 0.02922803]
+ [ 0.02791294]
+ [ 0.02921978]]
+Computing function value for: [(14.882882802065868, 10.671107431409446), (27.195228775655345, 97.530767744495407), (1.4777297884481639, 34.524347263002099)]
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s07  0001   2.685855e+06   2.609685e+12
+    01s43  0018   7.728166e+03   7.622678e+02
+    02s66  0037   6.023235e+03   2.034687e-06
+    03s15  0045   6.022728e+03   3.960535e-11
+Runtime:     03s15
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(15, 11), (26, 92), (2, 35)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s98  0005   1.074763e+06   5.012472e+10
+    01s78  0009   3.500548e+05   5.417556e+08
+    02s92  0015   7.241090e+04   6.337923e+05
+    04s67  0022   9.071682e+03   3.833134e+01
+    06s30  0032   8.232606e+03   6.015534e-04
+    07s75  0041   8.227647e+03   6.542294e-12
+Runtime:     07s75
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(15, 11), (26, 92), (2, 35)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    01s82  0004   1.598683e+06   1.929537e+11
+    03s20  0007   6.736735e+05   6.279565e+09
+    04s10  0009   3.880595e+05   6.603012e+08
+    05s48  0012   1.734406e+05   2.251056e+07
+    06s87  0015   8.194191e+04   7.834055e+05
+    12s89  0024   9.544006e+03   1.497960e+01
+    15s91  0031   8.618587e+03   7.464513e-03
+    20s20  0041   8.580927e+03   2.270528e-07
+    21s46  0044   8.580926e+03   1.853322e-13
+Runtime:     21s46
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(15, 11), (26, 92), (2, 35)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s58  0007   4.670220e+05   3.039034e+09
+    02s04  0023   7.017056e+03   7.911853e+00
+    02s39  0028   6.587407e+03   1.103043e-01
+    03s06  0037   6.509695e+03   6.295867e-08
+    03s27  0040   6.509694e+03   4.179487e-10
+Runtime:     03s27
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(15, 11), (26, 92), (2, 35)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s08  0002   1.449812e+06   4.460069e+11
+    00s29  0007   3.108541e+05   1.344351e+09
+    00s93  0021   4.869070e+03   9.344256e+00
+    01s26  0031   4.451953e+03   3.865454e-04
+    01s65  0043   4.442904e+03   6.896033e-13
+Runtime:     01s65
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(15, 11), (26, 92), (2, 35)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s58  0001   5.021853e+06   9.125370e+12
+    03s60  0015   7.531458e+04   6.838353e+05
+    04s81  0019   1.156976e+04   9.602836e+02
+    05s92  0025   9.279318e+03   4.581440e-01
+    07s00  0031   9.088711e+03   1.031090e-03
+    08s06  0037   9.072508e+03   6.645789e-08
+    08s75  0041   9.072495e+03   1.594731e-12
+Runtime:     08s75
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(15, 11), (26, 92), (2, 35)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s58  0007   3.604228e+05   1.799549e+09
+    02s06  0021   6.316310e+03   4.871513e+01
+    03s12  0036   5.341484e+03   6.908995e-06
+    03s61  0043   5.340814e+03   5.981849e-11
+Runtime:     03s61
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(15, 11), (26, 92), (2, 35)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s88  0006   7.039572e+05   1.215339e+10
+    01s32  0009   3.059582e+05   4.137321e+08
+    01s73  0012   1.359258e+05   1.411443e+07
+    02s72  0018   9.516021e+03   7.954014e+02
+    04s93  0035   6.896611e+03   1.832126e-05
+    05s67  0041   6.894318e+03   3.399740e-08
+    06s17  0045   6.894318e+03   1.670015e-15
+Runtime:     06s17
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(15, 11), (26, 92), (2, 35)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s26  0003   1.063406e+06   1.499815e+11
+    00s58  0007   3.199513e+05   1.415832e+09
+    01s28  0015   3.899232e+04   1.819785e+05
+    01s92  0024   5.032834e+03   1.173795e+00
+    02s24  0029   4.542024e+03   8.764272e-02
+    03s36  0046   4.023517e+03   5.047469e-11
+Runtime:     03s36
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(15, 11), (26, 92), (2, 35)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s95  0010   1.529032e+05   5.738015e+07
+    02s32  0025   5.505422e+03   1.766306e-01
+    03s06  0035   5.399896e+03   8.727610e-07
+    03s36  0039   5.399895e+03   4.129715e-13
+Runtime:     03s36
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(15, 11), (26, 92), (2, 35)]
+mazeName = floor18map
+COMPUTING ACTUAL DENSITY
+No. of Timestamps: 50
+Error:  0.0269824030252
+Batch result: [[ 0.0269824]]
+Computing function value for: [(25.113453214093976, 70.571592523922959), (11.048695701999698, 72.638531296506315), (18.528584591677024, 72.544813872837366)]
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s22  0003   1.436995e+06   2.743222e+11
+    00s89  0011   1.434156e+05   2.867957e+07
+    01s58  0020   6.541570e+03   1.799203e+02
+    02s20  0030   5.104885e+03   4.885299e-03
+    02s51  0035   5.081012e+03   4.208992e-05
+    02s95  0042   5.079450e+03   4.813309e-11
+Runtime:     02s95
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(25, 71), (11, 73), (19, 73)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s00  0000   5.332613e+06           nan
+    01s46  0007   6.726096e+05   6.299094e+09
+    03s59  0016   5.121756e+04   8.287153e+06
+    04s13  0018   1.173307e+04   2.866467e+03
+    04s66  0020   1.006099e+04   4.300954e+02
+    05s78  0026   8.004453e+03   7.214045e-01
+    07s11  0034   7.814763e+03   1.287623e-04
+    08s42  0042   7.808822e+03   4.479170e-07
+    08s92  0045   7.808821e+03   1.203491e-12
+Runtime:     08s92
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(25, 71), (11, 73), (19, 73)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s44  0001   7.807598e+06   2.206362e+13
+    03s62  0008   7.448619e+05   4.376874e+09
+    05s93  0013   1.913589e+05   1.572441e+07
+    10s77  0019   1.410674e+04   2.573040e+03
+    13s19  0024   9.749598e+03   2.416627e+01
+    14s47  0027   8.390037e+03   2.094763e+00
+    17s03  0033   8.113466e+03   7.308380e-04
+    17s88  0035   8.103092e+03   6.943088e-05
+    20s89  0042   8.101966e+03   1.035606e-13
+Runtime:     20s89
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(25, 71), (11, 73), (19, 73)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s60  0007   4.338991e+05   2.619558e+09
+    02s41  0026   5.973304e+03   1.419258e-01
+    03s48  0041   5.878753e+03   7.485036e-11
+    03s55  0042   5.878753e+03   7.485036e-11
+Runtime:     03s55
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(25, 71), (11, 73), (19, 73)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s29  0002   1.623472e+06   5.594373e+11
+    01s63  0028   3.744228e+03   1.120680e-02
+    02s28  0044   3.690274e+03   7.639864e-13
+    02s31  0045   3.690274e+03   7.639864e-13
+Runtime:     02s31
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(25, 71), (11, 73), (19, 73)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    01s32  0007   6.853478e+05   6.538470e+09
+    02s80  0015   8.073901e+04   8.003370e+05
+    04s99  0025   8.801723e+03   1.603154e+00
+    07s46  0039   8.522944e+03   9.774952e-09
+    07s97  0042   8.522944e+03   9.330456e-11
+Runtime:     07s97
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(25, 71), (11, 73), (19, 73)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s87  0011   1.683892e+05   3.977054e+07
+    01s64  0018   8.273488e+03   1.927996e+03
+    02s60  0029   4.760787e+03   2.405834e-02
+    03s67  0044   4.643953e+03   4.343883e-09
+    04s02  0049   4.643948e+03   3.018419e-11
+Runtime:     04s02
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(25, 71), (11, 73), (19, 73)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    01s03  0007   5.869679e+05   4.796281e+09
+    01s45  0010   2.563015e+05   1.636721e+08
+    03s21  0021   8.186329e+03   9.546616e+01
+    04s73  0033   6.617855e+03   7.588838e-05
+    05s48  0039   6.612873e+03   1.013606e-05
+    05s97  0043   6.612856e+03   2.537344e-12
+Runtime:     05s97
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(25, 71), (11, 73), (19, 73)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s97  0011   1.647823e+05   3.816715e+07
+    01s31  0015   5.762210e+04   4.462151e+05
+    02s31  0029   5.911399e+03   7.506949e+02
+    02s96  0039   3.936632e+03   5.372733e-04
+    03s80  0052   3.923620e+03   1.182078e-12
+Runtime:     03s80
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(25, 71), (11, 73), (19, 73)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s27  0003   1.766326e+06   4.146984e+11
+    00s99  0011   1.755952e+05   4.337637e+07
+    01s99  0022   5.494472e+03   2.850746e+01
+    02s68  0031   3.818483e+03   3.363103e-02
+    03s71  0045   3.745210e+03   1.708661e-11
+Runtime:     03s71
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(25, 71), (11, 73), (19, 73)]
+mazeName = floor18map
+COMPUTING ACTUAL DENSITY
+No. of Timestamps: 50
+Error:  0.0273493993789
+Batch result: [[ 0.0273494]]
+Computing function value for: [(43.439121286865706, 94.470617106492455), (49.20254392702779, 53.648618646387028), (83.472463378941228, 96.827011700151388)]
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s24  0003   2.605770e+06   9.037860e+11
+    00s59  0008   5.894110e+05   2.767429e+09
+    01s29  0017   1.431776e+04   6.584063e+04
+    01s64  0021   7.885076e+03   1.065138e+02
+    01s94  0026   6.828351e+03   5.908038e+00
+    02s57  0036   6.357479e+03   1.603358e-05
+    02s88  0041   6.355386e+03   2.156599e-06
+    03s12  0045   6.355383e+03   3.791603e-11
+Runtime:     03s12
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(56, 87), (49, 57), (83, 87)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s56  0003   3.641849e+06   1.764804e+12
+    01s79  0009   6.242579e+05   1.754365e+09
+    02s92  0015   1.231382e+05   2.058335e+06
+    04s16  0020   1.168051e+04   7.654584e+02
+    05s17  0026   9.315431e+03   1.645782e+00
+    06s17  0032   9.008808e+03   1.733699e-03
+    08s15  0044   8.982544e+03   4.445082e-11
+    08s32  0045   8.982544e+03   4.445082e-11
+Runtime:     08s32
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(56, 87), (49, 57), (83, 87)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    01s41  0003   6.703743e+06   5.984314e+12
+    05s01  0011   6.578670e+05   6.269310e+08
+    07s52  0016   1.077997e+05   4.331622e+07
+    11s59  0020   1.562887e+04   2.788448e+03
+    12s44  0022   1.281514e+04   2.897768e+02
+    13s72  0025   1.084875e+04   1.088751e+01
+    18s01  0035   9.910827e+03   7.124396e-05
+    19s72  0039   9.905559e+03   6.199359e-09
+    21s42  0043   9.905558e+03   3.492178e-13
+Runtime:     21s42
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(56, 87), (49, 57), (83, 87)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s26  0003   1.761377e+06   4.123888e+11
+    00s90  0010   2.300636e+05   1.329509e+08
+    01s94  0022   6.949340e+03   1.216099e+01
+    03s03  0037   6.605070e+03   3.915346e-10
+    03s10  0038   6.605070e+03   3.915346e-10
+Runtime:     03s10
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(56, 87), (49, 57), (83, 87)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s28  0004   1.278853e+06   1.240727e+11
+    00s60  0011   1.768065e+05   4.477677e+07
+    00s96  0018   7.133235e+03   1.770703e+03
+    01s87  0040   4.645346e+03   2.615595e-07
+    02s04  0045   4.645342e+03   5.113480e-13
+Runtime:     02s04
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(56, 87), (49, 57), (83, 87)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    01s00  0005   1.834186e+06   1.465991e+11
+    03s02  0015   1.178039e+05   1.849250e+06
+    03s95  0018   1.578991e+04   1.497456e+04
+    05s58  0023   1.111945e+04   1.355567e+02
+    07s73  0035   9.866308e+03   2.042787e-04
+    08s77  0041   9.860223e+03   1.871046e-09
+    09s13  0043   9.860223e+03   8.355409e-10
+Runtime:     09s13
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(56, 87), (49, 57), (83, 87)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s08  0001   7.978974e+06   2.305824e+13
+    00s94  0011   3.289046e+05   1.565999e+08
+    02s46  0026   6.244552e+03   9.550838e-01
+    03s16  0036   5.932531e+03   8.450406e-06
+    03s80  0045   5.930975e+03   4.072232e-12
+Runtime:     03s80
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(56, 87), (49, 57), (83, 87)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    01s65  0011   3.174467e+05   1.442296e+08
+    03s52  0023   8.482414e+03   1.683876e+01
+    04s64  0032   7.702945e+03   5.432984e-04
+    06s01  0043   7.690962e+03   7.338351e-14
+Runtime:     06s01
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(56, 87), (49, 57), (83, 87)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s66  0007   1.070714e+06   1.614510e+10
+    02s04  0023   5.605787e+03   2.193965e+00
+    02s69  0032   5.315807e+03   1.956155e-01
+    03s34  0042   5.236886e+03   7.551424e-13
+Runtime:     03s34
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(56, 87), (49, 57), (83, 87)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s62  0007   1.094669e+06   1.687189e+10
+    00s98  0011   3.589771e+05   1.870874e+08
+    01s67  0018   1.071293e+04   6.657533e+03
+    02s72  0032   5.712697e+03   2.686711e-04
+    03s08  0037   5.702818e+03   9.659066e-08
+    03s44  0042   5.702789e+03   5.414075e-11
+Runtime:     03s44
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(56, 87), (49, 57), (83, 87)]
+mazeName = floor18map
+COMPUTING ACTUAL DENSITY
+No. of Timestamps: 50
+Error:  0.027277204752
+Batch result: [[ 0.0272772]]
+Computing function value for: [(13.039383604073612, 51.022986848798794), (60.141939278084344, 28.037686517131977), (80.943601305414631, 29.157670841436552)]
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s29  0004   5.773613e+05   2.509690e+10
+    01s65  0021   6.530365e+03   9.189370e+00
+    02s30  0031   6.127566e+03   7.606212e-02
+    02s87  0040   6.112881e+03   3.224052e-11
+Runtime:     02s87
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(13, 51), (60, 28), (72, 29)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s99  0005   6.833153e+05   2.013869e+10
+    02s50  0013   7.883224e+04   2.396251e+06
+    03s33  0017   1.376946e+04   2.669157e+04
+    06s15  0033   8.349779e+03   5.930353e-04
+    07s47  0041   8.349140e+03   3.072196e-12
+Runtime:     07s47
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(13, 51), (60, 28), (72, 29)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    01s36  0003   1.981057e+06   5.201694e+11
+    04s13  0009   3.441935e+05   5.161646e+08
+    06s45  0014   9.351520e+04   1.842826e+06
+    12s55  0023   1.021542e+04   2.395406e+01
+    14s69  0028   9.373609e+03   4.294772e-02
+    16s43  0032   9.309369e+03   1.605939e-03
+    17s72  0035   9.302529e+03   8.515802e-05
+    19s86  0040   9.302291e+03   9.274724e-11
+Runtime:     19s86
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(13, 51), (60, 28), (72, 29)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s25  0002   1.086868e+06   2.499942e+11
+    00s61  0006   3.097106e+05   2.326633e+09
+    01s30  0014   3.788780e+04   2.815423e+05
+    02s34  0025   6.518366e+03   1.210649e+00
+    03s06  0035   6.418420e+03   6.606423e-07
+    03s35  0039   6.418408e+03   1.077731e-10
+Runtime:     03s35
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(13, 51), (60, 28), (72, 29)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s28  0005   3.512235e+05   5.326116e+09
+    00s61  0013   4.027522e+04   6.342066e+05
+    00s93  0020   4.709470e+03   1.744187e+01
+    01s56  0039   4.345869e+03   1.320662e-10
+Runtime:     01s56
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(13, 51), (60, 28), (72, 29)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s55  0003   1.244664e+06   2.050118e+11
+    01s29  0007   3.757652e+05   1.934357e+09
+    02s51  0013   7.675469e+04   2.239056e+06
+    04s29  0019   1.076603e+04   2.783621e+02
+    05s87  0027   9.243637e+03   4.636132e-03
+    06s21  0029   9.233569e+03   4.549246e-03
+    07s94  0039   9.225623e+03   3.902338e-12
+    08s12  0040   9.225623e+03   3.902338e-12
+Runtime:     08s12
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(13, 51), (60, 28), (72, 29)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s90  0011   1.051725e+05   1.491222e+07
+    01s71  0018   7.439323e+03   8.085255e+02
+    02s05  0021   6.273531e+03   3.647611e+01
+    03s07  0035   5.603044e+03   8.471838e-05
+    03s42  0040   5.602449e+03   1.903441e-04
+    03s70  0044   5.602164e+03   3.619905e-14
+Runtime:     03s70
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(13, 51), (60, 28), (72, 29)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s29  0002   1.579675e+06   5.283779e+11
+    01s47  0010   1.503311e+05   5.423721e+07
+    02s91  0019   8.830281e+03   3.571003e+02
+    03s30  0022   7.694093e+03   1.175252e+01
+    03s72  0025   7.353844e+03   4.860539e-01
+    05s48  0039   7.252270e+03   1.099039e-10
+Runtime:     05s48
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(13, 51), (60, 28), (72, 29)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s08  0001   2.546030e+06   2.344715e+12
+    00s91  0011   1.080266e+05   1.586478e+07
+    01s89  0023   5.385583e+03   9.832314e-01
+    02s87  0038   5.674905e+03   1.448270e+01
+    03s59  0049   5.109596e+03   4.257488e-12
+Runtime:     03s59
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(13, 51), (60, 28), (72, 29)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s60  0006   4.407193e+05   4.747331e+09
+    01s99  0020   6.350326e+03   8.389083e+01
+    02s35  0025   5.580572e+03   1.727114e-01
+    03s08  0035   5.480275e+03   1.292952e-07
+    03s44  0040   5.480253e+03   6.518767e-12
+Runtime:     03s44
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(13, 51), (60, 28), (72, 29)]
+mazeName = floor18map
+COMPUTING ACTUAL DENSITY
+No. of Timestamps: 50
+Error:  0.0284091788623
+Batch result: [[ 0.02840918]]
+Computing function value for: [(54.661154486902504, 42.139849985710399), (33.770686819672214, 0.4130642432284018), (20.434864132663343, 74.664492327700117)]
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s53  0007   2.698698e+05   1.003035e+09
+    00s85  0011   9.103150e+04   1.108559e+07
+    01s88  0024   6.555339e+03   6.364239e+00
+    02s19  0029   6.272773e+03   1.621882e-02
+    02s50  0034   6.249068e+03   1.111706e-04
+    02s99  0042   6.246374e+03   1.633785e-08
+Runtime:     02s99
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(57, 42), (26, 5), (20, 75)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s93  0005   7.755535e+05   2.599409e+10
+    03s54  0017   1.420737e+04   2.918823e+04
+    04s73  0023   8.968165e+03   4.037221e+00
+    08s08  0039   8.665154e+03   1.773093e-07
+    08s93  0043   8.665154e+03   4.212448e-14
+Runtime:     08s93
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(57, 42), (26, 5), (20, 75)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s90  0002   2.880956e+06   1.759018e+12
+    04s11  0009   3.572522e+05   5.572202e+08
+    07s62  0016   4.100242e+04   4.029995e+06
+    13s03  0024   1.006596e+04   7.912061e+00
+    15s15  0029   9.614992e+03   1.108315e-02
+    18s57  0037   9.579390e+03   1.173898e-06
+    19s85  0040   9.579390e+03   2.218798e-12
+Runtime:     19s85
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(57, 42), (26, 5), (20, 75)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s56  0006   3.817099e+05   3.551686e+09
+    02s30  0023   6.901521e+03   5.496211e+00
+    03s52  0040   6.608722e+03   2.077664e-10
+Runtime:     03s52
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(57, 42), (26, 5), (20, 75)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s00  0000   1.792982e+06           nan
+    00s16  0003   7.538692e+05   7.534944e+10
+    00s58  0012   5.864159e+04   2.548527e+06
+    01s22  0027   4.535059e+03   1.684701e-01
+    01s67  0040   4.485949e+03   1.612079e-13
+Runtime:     01s67
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(57, 42), (26, 5), (20, 75)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    01s00  0005   7.674921e+05   2.544088e+10
+    01s45  0007   4.357188e+05   2.613600e+09
+    03s49  0017   1.736404e+04   1.054070e+05
+    04s74  0022   9.868502e+03   4.949089e+00
+    05s80  0028   9.562791e+03   9.754253e-02
+    07s89  0040   9.522570e+03   1.996123e-10
+Runtime:     07s89
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(57, 42), (26, 5), (20, 75)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s27  0003   1.079354e+06   1.544758e+11
+    00s61  0007   3.248723e+05   1.458178e+09
+    01s75  0018   7.533812e+03   8.014161e+02
+    02s48  0026   5.838646e+03   1.708372e-01
+    03s20  0036   5.744603e+03   3.959320e-07
+    03s64  0042   5.744563e+03   1.059979e-12
+Runtime:     03s64
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(57, 42), (26, 5), (20, 75)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    02s23  0015   4.833366e+04   2.548247e+05
+    03s35  0022   7.905708e+03   1.036714e+01
+    04s84  0034   7.490257e+03   6.344814e-07
+    05s33  0038   7.490233e+03   6.634676e-09
+Runtime:     05s33
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(57, 42), (26, 5), (20, 75)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s59  0007   3.229230e+05   1.442598e+09
+    01s89  0023   5.413772e+03   8.782632e-01
+    02s85  0038   5.330546e+03   1.344489e+00
+    03s18  0043   5.172243e+03   2.399783e-05
+    03s50  0048   5.172221e+03   8.792907e-11
+Runtime:     03s50
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(57, 42), (26, 5), (20, 75)]
+mazeName = floor18map
+Running L-BFGS-B (Scipy implementation) Code:
+  runtime   i      f              |g|
+    00s18  0002   1.572194e+06   5.240084e+11
+    00s65  0007   3.378656e+05   1.578986e+09
+    01s39  0015   4.116447e+04   1.975551e+05
+    02s80  0032   5.570204e+03   2.929544e-04
+    03s47  0041   5.565924e+03   3.308619e-11
+    03s54  0042   5.565924e+03   3.308619e-11
+Runtime:     03s54
+Optimization status: Converged
+
+COMPUTING PREDICTED DENSITY
+Reference points = [(57, 42), (26, 5), (20, 75)]
+mazeName = floor18map
+COMPUTING ACTUAL DENSITY
+No. of Timestamps: 50
+Error:  0.0265721654624
+Batch result: [[ 0.02657217]]
+*Optimization completed:
+   -Maximum number of iterations reached.
+[ 37.66120964  93.58397472  42.80050085  54.96310596  86.92141037
+  89.3296978 ]
+[ 0.02609868]
