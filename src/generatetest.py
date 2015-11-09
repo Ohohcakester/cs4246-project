@@ -40,7 +40,7 @@ def convertData(df, focusPoints, level=1):
     for coordinate in coordinates:
         normalized.append(grid.queryActual(coordinate[0], coordinate[1]))
     print("COORDINATE Normalized")
-    focus = map(lambda point: grid.queryActual(point[0], point[1]), focusPoints)
+    focus = map(lambda point: grid.queryGrid(point[0], point[1]), focusPoints)
     testcases = []
     for coordinate in normalized:
         testcases.append((coordinate[0], coordinate[1], focus[0][0], focus[0][1]))

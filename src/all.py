@@ -113,6 +113,8 @@ def runBayes(df, testTimes):
     A DataFrame of ['TIMESTAMP', 'MU', 'VAR'] for all users concatenated
     'MU' and 'VAR' both contains series of 3-tuples
     """
+
+    print 'NOT BEING USED'; quit()
     df['SHORTEST_PATHS'] = df['SHORTEST_PATHS'].str.split(',')
     uniqueUserID = df['USER'].unique()
 
