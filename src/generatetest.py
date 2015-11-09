@@ -10,7 +10,12 @@ def loadData(id):
     return pandas.read_csv('data/' + str(id) + '.csv')
 
 def listTags():
-    return map(int, map((lambda filename: filename[:-4]), os.listdir('data/')))
+    import random
+    # The list of tags returned is deterministically shuffled. (Seeded)
+    random.seed(4246)
+    tags = map(int, map((lambda filename: filename[:-4]), os.listdir('data/')))
+    random.shuffle(tags)
+    return tags
 
 def splitTags(tags, proportion):
     num = int(math.floor(proportion* len(tags)))

@@ -187,22 +187,20 @@ def computeAreaDensity(zCoord, tags, focusPoints, testTimes):
             densityDist = userDensityDist
         else: 
             for timestamp in userDensityDist:
-                # All timestamps the same
-                # Add points
-                userDensityDistTimestamp = userDensityDist[timestamp]
-                densityDistTimestamp = densityDist[timestamp]
-                userDensityDistTimestampPoints = userDensityDistTimestamp.getPoints()
-                densityDistTimestampPoints = densityDistTimestamp.getPoints() 
-
-                for point in userDensityDistTimestampPoints:
-                    userPoint = userDensityDistTimestamp.query(point)
-                    densityDistPoint = densityDistTimestamp.query(point)
-                    
-                    if np.isnan(densityDistPoint):
-                        densityDistPoint = 0
-
-                    addedProb = densityDistTimestamp.query(point) + userDensityDistTimestamp.query(point)
-                    densityDist[timestamp].setPoint(point, addedProb)
+                if timestamp in densityDist:
+                    # Add points
+                    userDensityDistTimestamp = userDensityDist[timestamp]
+                    densityDistTimestamp = densityDist[timestamp]
+                    userDensityDistTimestampPoints = userDensityDistTimestamp.getPoints()
+                    densityDistTimestampPoints = densityDistTimestamp.getPoints() 
+                    for point in userDensityDistTimestampPoints:
+                        if point in densityDistTimestampPoints:
+                            densityDistTimestamp[point] = densityDistTimestamp.query(point) + userDensityDistTimestamp.query(point)
+                        else:
+                            densityDistTimestamp.update(userDensityDistTimestamp[point])
+                else: 
+                    # Add timestamp
+                    densityDist.update(userDensityDist[timestamp])
 
     return densityDist
 
@@ -214,7 +212,7 @@ def calculateError(predictedDensityDist, actualDensityDist):
     where densityDistribution is a computedensities.DensityDistribution
     testTags: list of tags for test set
     ---
-    Returns: float root mean square error
+    Returns: float error
     """
 
     sum = 0.0
@@ -227,7 +225,7 @@ def calculateError(predictedDensityDist, actualDensityDist):
         for point in predicted.getPoints():
             predictedDensity = predicted.query(point)
             if np.isnan(predictedDensity):
-                #print 'NAN DETECTED', predictedDensity, point
+                print 'NAN DETECTED', predictedDensity, point
                 predictedDensity = 0.
             sum += (predictedDensity*10 - actual.query(point))**2
             count += 1
@@ -330,12 +328,14 @@ if __name__ == '__main__':
     testTimes = pd.read_csv('test_times.csv')
 
     tags = generatetest.listTags()[0:100]
-    testTags, trainTags = generatetest.splitTags(tags, proportion=0.5)
+    trainTags, testTags = generatetest.splitTags(tags, proportion=0.1)
+    print 'Training Tags: ', trainTags
+    print 'Test Tags: ', tags
 
     acquisition_par = 0.01
     max_iter = 15
     bounds = [(0, 100)] * 6
-    optFunc = makeOptFunc(testTimes, trainTags, testTags)
+    optFunc = makeOptFunc(testTimes, trainTags, tags)
 
 
     bOpt = GPyOpt.methods.BayesianOptimization(optFunc,
