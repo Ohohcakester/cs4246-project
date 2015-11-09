@@ -161,6 +161,11 @@ def compute(mazeName, points, df, quiet=False):
         mus = row[1][index_mu]
         vars = row[1][index_var]
         muVar = (mus, vars)
+        if vars[0] < 0:
+            print 'Error: Negative Variance Detected!!!'
+            print df
+            print muVar
+            quit()
         #f = integrate.multivariateIndepGaussian(mus[0],mus[1],mus[2],vars[0],vars[1],vars[2])
         timestamp = row[1][index_timestamp]
         if timestamp in muVars:
