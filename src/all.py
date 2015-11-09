@@ -167,18 +167,19 @@ def computeAreaDensity(zCoord, tags, focusPoints, testTimes):
     dfFloor18 = generateTestCases(focusPoints, tags, level=zCoord)
     dfFormattedFloor18 = formatDf(dfFloor18)
     
-    uniqueUserID = df['USER'].unique()
+    uniqueUserID = dfFormattedFloor18['USER'].unique()
+    dfFormattedFloor18['SHORTEST_PATHS'] = dfFormattedFloor18['SHORTEST_PATHS'].str.split(',')
 
     result = pd.DataFrame()
 
-    result = bayes.predictGP(df[df['USER'] == uniqueUserID[0]], testTimes)
+    #result = bayes.predictGP(dfFormattedFloor18[dfFormattedFloor18['USER'] == uniqueUserID[0]], testTimes)
 
     densityDist = None
 
     # Iterate through each user
     for user in uniqueUserID:
-        userResult = bayes.predictGP(df[df['USER'] == user], testTimes)
-        result = pd.concat([result, userResult])
+        userResult = bayes.predictGP(dfFormattedFloor18[dfFormattedFloor18['USER'] == user], testTimes)
+        #result = pd.concat([result, userResult])
 
         userDensityDist = computeDensity(bayesResult, focusPoints, level=zCoord)
 
