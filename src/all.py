@@ -176,6 +176,7 @@ def computeAreaDensity(zCoord, tags, focusPoints, testTimes):
     #result = bayes.predictGP(dfFormattedFloor18[dfFormattedFloor18['USER'] == uniqueUserID[0]], testTimes)
 
     densityDist = None
+    numOfSkippedFile = 0
 
     # Iterate through each user
     for user in uniqueUserID:
@@ -184,6 +185,7 @@ def computeAreaDensity(zCoord, tags, focusPoints, testTimes):
                 dfFormattedFloor18[dfFormattedFloor18['USER'] == user],
                 testTimes)
         except:
+            numOfSkippedFile += 1
             continue
 
         userDensityDist = computeDensity(userResult, focusPoints, level=zCoord)
@@ -206,9 +208,9 @@ def computeAreaDensity(zCoord, tags, focusPoints, testTimes):
                     addedProb = densityDistTimestamp.query(point) + userDensityDistTimestamp.query(point)
                     densityDist[timestamp].setPoint(point, addedProb)
 
-    return densityDist
+    return densityDist, numOfSkippedFile
 
-def calculateError(predictedDensityDist, actualDensityDist):
+def calculateError(predictedDensityDist, actualDensityDist, numOfSkippedFile=0):
     """
     Calculate Error from dataframe of densities
     ---
@@ -231,7 +233,8 @@ def calculateError(predictedDensityDist, actualDensityDist):
             if np.isnan(predictedDensity):
                 #print 'NAN DETECTED', predictedDensity, point
                 predictedDensity = 0.
-            sum += (predictedDensity*10 - actual.query(point))**2
+            sum += (predictedDensity*(10 + numOfSkippedFile) -
+                    actual.query(point))**2
             count += 1
 
     return np.sqrt(sum / count)
@@ -309,7 +312,8 @@ def makeOptFunc(testTimes, trainTags, testTags):
                 focusPoint = focusPoints[i]
                 focusPoints[i] = _coordGrids[getMazeName(zCoord)].queryGrid(focusPoint[0], focusPoint[1])
 
-            predictedDensityDist = computeAreaDensity(zCoord,
+            predictedDensityDist, numOfSkippedFile = computeAreaDensity(
+                                                      zCoord,
                                                       trainTags,
                                                       focusPoints,
                                                       testTimes)
@@ -318,7 +322,8 @@ def makeOptFunc(testTimes, trainTags, testTags):
                                                          predictedDensityDist,
                                                          focusPoints,
                                                          testTags)
-            error = calculateError(predictedDensityDist, actualDensityDist)
+            error = calculateError(predictedDensityDist, actualDensityDist,
+                                   numOfSkippedFile)
 
             print 'Error: ', str(error)
             rval[index, 0] = error
