@@ -344,7 +344,7 @@ if __name__ == '__main__':
     print 'Test Tags: ', tags
 
     acquisition_par = 0.01
-    max_iter = 15
+    max_iter = 5
     bounds = [(0, 100)] * 6
     optFunc = makeOptFunc(testTimes, trainTags, tags)
 
@@ -356,7 +356,7 @@ if __name__ == '__main__':
 
     bOpt.run_optimization(max_iter,
                           acqu_optimize_method = 'fast_random',
-                          acqu_optimize_restarts = 30,
+                          acqu_optimize_restarts = 10,
                           eps=10e-6)
     print bOpt.x_opt
     print bOpt.fx_opt
