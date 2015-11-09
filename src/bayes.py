@@ -2,6 +2,8 @@ import pandas as pd
 
 import GPy
 
+BASE_TIME = 1216375000
+
 def regressGP(df):
     """
     Regress a GP with data in df.
@@ -19,7 +21,7 @@ def regressGP(df):
         df[col] = df['SHORTEST_PATHS'].apply(lambda paths: paths[n])
     df.drop('SHORTEST_PATHS', axis=1, inplace=True)
 
-    X = df['TIMESTAMP'].values.reshape(-1, 1)
+    X = df['TIMESTAMP'].values.reshape(-1, 1) - BASE_TIME
     Y = df[['Y1', 'Y2', 'Y3']].values.astype(float)
 
     kernel = GPy.kern.Exponential(1)
@@ -49,7 +51,7 @@ def predictGP(df, testTimes):
 
     m = regressGP(df)
 
-    mu, var = m.predict(testTimes['TIME'].values.reshape(-1, 1))
+    mu, var = m.predict((testTimes['TIME'] - BASE_TIME).values.reshape(-1, 1))
 
     mu = map(tuple, mu)
 

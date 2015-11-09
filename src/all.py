@@ -180,13 +180,9 @@ def computeAreaDensity(zCoord, tags, focusPoints, testTimes):
 
     # Iterate through each user
     for user in uniqueUserID:
-        try:
-            userResult = bayes.predictGP(
-                dfFormattedFloor18[dfFormattedFloor18['USER'] == user],
-                testTimes)
-        except:
-            numOfSkippedFile += 1
-            continue
+        userResult = bayes.predictGP(
+            dfFormattedFloor18[dfFormattedFloor18['USER'] == user],
+            testTimes)
 
         userDensityDist = computeDensity(userResult, focusPoints, level=zCoord)
 
@@ -224,6 +220,11 @@ def calculateError(predictedDensityDist, actualDensityDist, numOfSkippedFile=0):
     sum = 0.0
     count = 0.0
 
+    minPredicted = 99999999
+    maxPredicted = 0
+    minActual = 99999999
+    maxActual = 0
+
     scalebackRatio = 100 / (10 - numOfSkippedFile)
 
     for timestamp in predictedDensityDist:
@@ -233,12 +234,22 @@ def calculateError(predictedDensityDist, actualDensityDist, numOfSkippedFile=0):
         for point in predicted.getPoints():
             predictedDensity = predicted.query(point)
             if np.isnan(predictedDensity):
-                #print 'NAN DETECTED', predictedDensity, point
+                print 'NAN DETECTED', predictedDensity, point; quit()
                 predictedDensity = 0.
+
+            predictedValue = predictedDensity*scalebackRatio
+            actualValue = actual.query(point)
+
+            minActual = min(minActual, actualValue)
+            maxActual = max(maxActual, actualValue)
+            minPredicted = min(minPredicted, predictedValue)
+            maxPredicted = max(maxPredicted, predictedValue)
+
             sum += (predictedDensity*scalebackRatio -
                     actual.query(point))**2
             count += 1
 
+    print 'Actual Density Range: [', minActual,',',maxActual,'] | Predicted Density Range: [',minPredicted,',',maxPredicted,']'
     return np.sqrt(sum / count)
 
 class ActualDensityDist:
