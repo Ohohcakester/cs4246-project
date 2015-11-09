@@ -17,6 +17,11 @@ class DensityDistribution(object):
 
     def getPoints(self):
         return self.densities.keys()
+        
+    def setPoint(self, point, value):
+        # Sets a point 
+        self.densities[point] = value
+    
 
 def drawRegions(regions):
     maxX = max(map(lambda t : t[0], regions.keys()))
