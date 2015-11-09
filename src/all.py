@@ -1,5 +1,4 @@
 #!/usr/bin/python
-import sys
 
 import pandas as pd
 import numpy as np
@@ -16,7 +15,7 @@ _coordGrids = {
     'floor18map' : coordinateconverter.Grid('floor18map'),
 }
 _zToMazename = {
-    0: 'floor2map', 
+    0: 'floor2map',
     1: 'floor18map',
 }
 
@@ -128,7 +127,7 @@ def runBayes(df, testTimes):
         userResult = bayes.predictGP(df[df['USER'] == user], testTimes)
         result = pd.concat([result, userResult])
     '''
-    
+
     return result
 
 def computeDensity(df, focusPoints, level=1):
@@ -168,7 +167,7 @@ def computeAreaDensity(zCoord, tags, focusPoints, testTimes):
 
     dfFloor18 = generateTestCases(focusPoints, tags, level=zCoord)
     dfFormattedFloor18 = formatDf(dfFloor18)
-    
+
     uniqueUserID = dfFormattedFloor18['USER'].unique()
     dfFormattedFloor18['SHORTEST_PATHS'] = dfFormattedFloor18['SHORTEST_PATHS'].str.split(',')
 
@@ -180,26 +179,27 @@ def computeAreaDensity(zCoord, tags, focusPoints, testTimes):
 
     # Iterate through each user
     for user in uniqueUserID:
-        userResult = bayes.predictGP(dfFormattedFloor18[dfFormattedFloor18['USER'] == user], testTimes)
-        #result = pd.concat([result, userResult])
+        try:
+            userResult = bayes.predictGP(
+                dfFormattedFloor18[dfFormattedFloor18['USER'] == user],
+                testTimes)
+        except:
+            continue
 
         userDensityDist = computeDensity(userResult, focusPoints, level=zCoord)
 
         if densityDist is None:
             densityDist = userDensityDist
-        else: 
+        else:
             for timestamp in userDensityDist:
                 # All timestamps the same
                 # Add points
                 userDensityDistTimestamp = userDensityDist[timestamp]
                 densityDistTimestamp = densityDist[timestamp]
                 userDensityDistTimestampPoints = userDensityDistTimestamp.getPoints()
-                densityDistTimestampPoints = densityDistTimestamp.getPoints() 
-
                 for point in userDensityDistTimestampPoints:
-                    userPoint = userDensityDistTimestamp.query(point)
                     densityDistPoint = densityDistTimestamp.query(point)
-                    
+
                     if np.isnan(densityDistPoint):
                         densityDistPoint = 0
 
