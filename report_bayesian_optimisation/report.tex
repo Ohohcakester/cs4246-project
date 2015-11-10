@@ -30,14 +30,14 @@ Oh Shunhao, A0065475X\\
 \maketitle
 \begin{abstract}
 \begin{quote}
-Crowd density prediction is relevant to tackle issues in events such as resource management. Event space is usually limited and there are many concurrent activities at any point of time. Therefore, crowd density prediction is useful for the event committee to plan the layout and schedule of the programs in an event effectively and allows participants of the event to move around the event space efficiently so that they gain most out of attending the event. \\
+Crowd density prediction is relevant to tackle issues in events such as resource management. Event space is usually limited and there are many concurrent activities at any point of time. Therefore, crowd density prediction is useful for the event committee to plan the layout and schedule of the programs in an event effectively and allows participants of the event to move around the event space efficiently so that they can benefit most out of the event. \\
 
-In this report, we illustrate the use of Bayesian Optimization to find a set of reference points at significant points in an area. For each data point, we compute the shortest path distance from the data point to each of the reference points and used it for GP regression to predict the crowd densities.
+In this report, we illustrate the use of Bayesian Optimization to find a set of reference points in an area. For each data point, we compute the shortest path distance from the data point to each of the reference points and used the outputs of the shortest path for GP regression to predict the crowd densities.
 \end{quote}
 \end{abstract}
 
 \section{Introduction}
-In this report, we propose the use of Bayesian Optimization for crowd density prediction. Particularly, we discuss how Bayesian Optimization is used to find a set of reference points in an area for crowd density prediction, how we conduct training on the set of reference points chosen to find the optimal set of reference points that minimises the function $f$ as well as the important requirements of our proposed application. \\
+In this report, we propose the use of Bayesian Optimization for crowd density prediction. Particularly, we discuss how Bayesian Optimization is used to find a set of reference points in an area for crowd density prediction, how we conduct training on the set of reference points chosen to find the optimal set of reference points that minimises the function $f(x)$ as well as the important requirements of our proposed application. \\
 
 We will touch on the technical details which includes how we compute the shortest path, modelling the distance using GP regression, density and error computations. We will also outline the experimental plan we used to perform and evaluate the performance of Bayesian Optimization for crowd density prediction. \\
 
@@ -45,7 +45,7 @@ The rationale behind using Bayesian Optimization for crowd density prediction is
 
 \section{Crowd Density Prediction}
 
-Bayesian Optimisation method is used to predict the crowd density by using a set of $3$ reference points from a known environment. In this section we describe the details of the use of Bayesian Optimization, to later present details on the specific algorithm for calculating the shortest paths and the use of GP regression in the implementation of the function $f$ in Bayesian Optimization.
+Bayesian Optimisation method is used to predict the crowd density by using a set of $3$ reference points from a known environment. In this section we describe the details of the use of Bayesian Optimization, to later present details on the specific algorithm for calculating the shortest paths and the use of GP regression in the implementation of the function $f(x)$ in Bayesian Optimization.
 
 \subsection{Training of data}
 
