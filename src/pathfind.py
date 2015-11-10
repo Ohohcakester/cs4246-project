@@ -46,7 +46,7 @@ def runSingleSourceAllDestinations(mazeName, points):
     args = [mazeName] + list(map(parseTupleWithSpaces,points))
     args = ' '.join(args)
 
-    output = subprocess.check_output('java SingleSourceAllDestinations '+args, cwd='pathfinding', shell=True, close_fds=True)
+    output = subprocess.check_output('java SingleSourceAllDestinations '+args, cwd='pathfinding', shell=True)
     return tuple(map(parseOutput, output.split('|')))
 
 
@@ -57,7 +57,7 @@ def runPathfindingChunk(mazeName, testcases):
     args = map(parseTestCase,testcases)
     args = ' '.join(args)
 
-    process = subprocess.Popen('java Compute ' + mazeName, shell=True, cwd='pathfinding', stdin=subprocess.PIPE, stdout=subprocess.PIPE, close_fds=True)
+    process = subprocess.Popen('java Compute ' + mazeName, shell=True, cwd='pathfinding', stdin=subprocess.PIPE, stdout=subprocess.PIPE)
     output = process.communicate(args)
 
     return list(map(float,output[0].split()))
