@@ -98,6 +98,10 @@ def formatDf(df):
 
     return dfNew.drop(['index'], axis=1)
 
+def generateVisualisation(predictedDensityDist, scaleRatio, actualDensityDist):
+    import visualisedensitymap
+    visualisedensitymap.run(predictedDensityDist, scaleRatio, actualDensityDist)
+
 def runBayes(df, testTimes):
     """
     Takes in a dataframe of ['TIMESTAMP', 'USER', 'Z', SHORTEST_PATHS'] and
@@ -303,7 +307,7 @@ def computeActualDensityDist(zCoord, predictedDensityDist, focusPoints, testTags
 
     return result
 
-def makeOptFunc(testTimes, trainTags, testTags):
+def makeOptFunc(testTimes, trainTags, testTags, visualise=False):
     zCoord = 1
 
     def optFunc(samples):
@@ -337,6 +341,9 @@ def makeOptFunc(testTimes, trainTags, testTags):
                                                          testTags)
             error = calculateError(predictedDensityDist, actualDensityDist,
                                    numOfSkippedFile)
+
+            if visualise:
+                generateVisualisation(predictedDensityDist, 10, actualDensityDist) 
 
             print 'Error: ', str(error)
             rval[index, 0] = error
