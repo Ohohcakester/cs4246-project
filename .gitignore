@@ -8,6 +8,7 @@ src/evalall
 src/test_renders
 src/predicted/
 src/test_display
+src/densityrenders
 img/output_draw.png
 img/locationmap.png
 src/pathfinding/maze/problems/

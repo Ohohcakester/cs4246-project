@@ -47,10 +47,6 @@ The rationale behind using Bayesian Optimization for crowd density prediction is
 
 Bayesian Optimisation method is used to predict the crowd density by using a set of $3$ reference points from a known environment. In this section we describe the details of the use of Bayesian Optimization, to later present details on the specific algorithm for calculating the shortest paths and the use of GP regression in the implementation of the function $f(x)$ in Bayesian Optimization.
 
-\subsection{Modelling}
-
-In our GP model, each individual is modelled with a separate Gaussian Process. For each person in the data, the $x$, $y$ and $z$ of coordinates of the person is given at various points of time. As we seek to model the locations of each person as a function on time, the input location space (dependent variable) for our data $X$ is the time interval in which the data resides, and the target variable is the position of the person, expressed as a tuple $(x,y,z)$ in $\mathbb{R}^3$. A floor map of the location and its scale to the shortest path coordinate grid is used to model the shortest paths between selected points and the users' locations.
-
 \subsection{Training of data}
 
 For our proposed application, we are using a subset of the population in the area, $M$, which are the locations of people, to train the set of reference points selected. First, we divide $M$ into smaller groups. Each group is used together with the set of reference points to compute the shortest path distances and modelled using GP regression to predict the crowd density of $M$. Then, we can compute the error of the prediction with the set of $M$ locations of people and output this result to the Bayesian Optimization process to generate a new set of reference points which are more optimal than the previous set for training.
@@ -103,11 +99,11 @@ Thus for each point, as there are three reference points, we obtain three shorte
 
 \subsection{Gaussian Processes for Probability Distributions}
 
-Instead of applying the Gaussian Processes to the Cartesian coordinates as before, we apply it to the shortest-path coordinates, $s_1, s_2, s_3$, over time.The shortest path coordinates are modelled as a time series, and each of the three coordinates are regressed independently over time using the Gaussian Process model.\\
+In our GP model, each individual is modelled with a separate Gaussian Process. For each person in the data, the shortest-path coordinates, $s_1, s_2, s_3$ of the person is given at various points of time. As we seek to model the locations of each person as a function on time, the input location space (dependent variable) for our data is the time interval in which the data resides, and the target variable is a tuple $(s_1, s_2, s_3)$ in $\mathbb{R}^3$. \\
 
 The hope is that with a good selection of reference points, the coordinates $s_1, s_2, s_3$ can be regarded as independent of each other without a significant loss of accuracy. From the regression, we obtain, at each point of time, a probability distribution of each of the coordinates $s_1, s_2, s_3$, described as a trivariate normal distribution $\mathcal{N}\tilde (\boldsymbol{\mu},\boldsymbol{\Sigma})$. \\
 
-Several types of GP models were experimented with, including Stochastic Variance Gaussian Processes and Sparse Gaussian Processes. We also performed experiments with all the different types of kernels provided by the Sheffield GPy library, including linear kernel and white kernel. We also tweaked the input parameters, such as the variance of the kernels to experiment with the data. The GP model-variant that we proposed has the co-variance matrix and mean that fits the data the best. \\ 
+Several types of GP models were experimented with, including Stochastic Variance Gaussian Processes and Sparse Gaussian Processes. We also performed experiments with all the different types of kernels provided by the Sheffield GPy library, including linear kernel and white kernel. We also tweaked the input parameters, such as the variance of the kernels to experiment with the data. The GP model-variant that we proposed has the co-variance matrix and mean that fits the data the best. \\
 
 Some of the kernels such as RBF kernel return matrices that are not positive semi-definite, hence causing an error in the next iteration of the GP regression. We hence use a squared exponential kernel with a variance of 1. We also add some noise to the kernel to simulate the noise variable in the GP model.
 
@@ -115,7 +111,7 @@ Some of the kernels such as RBF kernel return matrices that are not positive sem
 
 The use of shortest-path coordinates over Cartesian coordinates makes density computation more challenging. One can no longer simply select an arbitrary region (e.g. a rectangle) and integrate the probability distribution over all $x$ and $y$ values that fall within the region. One cannot even assume a one-to-one mapping between the shortest-path coordinates and the Cartesian coordinates. \\
 
-Thus the integration has to be carried out differently. Instead of picking a rectangle in the Cartesian plane, we integrate over rectangles defined over the shortest-path coordinates. A rectangle is defined as the set
+Thus the integration has to be carried out differently. Instead of picking a rectangle in the Cartesian plane, we integrate over rectangles defined over the shortest-path coordinates. A rectangle is defined as the set 
 \[\{(s_1,s_2,s_3) : a_1\leq s_1\leq b_1, a_2\leq s_2\leq b_2, a_3\leq s_3\leq b_3\}\]
 for some boundary values $a_1,b_1,a_2,b_2,a_3,b_3 \in \mathbb{R}$.\\
 

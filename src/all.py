@@ -98,9 +98,10 @@ def formatDf(df):
 
     return dfNew.drop(['index'], axis=1)
 
-def generateVisualisation(predictedDensityDist, scaleRatio, actualDensityDist):
+def generateVisualisation(focusPoints, predictedDensityDist, scaleRatio, actualDensityDist):
     import visualisedensitymap
-    visualisedensitymap.run(predictedDensityDist, scaleRatio, actualDensityDist)
+    fileName = visualisedensitymap.generateFileName(focusPoints)
+    visualisedensitymap.run(fileName, predictedDensityDist, scaleRatio, actualDensityDist)
 
 def runBayes(df, testTimes):
     """
@@ -231,9 +232,15 @@ def calculateError(predictedDensityDist, actualDensityDist, numOfSkippedFile=0):
 
     scalebackRatio = 100 / (10 - numOfSkippedFile)
 
+    # Verification code. Can comment out to run (not much) faster.
+    #if set(predictedDensityDist.keys()) != set(actualDensityDist.keys()): print 'ERROR: TIMESTAMPS DO NOT MATCH'
+
     for timestamp in predictedDensityDist:
         predicted = predictedDensityDist[timestamp]
         actual = actualDensityDist[timestamp]
+
+        # Verification code. Can comment out to run (not much) faster.
+        #if set(predicted.getPoints()) != set(actual.getPoints()): print 'ERROR: POINTS DO NOT MATCH'
 
         for point in predicted.getPoints():
             predictedDensity = predicted.query(point)
@@ -343,7 +350,7 @@ def makeOptFunc(testTimes, trainTags, testTags, visualise=False):
                                    numOfSkippedFile)
 
             if visualise:
-                generateVisualisation(predictedDensityDist, 10, actualDensityDist) 
+                generateVisualisation(focusPoints, predictedDensityDist, 10, actualDensityDist) 
 
             print 'Error: ', str(error)
             rval[index, 0] = error
