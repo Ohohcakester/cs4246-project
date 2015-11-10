@@ -134,13 +134,17 @@ Thus we define $\prod_{i=1}^3 k_i$ rectangles, each corresponding to a selection
 \end{figure}
 
 
-At any point of time, for each rectangle, by integrating the probability distributions for each individual over the rectangle, we are able to obtain a prediction for the number of people within the rectangle. To obtain the predicted crowd density within the rectangle, we need to divide this value by the area of the region defined by the rectangle in the map.\\
+At any point of time, for each rectangle, by integrating the probability distributions for each individual over the rectangle, we are able to obtain a prediction for the number of people within the rectangle. To obtain the predicted crowd density within the rectangle, we divide this value by the area of the region defined by the rectangle in the map.\\
 
+The area of this rectangle can be estimated by the number of grid points within the rectangle. Using the same grid created from the floor plan earlier, the shortest paths from each point of the grid to each of the three reference points is computed. This gives us the shortest path coordinates for each point on the grid, allowing us to classify which rectangle each grid point belongs to, thus allowing us to count the number of grid points in each rectangle. \\
 
+Thus by mapping each point in the grid to the density of the region it belongs to, we are able to obtain the crowd density at every point on the grid.
 
 \subsection{Error Computation}
 
-For the area of the Floor 18 of the Hotel, we calculated a predicted density distribution of the 10\% of users used in the training set. These density distribution is then scaled up ten times to find estimate the actual density distribution of the 100 users in the conference. A root mean square error is computed from the differences between the actual density distribution and the predicted density distribution. This root mean square error is to be minimized in the Bayesian Optimisation process where the function picks the most optimal 3 points to estimate the crowd density in the hotel.
+Thus we have calculated a predicted density distribution of $10\%$ of users used in the training set. These density distribution is then scaled up by a factor of $10$ to find an estimate of the actual density distribution of the $100$ users in the conference over the grid points. To obtain the actual density distribution over the grid points, for each grid point in the map, we count the number of people (out of $100$) within a $5$-unit radius of the grid point, and divide this by the area of the 5-unit circle to obtain the actual crowd density at that point. The root mean square error is then computed from the differences between the actual density distribution and the predicted density distribution, which is returned to the Bayesian Optimisation process. \\
+
+This root mean square error is the value to be minimized in the Bayesian Optimisation process, where the function picks the optimal 3 points to estimate the crowd density in the hotel.
 
 \subsection{Additional Insights}
 
