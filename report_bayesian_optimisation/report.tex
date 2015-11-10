@@ -52,13 +52,15 @@ In our GP model, each individual is modelled with a separate Gaussian Process. F
 
 \subsection{Training of data}
 
-For our proposed application, we are using a subset of the population in the area, $M$ which are the locations of people, to train the set of reference points selected. First, we divide $M$ into smaller groups. Each group is used together with the set of reference points to compute the shortest path distances and modelled using GP regression to predict the crowd density of $M$. Then, we can compute the error of the prediction with the set of $M$ locations of people and output this result to the Bayesian Optimization process to generate a new set of reference points which are more optimal than the previous set for training.
+For our proposed application, we are using a subset of the population in the area, $M$, which are the locations of people, to train the set of reference points selected. First, we divide $M$ into smaller groups. Each group is used together with the set of reference points to compute the shortest path distances and modelled using GP regression to predict the crowd density of $M$. Then, we can compute the error of the prediction with the set of $M$ locations of people and output this result to the Bayesian Optimization process to generate a new set of reference points which are more optimal than the previous set for training.
 
 \subsection{Bayesian Optimization}
 
 In general, the main objective of Bayesian Optimization is to find the optimal (maximum or minimum) of an unknown and costly $x$ to evaluate function $f$, which is to find $x^* = \text{argmax}_x f(x)$ or $x^* = \text{argmin}_x f(x)$. \\
 
 In our proposed application of crowd density prediction, we are interested to minimise the function $f(x)$, which $f(x)$ refers to the error of the crowd density prediction. The $x$ in the function $f(x)$ refers to the input points $c_1, c_2, c_3$ which each of the input points is represented by the $x$ and $y$ coordinates of a location in the floor plan provided.  \\
+
+Initially, we will pick 3 random input points of the locations of the floor plan to form $c_1, c_2, c_3$, and use these points together with the M as the inputs for the training of data. The output of the training of data will be the error of the crowd density prediction, $f(x)$, and $f(x)$ will be the input to the Bayesian Optimization process to optimise $x$, which is another set of input points $c_1, c_2, c_3$, for the next round of training of data. \\
 
 The Bayesian Optimization is done with GPyOpt library, which is run with the Lower Confidence Bound acquisition function, as we seek to reduce the RMSE. We use a maximum iterations, or exploration horizon of 15;.The method used to optimize the acquisition function is fast\_random, which means the function runs only one optimizer in the best location. The input function $f$ that we optimize is the entire system of predicting the crowd density.
 
@@ -72,7 +74,7 @@ As we use time-series data for the Gaussian Process, there are potentially a lar
 
 
 \section{Technical Approach}
-The experiment is conducted using Python. For the Gaussian Process modelling and regression, we use the library Sheffield GPy with the help of Scipy and Numpy for numerical calculation and representation. The Bayesian Optimization process was done with the Sheffield GPyOpt library, an extension of the Gpy library. We use the data structure and data analysis tools provided by the module Pandas to store, access and analyze our dataset.
+The experiment is conducted using Python. For the Gaussian Process modelling and regression, we use the library Sheffield GPy with the help of Scipy and Numpy for numerical calculation and representation. The Bayesian Optimization process was done with the Sheffield GPyOpt library, an extension of the Gpy library. We use the data structure and data analysis tools provided by the module Pandas to store, access and analyze our dataset.
 
 \subsection{Generating Shortest Path Coordinates}
 
