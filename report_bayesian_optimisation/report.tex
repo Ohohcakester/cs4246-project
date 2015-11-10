@@ -167,12 +167,13 @@ This dataset was used as it has some convenient properties which allow us to con
 This provides enough information to find the actual number of people in each region at any point of time, by simply counting the number of people within the region, within in a time window of $[t-15,t+15)$, where $t$ is the target point of time.
 
 \subsection{Experimental Setup}
+
 In the experiment, the 100 conference users were divided in to a 10-90 proportion. 10\% of the user data were used for predicting the crowd density and the other 90\% of the data were used for calculating the actual density of the regions at the conference. A ten-fold cross validation was run on this experimental setup.
 
 
 \section{Conclusion}
 
-
+The goal of the current work is to optimimse the set of reference points that allows for predicting of crowd density. We described a framework for modeling shortest path distance using the GP model for density and error computations, we demonstrated that our approach is able to represent the dataset we have as well as predict the population density of a known environment.
 
 \section{6. Main Roles of Each Member}
 \begin{itemize}
