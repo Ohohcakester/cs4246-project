@@ -62,6 +62,7 @@ def renderDensityFile(fileName, predictedDensityDist, scaleRatio, actualDensityD
             os.startfile(targetDir+self.name+'.png')
 
     def densityToColour(density):
+        density *= 10
         return (min(int(density*255),255), min(int((1-density)*255),255), 0)
 
     if set(predictedDensityDist.keys()) != set(actualDensityDist.keys()):
@@ -80,7 +81,7 @@ def renderDensityFile(fileName, predictedDensityDist, scaleRatio, actualDensityD
         drawActual = Drawer(5, fileName +'_'+ str(timestamp) + '_actual', maxX+5, maxY+5)
 
         for point in predicted.getPoints():
-            print point
+            #print point
             predictedDensity = predicted.query(point) * scaleRatio
             drawPredicted.drawSquare(point[0],point[1], densityToColour(predictedDensity))
 

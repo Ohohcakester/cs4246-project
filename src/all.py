@@ -371,7 +371,7 @@ if __name__ == '__main__':
     acquisition_par = 0.01
     max_iter = 5
     bounds = [(0, 100)] * 6
-    optFunc = makeOptFunc(testTimes, trainTags, tags)
+    optFunc = makeOptFunc(testTimes, trainTags, tags, visualise=True)
 
 
     bOpt = GPyOpt.methods.BayesianOptimization(optFunc,
