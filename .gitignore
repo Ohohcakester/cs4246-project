@@ -9,6 +9,7 @@ src/test_renders
 src/predicted/
 src/test_display
 src/densityrenders
+src/bayes_ext_temp_folder/
 img/output_draw.png
 img/locationmap.png
 src/pathfinding/maze/problems/

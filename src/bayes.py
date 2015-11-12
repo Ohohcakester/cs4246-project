@@ -1,6 +1,8 @@
 import pandas as pd
 
+import ast
 import GPy
+import sys
 
 BASE_TIME = 1216375000
 
@@ -62,7 +64,19 @@ def predictGP(df, testTimes):
                               'MU': mu, 'VAR': var})
     return result_df
 
+
+def predictGPonFile(fileName):
+    df = pd.read_csv(fileName+'_A.csv', converters={"SHORTEST_PATHS": ast.literal_eval})
+    testTimes = pd.read_csv(fileName+'_B.csv')
+    result_df = predictGP(df, testTimes)
+    result_df.to_csv(fileName+'_OUT.csv')
+
+
 if __name__ == '__main__':
+    if len(sys.argv) > 1:
+        predictGPonFile(sys.argv[1])
+        quit()
+
     df = pd.read_csv('testGP.csv')
     testTimes = pd.read_csv('test_times.csv')
     df['SHORTEST_PATHS'] = df['SHORTEST_PATHS'].str.split(',')

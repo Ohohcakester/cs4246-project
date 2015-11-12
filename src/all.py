@@ -6,7 +6,7 @@ import re
 import GPyOpt
 
 import generatetest
-import bayes
+import bayes_ext as bayes
 import computedensities
 import coordinateconverter
 
