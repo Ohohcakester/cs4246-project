@@ -103,9 +103,23 @@ In our GP model, each individual is modelled with a separate Gaussian Process. F
 
 The hope is that with a good selection of reference points, the coordinates $s_1, s_2, s_3$ can be regarded as independent of each other without a significant loss of accuracy. From the regression, we obtain, at each point of time, a probability distribution of each of the coordinates $s_1, s_2, s_3$, described as a trivariate normal distribution $\mathcal{N}\tilde (\boldsymbol{\mu},\boldsymbol{\Sigma})$. \\
 
-Several types of GP models were experimented with, including Stochastic Variance Gaussian Processes and Sparse Gaussian Processes. We also performed experiments with all the different types of kernels provided by the Sheffield GPy library, including linear kernel and white kernel. We also tweaked the input parameters, such as the variance of the kernels to experiment with the data. The GP model-variant that we proposed has the co-variance matrix and mean that fits the data the best. \\
+Several types of GP models were experimented with, including Stochastic Variance Gaussian Processes and Sparse Gaussian Processes. We also performed experiments with all the different types of kernels provided by the Sheffield GPy library, including linear kernel and white kernel. We also tweaked the input parameters, such as the variance of the kernels to experiment with the data. The GP model-variant that we proposed has the co-variance matrix and mean that fits the data the best. Figures \ref{fig:path1} and \ref{fig:path2} show the shortest paths to points 1 and 2 against time for User 3857 given the points in the first iteration. \\
 
 Some of the kernels such as RBF kernel return matrices that are not positive semi-definite, hence causing an error in the next iteration of the GP regression. We hence use a squared exponential kernel with a variance of 1. We also add some noise to the kernel to simulate the noise variable in the GP model.
+
+\begin{figure}[!h]
+  \centering
+    \includegraphics[width=200px]{diagrams/3587-path1.png}
+  \caption{GP Regression for User 3587 of Shortest Paths to Point 1 against Time}
+  \label{fig:path1}
+\end{figure}
+
+\begin{figure}[!h]
+  \centering
+    \includegraphics[width=200px]{diagrams/3587-path2.png}
+  \caption{GP Regression for User 3587 of Shortest Paths to Point 2 against Time}
+  \label{fig:path2}
+\end{figure}
 
 \subsection{Crowd Density Computation}
 
