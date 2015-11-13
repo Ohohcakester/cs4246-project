@@ -17,6 +17,10 @@ def predictGP(df, testTimes):
     df.to_csv(fileName+'_A.csv')
     testTimes.to_csv(fileName+'_B.csv')
     returnCode = subprocess.call(how_do_you_run_python + ' bayes.py '+fileName, shell=True)
+    while returnCode == 1:
+        print 'GP Crashed! Try again!'
+        returnCode = subprocess.call(how_do_you_run_python + ' bayes.py '+fileName, shell=True)
+    
     result_df = pd.read_csv(fileName+'_OUT.csv', converters={"MU": ast.literal_eval, "VAR": ast.literal_eval})
 
     #cleanup code
