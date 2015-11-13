@@ -9,6 +9,7 @@ import generatetest
 import bayes_ext as bayes
 import computedensities
 import coordinateconverter
+import sys
 
 _coordGrids = {
     'floor2map' : coordinateconverter.Grid('floor2map'),
@@ -155,7 +156,7 @@ def computeDensity(df, focusPoints, level=1):
     return computedensities.compute(getMazeName(level), focusPoints, df, quiet=True)
 
 
-def computeAreaDensity(zCoord, tags, focusPoints, testTimes):
+def computeAreaDensity(zCoord, trainTags, focusPoints, testTimes):
     """
     Takes in tags and compute densities for all the users
     for the focus points specified
@@ -163,14 +164,14 @@ def computeAreaDensity(zCoord, tags, focusPoints, testTimes):
     Note: This only needs to be run once per run, no need to do bayes opt
     so maybe we can preprocess and store in file?
     --
-    tags: list of user tags
+    trainTags: list of user tags
     focusPoints: list of focus points
     [(a, b), (c, d), (e, f)] where a through f are floats
     --
     Returns: dict {timestamp: densityDistribution}
     """
-
-    dfFloor18 = generateTestCases(focusPoints, tags, level=zCoord)
+    print 'Generating test cases and computing shortest paths...'
+    dfFloor18 = generateTestCases(focusPoints, trainTags, level=zCoord)
     dfFormattedFloor18 = formatDf(dfFloor18)
 
     uniqueUserID = dfFormattedFloor18['USER'].unique()
@@ -184,7 +185,11 @@ def computeAreaDensity(zCoord, tags, focusPoints, testTimes):
     numOfSkippedFile = 0
 
     # Iterate through each user
+    count = 0
     for user in uniqueUserID:
+        print 'Computing GP', count, 'of', len(uniqueUserID), '. USER==', user
+        count += 1
+
         userResult = bayes.predictGP(
             dfFormattedFloor18[dfFormattedFloor18['USER'] == user],
             testTimes)
@@ -204,6 +209,7 @@ def computeAreaDensity(zCoord, tags, focusPoints, testTimes):
                     densityDistPoint = densityDistTimestamp.query(point)
 
                     if np.isnan(densityDistPoint):
+                        print 'NAN DETECTED'
                         densityDistPoint = 0
 
                     addedProb = densityDistTimestamp.query(point) + userDensityDistTimestamp.query(point)
@@ -211,7 +217,7 @@ def computeAreaDensity(zCoord, tags, focusPoints, testTimes):
 
     return densityDist, numOfSkippedFile
 
-def calculateError(predictedDensityDist, actualDensityDist, numOfSkippedFile=0):
+def calculateError(nTrainTags, nTestTags, predictedDensityDist, actualDensityDist, numOfSkippedFile=0):
     """
     Calculate Error from dataframe of densities
     ---
@@ -230,7 +236,7 @@ def calculateError(predictedDensityDist, actualDensityDist, numOfSkippedFile=0):
     minActual = 99999999
     maxActual = 0
 
-    scalebackRatio = 100 / (10 - numOfSkippedFile)
+    scalebackRatio = float(nTestTags) / (nTrainTags - numOfSkippedFile)
 
     # Verification code. Can comment out to run (not much) faster.
     #if set(predictedDensityDist.keys()) != set(actualDensityDist.keys()): print 'ERROR: TIMESTAMPS DO NOT MATCH'
@@ -291,7 +297,7 @@ def computeActualDensityDist(zCoord, predictedDensityDist, focusPoints, testTags
             return dx*dx+dy*dy <= radius*radius
         return fun
 
-    dfFloor18 = map(generatetest.loadData, tags)
+    dfFloor18 = map(generatetest.loadData, testTags)
     dfFloor18 = pd.concat(dfFloor18)
 
     converted = dfFloor18[['X', 'Y']].apply(convertCoord, axis=1)
@@ -346,7 +352,9 @@ def makeOptFunc(testTimes, trainTags, testTags, visualise=False):
                                                          predictedDensityDist,
                                                          focusPoints,
                                                          testTags)
-            error = calculateError(predictedDensityDist, actualDensityDist,
+            error = calculateError(len(trainTags), len(testTags),
+                                   predictedDensityDist,
+                                   actualDensityDist,
                                    numOfSkippedFile)
 
             if visualise:
@@ -360,7 +368,39 @@ def makeOptFunc(testTimes, trainTags, testTags, visualise=False):
 
     return optFunc
 
+def runActualTest(points):
+    actual = True
+
+    print 'RUNNING PREDICTION: ', ['Actual' if actual else 'Test']
+    points = '33.46503917  26.76995952  85.97458381  82.61217489  59.33400217  49.29506539'.split()
+    #points = '5 51 4 73 55 36'.split()
+
+    points = map(float, points)
+    #points = np.array(zip(points[::2],points[1::2]))
+    print points
+
+    testTimes = pd.read_csv('test_times.csv')
+    tags = generatetest.listTags()
+
+    if actual:
+        trainTags = tags[0:100]
+    else:
+        tags = tags[0:100]
+        trainTags = tags[0:10]
+
+    print 'Training Tags: ', trainTags
+    print 'Test Tags: ', tags
+
+    optFunc = makeOptFunc(testTimes, trainTags, tags, visualise=True)
+    result = optFunc(np.array([points]))
+    print result
+    quit()
+
+
 if __name__ == '__main__':
+    if len(sys.argv) > 1:
+        runActualTest(sys.argv[1:])
+
     testTimes = pd.read_csv('test_times.csv')
 
     tags = generatetest.listTags()[0:100]
@@ -369,7 +409,7 @@ if __name__ == '__main__':
     print 'Test Tags: ', tags
 
     acquisition_par = 0.01
-    max_iter = 5
+    max_iter = 10
     bounds = [(0, 100)] * 6
     optFunc = makeOptFunc(testTimes, trainTags, tags, visualise=True)
 
