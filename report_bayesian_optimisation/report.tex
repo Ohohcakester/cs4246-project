@@ -29,7 +29,7 @@ Oh Shunhao, A0065475X\\
 }
 \maketitle
 \begin{abstract}
-Crowd density prediction is relevant to tackle issues in events such as resource management. Event space is usually limited and there are many concurrent activities at any point of time. Therefore, crowd density prediction is useful for the event committee to plan the layout and schedule of the programs in an event effectively and allows participants of the event to move around the event space efficiently so that they can benefit most out of the event. \\
+Crowd density prediction is relevant to tackle issues in events such as resource management. Event space is usually limited, crowd density prediction is useful for the event committee to plan the layout and schedule of the programs in an event effectively and allows participants of the event to move around the event space efficiently. \\
 
 In this report, we illustrate the use of Bayesian Optimization to find a set of reference points in an area. For each data point, we compute the shortest path distance from the data point to each of the reference points and used the outputs of the shortest path for GP regression to predict the crowd densities.
 \end{abstract}
@@ -51,11 +51,9 @@ For our proposed application, we are using a subset of the population in the are
 
 \subsection{Bayesian Optimization}
 
-In general, the main objective of Bayesian Optimization is to find the optimal (maximum or minimum) of an unknown and costly $x$ to evaluate function $f$, which is to find $x^* = \text{argmax}_x f(x)$ or $x^* = \text{argmin}_x f(x)$. \\
+In general, the main objective of Bayesian Optimization is to find the optimal $x^*$ to evaluate an unknown and costly function $f$, (i.e. $x^* = \text{argmin}_x f(x)$). In our proposed application of crowd density prediction, $x$ refers to the reference points $c_1, c_2, c_3$ which each of the reference points is represented by the $x$ and $y$ coordinates of a location in the floor plan provided. $f(x)$ refers to the error of the crowd density prediction. \\
 
-In our proposed application of crowd density prediction, we are interested to minimise the function $f(x)$, which $f(x)$ refers to the error of the crowd density prediction. The $x$ in the function $f(x)$ refers to the input points $c_1, c_2, c_3$ which each of the input points is represented by the $x$ and $y$ coordinates of a location in the floor plan provided. \\
-
-Initially, we pick 3 random input points of the locations of the floor plan to form $c_1, c_2, c_3$, and use these points together with $M$ as the inputs for the training of data. The output of the training of data will be the error of the crowd density prediction, $f(x)$, and $f(x)$ will be the input to the Bayesian Optimization process to optimise $x$, which is another set of input points $c_1, c_2, c_3$, for the next round of training of data. \\
+Initially, Bayesian Optimisation picks 3 random input points of the locations of the floor plan to form $c_1, c_2, c_3$, and use these points together with $M$ as the inputs for the training of data. The output of the training of data will be the error of the crowd density prediction, $f(x)$, and $f(x)$ will be the input to the Bayesian Optimization process to optimise $x$, which is another set of input points $c_1, c_2, c_3$, for the next round of training of data. \\
 
 The Bayesian Optimization is done with GPyOpt library, which is run with the Lower Confidence Bound acquisition function, as we seek to reduce the RMSE. We use a maximum iterations, or exploration horizon of $15$;.The method used to optimize the acquisition function is fast\_random, which means the function runs only one optimizer in the best location. The input function $f$ that we optimize is the entire system of predicting the crowd density.
 
@@ -63,9 +61,7 @@ The Bayesian Optimization is done with GPyOpt library, which is run with the Low
 
 An important requirement of our task is we must have the floor plan in order to perform Bayesian Optimisation for shortest path prediction. Our experiment uses 2 different floor plans from the same event which we apply Bayesian Optimization to each floor.\\
 
-As we use time-series data for the Gaussian Process, there are potentially a large amount of data points, especially for time periods that last multiple days. Also, as our bayesian optimisation process optimises a function that includes running a Gaussian Process as part of its computation, thus the efficiency of the algorithm is very important, to allows the bayesian optimisation algorithm more time to do more iterations.\\
-
-As we construct separate Gaussian Distributions for each person we can train the different gaussian processes in parallel, and so to speed things up, the computations can be distributed over multiple machines.
+As we use time-series data for the Gaussian Process, there are potentially a large amount of data points, especially for time periods that last multiple days. Also, as our bayesian optimisation process optimises a function that includes running a Gaussian Process as part of its computation, thus the efficiency of the algorithm is very important, to allows the bayesian optimisation algorithm more time to do more iterations. As we construct separate Gaussian Distributions for each person we can train the different gaussian processes in parallel, and so to speed things up, the computations can be distributed over multiple machines.
 
 
 \section{Technical Approach}
@@ -97,13 +93,11 @@ Thus for each point, as there are three reference points, we obtain three shorte
 
 \subsection{Gaussian Processes for Probability Distributions}
 
-In our GP model, each individual is modelled with a separate Gaussian Process. For each person in the data, the shortest-path coordinates, $s_1, s_2, s_3$ of the person is given at various points of time. As we seek to model the locations of each person as a function on time, the input location space (dependent variable) for our data is the time interval in which the data resides, and the target variable is a tuple $(s_1, s_2, s_3)$ in $\mathbb{R}^3$. \\
+In our GP model, each individual is modelled with a separate Gaussian Process. For each person in the data, the shortest-path coordinates, $s_1, s_2, s_3$ of the person is given at various points of time. As we seek to model the locations of each person as a function on time, the input location space (dependent variable) for our data is the time interval in which the data resides, and the target variable is a tuple $(s_1, s_2, s_3)$ in $\mathbb{R}^3$. There have been past usages of the GP model for trajectory prediction in data. For example, Gaussian Processes were used to model the trajectory of human vital signs \cite{vitalsigns}.\\
 
-The hope is that with a good selection of reference points, the coordinates $s_1, s_2, s_3$ can be regarded as independent of each other without a significant loss of accuracy. From the regression, we obtain, at each point of time, a probability distribution of each of the coordinates $s_1, s_2, s_3$, described as a trivariate normal distribution $\mathcal{N}\tilde (\boldsymbol{\mu},\boldsymbol{\Sigma})$. \\
+For simplicity, we model each coordinate as an independent Gaussian Process. Multi-output Gaussian Processes \cite{achan} are an alternative, but the hope is that with a good selection of reference points, the coordinates $s_1, s_2, s_3$ can be regarded as independent of each other without a significant loss of accuracy.\\
 
-Several types of GP models were experimented with, including Stochastic Variance Gaussian Processes and Sparse Gaussian Processes. We also performed experiments with all the different types of kernels provided by the Sheffield GPy library, including linear kernel and white kernel. We also tweaked the input parameters, such as the variance of the kernels to experiment with the data. The GP model-variant that we proposed has the co-variance matrix and mean that fits the data the best. Figures \ref{fig:path1} and \ref{fig:path2} show the shortest paths to points 1 and 2 against time for User 3857 given the points in the first iteration. \\
-
-Some of the kernels such as RBF kernel return matrices that are not positive semi-definite, hence causing an error in the next iteration of the GP regression. We hence use a squared exponential kernel with a variance of 1. We also add some noise to the kernel to simulate the noise variable in the GP model.
+Several types of GP models were experimented with, including Stochastic Variance Gaussian Processes and Sparse Gaussian Processes. We also performed experiments with all the different types of kernels provided by the Sheffield GPy library, including linear kernel and white kernel. We also tweaked the input parameters, such as the variance of the kernels to experiment with the data. We use a squared exponential kernel with a variance of 1 for our regression. We also add some noise to the kernel to simulate the noise variable in the GP model. The GP model-variant that we proposed has the co-variance matrix and mean that fits the data the best. Figures \ref{fig:path1} and \ref{fig:path2} show the shortest paths to points 1 and 2 against time for User 3857 given the points in the first iteration.\\
 
 \begin{figure}[!h]
   \centering
@@ -122,9 +116,8 @@ Some of the kernels such as RBF kernel return matrices that are not positive sem
 
 \subsection{Using Gaussian Processes for Crowd Densities}
 
-After modelling the trajectories of each person as a function of time, at each point of time $t$, for each person $i$, we can determine the mean vector $\boldsymbol{\mu}$ and covariance matrix $K$ of the person's $s_1,s_2,s_3$ coordinates. Let $U_i$ be a random variable denoting the shortest-path coordinates $(s_1,s_2,s_3)$ of person $i$. Each $U_i$ can then be expressed as a trivariate normal distribution $U_i \sim \mathcal{N}(\boldsymbol{\mu},K)$.\\
+Thus, at each point of time $t$, for each person $i$, we can determine the mean vector $\boldsymbol{\mu}$ and covariance matrix $K$ of the person's $s_1,s_2,s_3$ coordinates. Let $U_i$ be a random variable denoting the shortest-path coordinates $(s_1,s_2,s_3)$ of person $i$. Each $U_i$ can then be expressed as a trivariate normal distribution $U_i \sim \mathcal{N}(\boldsymbol{\mu},K)$. Now we consider any region $R$ defined over the shortest path coordinates $s_1,s_2,s_3$. To compute the expected amount of people in a region $R$, we define the indicator variables for each $i \in \{1,2,\cdots,n\}$:
 
-Now we consider any region $R$ defined over the shortest path coordinates $s_1,s_2,s_3$. To compute the expected amount of people in a region $R$, we define the indicator variables for each $i \in \{1,2,\cdots,n\}$:
 \begin{center}
 $X_i =
 \begin{cases}
@@ -163,7 +156,6 @@ Thus we define $\prod_{i=1}^3 k_i$ rectangles, each corresponding to a selection
   \label{fig:sprectangles}
 \end{figure}
 
-
 At any point of time, for each rectangle, by integrating the probability distributions for each individual over the rectangle, we are able to obtain a prediction for the number of people within the rectangle. To obtain the predicted crowd density within the rectangle, we divide this value by the area of the region defined by the rectangle in the map.\\
 
 The area of this rectangle can be estimated by the number of grid points within the rectangle. Using the same grid created from the floor plan earlier, the shortest paths from each point of the grid to each of the three reference points is computed. This gives us the shortest path coordinates for each point on the grid, allowing us to classify which rectangle each grid point belongs to, thus allowing us to count the number of grid points in each rectangle. \\
@@ -172,7 +164,7 @@ Thus by mapping each point in the grid to the density of the region it belongs t
 
 \subsection{Error Computation}
 
-Thus we have calculated a predicted density distribution of $10\%$ of individuals used in the training set. These density distribution is then scaled up by a factor of $10$ to find an estimate of the actual density distribution of the $100$ individuals in the conference over the grid points. To obtain the actual density distribution over the grid points, for each grid point in the map, we count the number of people (out of $100$) within a $5$-unit radius of the grid point, and divide this by the area of the 5-unit circle to obtain the actual crowd density at that point. The root mean square error is then computed from the differences between the actual density distribution and the predicted density distribution, which is returned to the Bayesian Optimisation process. \\
+To obtain the actual density distribution over the same grid points, for each grid point in the map, we count the number of people (out of $100$) within a $5$-unit radius of the grid point, and divide this by the area of the 5-unit circle to obtain the actual crowd density at that point. The root mean square error is then computed from the differences between the actual density distribution and the predicted density distribution, which is returned to the Bayesian Optimisation process. \\
 
 We note that since only a fraction of the people in the crowd is used in the data, the predicted values need to be scaled accordingly to represent the total number of people within the region. This root mean square error is the value to be minimized in the Bayesian Optimisation process, where the function picks the optimal 3 points to estimate the crowd density in the hotel.
 
@@ -201,37 +193,41 @@ Using a set of reference points, we can generate a plot of one of the shortest-p
 
 For our experiment, $50$ time points are picked to be used for the test. These time points are chosen randomly from the time interval of the data, while ensuring a minimum gap of $200$ seconds between any two time points, and that there are at least $300$ unique active tags near that time point. This is done to avoid testing on periods where no or few people are active, like during the night, as the event spans multiple days.\\
 
-At each chosen time point $t$, we obtain an actual density distribution using the same method as before: for each grid point in the map, count how many of the 1000 people within a $5$-unit radius of the grid point, and divide it by the area of the 5-unit circle to obtain the actual crowd density at that point. We then compute the predicted density using the same process as used in the training. During the training, the $100$ conference attendees were divided in to a $10$-$90$ proportion. $10\%$ of the user data were used for predicting the crowd density as defined by the other $90\%$ of the data. For our experimental evaluation, we use the same $100$ attendees, but this time, we use all $100\%$ of the user data, to make a prediction for the crowd density at each point, of all the $1224$ hackers attending the conference. Figures \ref{fig:t1dist} to \ref{fig:t2dist} show the actual and predicted crowd density distributions for the 18\textsuperscript{th} floor at two different points of time.\\
-
-Then, for each time point $t$, at each point $p$ in the grid, the error at point $p$ is the difference between the predicted density and the actual densities at point $p$. By finding the root mean square error over all the points in the grid, we are able to obtain an error measure at each of the given time points.\\
-
 \begin{figure}[h!]
   \centering
     \includegraphics[width=170px]{diagrams/26-27_86-83_59-49_1216439889_actual.png}
-  \caption{Actual density at $t=1216439889$ on the 18\textsuperscript{th} floor of the event.}
+  \caption{Actual density at $t=1216439889$.}
   \label{fig:t1dist}
 \end{figure}
 
 \begin{figure}[h!]
   \centering
     \includegraphics[width=170px]{diagrams/26-27_86-83_59-49_1216439889_predicted.png}
-  \caption{Predicted density at $t=1216439889$ on the 18\textsuperscript{th} floor of the event.}
+  \caption{Predicted density at $t=1216439889$.}
   \label{fig:t2dist}
 \end{figure}
 
 \begin{figure}[h!]
   \centering
     \includegraphics[width=170px]{diagrams/26-27_86-83_59-49_1216532755_actual.png}
-  \caption{Actual density at $t=1216532755$ on the 18\textsuperscript{th} floor of the event.}
+  \caption{Actual density at $t=1216532755$.}
   \label{fig:t3dist}
 \end{figure}
 
 \begin{figure}[h!]
   \centering
     \includegraphics[width=170px]{diagrams/26-27_86-83_59-49_1216532755_predicted.png}
-  \caption{Predicted density at $t=1216532755$ on the 18\textsuperscript{th} floor of the event.}
+  \caption{Predicted density at $t=1216532755$.}
   \label{fig:t4dist}
 \end{figure}
+
+At each chosen time point $t$, we obtain an actual density distribution using the same method as before: for each grid point in the map, count how many of the 1000 people within a $5$-unit radius of the grid point, and divide it by the area of the 5-unit circle to obtain the actual crowd density at that point. We then compute the predicted density using the same process as used in the training.\\
+
+During the training, the $100$ conference attendees were divided in to a $10$-$90$ proportion. $10\%$ of the user data were used for predicting the crowd density as defined by the other $90\%$ of the data. For our experimental evaluation, we use the same $100$ attendees, but this time, we use all $100\%$ of the user data, to make a prediction for the crowd density at each point, of all the $1224$ hackers attending the conference. Figures \ref{fig:t1dist} to \ref{fig:t2dist} show the actual and predicted crowd density distributions for the 18\textsuperscript{th} floor at two different points of time.\\
+
+Then, for each time point $t$, at each point $p$ in the grid, the error at point $p$ is the difference between the predicted density and the actual densities at point $p$. By finding the root mean square error over all the points in the grid, we are able to obtain an error measure at each of the given time points.\\
+
+
 
 From the renders, we can see that the new distributions are much more expressive than those created by regressing gaussian distributions over the Cartesian $(x,y,z)$ coordinates. The shapes of the ``dense" regions are able to wrap around objects, and are able to express crowds clustered at multiple locations, instead of having just one single peak value like shown in figure \ref{fig:xyzdist}.
 
@@ -247,9 +243,7 @@ From the renders, we can see that the new distributions are much more expressive
 
 We note that due to limitations of our pathfinding algorithms and lack of knowledge of how individuals travel between floors (though we strongly believe they use an elevator), we did the density prediction only over one floor. However, with sufficient knowledge and the correct pathfinding algorithms that allow navigation in three-dimensional spaces (e.g. using navigation meshes), we are able to model all the floors in an entire building with a single gaussian distribution. This will make much better path predictions, as currently, there are many gaps in the data arising from the individual not being in the current floor. Modelling an individual's movement over an entire building at once would create a more continuous path trajectory.\\
 
-However, with the shortest paths coordinates, we lose the ability to integrate the gaussian processes over any arbitrary region to compute the crowd density within that area. The regions are instead defined by the boundaries of the rectangles, which are controlled by the positions of the reference points.\\
-
-Thus, it is not easy to obtain a smooth crowd density distribution over the space without a large number of integrations over very small shortest-path coordinate rectangles.\\
+However, with the shortest paths coordinates, we lose the ability to integrate the gaussian processes over any arbitrary region to compute the crowd density within that area. The regions are instead defined by the boundaries of the rectangles, which are controlled by the positions of the reference points. Thus, it is not easy to obtain a smooth crowd density distribution over the space without a large number of integrations over very small shortest-path coordinate rectangles.\\
 
 \subsection{Improvement}
 
