@@ -119,9 +119,27 @@ Some of the kernels such as RBF kernel return matrices that are not positive sem
   \label{fig:path2}
 \end{figure}
 
-\subsection{Crowd Density Computation}
 
-The use of shortest-path coordinates over Cartesian coordinates makes density computation more challenging. One can no longer simply select an arbitrary region (e.g. a rectangle) and integrate the probability distribution over all $x$ and $y$ values that fall within the region. One cannot even assume a one-to-one mapping between the shortest-path coordinates and the Cartesian coordinates. \\
+\subsection{Using Gaussian Processes for Crowd Densities}
+
+After modelling the trajectories of each person as a function of time, at each point of time $t$, for each person $i$, we can determine the mean vector $\boldsymbol{\mu}$ and covariance matrix $K$ of the person's $s_1,s_2,s_3$ coordinates. Let $U_i$ be a random variable denoting the shortest-path coordinates $(s_1,s_2,s_3)$ of person $i$. Each $U_i$ can then be expressed as a trivariate normal distribution $U_i \sim \mathcal{N}(\boldsymbol{\mu},K)$.\\
+
+Now we consider any region $R$ defined over the shortest path coordinates $s_1,s_2,s_3$. To compute the expected amount of people in a region $R$, we define the indicator variables for each $i \in \{1,2,\cdots,n\}$:
+\begin{center}
+$X_i =
+\begin{cases}
+    1 &\text{if user }i\text{ is in region R}\\
+    0 &\text{otherwise}
+\end{cases}$
+\end{center}
+The expected value of $X_i$, is equal to the probability of person $i$ being in region $R$, which is computed as $\int_R p_i(s_1,s_2,s_3)dV$, where $p_i(s_1,s_2,s_3)$ is the probability density function of $U_i$. Thus, the total number of people in region $R$ is $\sum_{i=1}^n X_i$, with an expected value:
+\begin{center}
+$\displaystyle E[\sum_{i=1}^n X_i] = \sum_{i=1}^n E[X_i] = \sum_{i=1}^n \int_V p_i(s_1,s_2,s_3)dV$.
+\end{center}
+
+Thus, using simple integrations over regions, we can compute the expected number of people in each region.\\
+
+However, the use of shortest-path coordinates over Cartesian coordinates makes density computation more challenging. One can no longer simply select an arbitrary region (e.g. a rectangle) and integrate the probability distribution over all $x$ and $y$ values that fall within the region. One cannot even assume a one-to-one mapping between the shortest-path coordinates and the Cartesian coordinates. \\
 
 Thus the integration has to be carried out differently. Instead of picking a rectangle in the Cartesian plane, we integrate over rectangles defined over the shortest-path coordinates. A rectangle is defined as the set 
 \[\{(s_1,s_2,s_3) : a_1\leq s_1\leq b_1, a_2\leq s_2\leq b_2, a_3\leq s_3\leq b_3\}\]
@@ -154,9 +172,9 @@ Thus by mapping each point in the grid to the density of the region it belongs t
 
 \subsection{Error Computation}
 
-Thus we have calculated a predicted density distribution of $10\%$ of users used in the training set. These density distribution is then scaled up by a factor of $10$ to find an estimate of the actual density distribution of the $100$ users in the conference over the grid points. To obtain the actual density distribution over the grid points, for each grid point in the map, we count the number of people (out of $100$) within a $5$-unit radius of the grid point, and divide this by the area of the 5-unit circle to obtain the actual crowd density at that point. The root mean square error is then computed from the differences between the actual density distribution and the predicted density distribution, which is returned to the Bayesian Optimisation process. \\
+Thus we have calculated a predicted density distribution of $10\%$ of individuals used in the training set. These density distribution is then scaled up by a factor of $10$ to find an estimate of the actual density distribution of the $100$ individuals in the conference over the grid points. To obtain the actual density distribution over the grid points, for each grid point in the map, we count the number of people (out of $100$) within a $5$-unit radius of the grid point, and divide this by the area of the 5-unit circle to obtain the actual crowd density at that point. The root mean square error is then computed from the differences between the actual density distribution and the predicted density distribution, which is returned to the Bayesian Optimisation process. \\
 
-This root mean square error is the value to be minimized in the Bayesian Optimisation process, where the function picks the optimal 3 points to estimate the crowd density in the hotel.
+We note that since only a fraction of the people in the crowd is used in the data, the predicted values need to be scaled accordingly to represent the total number of people within the region. This root mean square error is the value to be minimized in the Bayesian Optimisation process, where the function picks the optimal 3 points to estimate the crowd density in the hotel.
 
 
 \section{Experimental Evaluation}
@@ -175,7 +193,7 @@ This provides enough information to find the actual number of people in each reg
 
 For our experiment, $50$ time points are picked to be used for the test. These time points are chosen randomly from the time interval of the data, while ensuring a minimum gap of $200$ seconds between any two time points, and that there are at least $300$ unique active tags near that time point. This is done to avoid testing on periods where no or few people are active, like during the night, as the event spans multiple days.\\
 
-At each chosen time point $t$, we obtain an actual density distribution using the same method as before: for each grid point in the map, count how many of the 1000 people within a $5$-unit radius of the grid point, and divide it by the area of the 5-unit circle to obtain the actual crowd density at that point. We then compute the predicted density using the same process as used in the training. During the training, the $100$ conference users were divided in to a $10$-$90$ proportion. $10\%$ of the user data were used for predicting the crowd density as defined by the other $90\%$ of the data. For our experimental evaluation, we use the same $100$ users, but this time, we use all $100\%$ of the user data, to make a prediction for the crowd density at each point, of all the $1224$ hackers attending the conference. Figures \ref{fig:t1dist} to \ref{fig:t2dist} show the actual and predicted crowd density distributions for the 18\textsuperscript{th} floor at two different points of time.\\
+At each chosen time point $t$, we obtain an actual density distribution using the same method as before: for each grid point in the map, count how many of the 1000 people within a $5$-unit radius of the grid point, and divide it by the area of the 5-unit circle to obtain the actual crowd density at that point. We then compute the predicted density using the same process as used in the training. During the training, the $100$ conference attendees were divided in to a $10$-$90$ proportion. $10\%$ of the user data were used for predicting the crowd density as defined by the other $90\%$ of the data. For our experimental evaluation, we use the same $100$ attendees, but this time, we use all $100\%$ of the user data, to make a prediction for the crowd density at each point, of all the $1224$ hackers attending the conference. Figures \ref{fig:t1dist} to \ref{fig:t2dist} show the actual and predicted crowd density distributions for the 18\textsuperscript{th} floor at two different points of time.\\
 
 Then, for each time point $t$, at each point $p$ in the grid, the error at point $p$ is the difference between the predicted density and the actual densities at point $p$. By finding the root mean square error over all the points in the grid, we are able to obtain an error measure at each of the given time points.\\
 
