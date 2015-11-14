@@ -261,7 +261,9 @@ Using reference points of past events as the set of reference points to predict 
 
 \section{Conclusion}
 
-The goal of the current work is to optimise the set of reference points that allows for predicting of crowd density. We described a framework for modeling shortest path distance using the GP model for density and error computations, we demonstrated that our approach is able to represent the dataset a lot more closely than regressing over $x,y,z$ coordinates. we have as well as predict the population density of a known environment.
+The goal of the current work is to optimise the set of reference points that allows for predicting of crowd density. We described a framework for modeling shortest path distance using the GP model for density and error computations, we demonstrated that our approach is able to represent the dataset a lot more closely than regressing over $x,y,z$ coordinates. we have as well as predict the population density of a known environment.\\
+
+Our approach of using shortest paths from reference points to represent spaces is applicable to many other problems. In any problem where standard cartesian coordinates are used as a measure, shortest paths are a good alternative distance measure. Shortest path distances is also a metric, with the added advantage of working independently of map geometry. For example, modelling algae blooms over a pond surface, or modelling dirt distributions within a house for a cleaning robot.
 
 \section{6. Main Roles of Each Member}
 \begin{itemize}
