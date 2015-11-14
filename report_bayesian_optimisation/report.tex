@@ -29,11 +29,9 @@ Oh Shunhao, A0065475X\\
 }
 \maketitle
 \begin{abstract}
-\begin{quote}
 Crowd density prediction is relevant to tackle issues in events such as resource management. Event space is usually limited and there are many concurrent activities at any point of time. Therefore, crowd density prediction is useful for the event committee to plan the layout and schedule of the programs in an event effectively and allows participants of the event to move around the event space efficiently so that they can benefit most out of the event. \\
 
 In this report, we illustrate the use of Bayesian Optimization to find a set of reference points in an area. For each data point, we compute the shortest path distance from the data point to each of the reference points and used the outputs of the shortest path for GP regression to predict the crowd densities.
-\end{quote}
 \end{abstract}
 
 \section{Introduction}
@@ -183,28 +181,28 @@ Then, for each time point $t$, at each point $p$ in the grid, the error at point
 
 \begin{figure}[h!]
   \centering
-    \includegraphics[width=120px]{diagrams/26-27_86-83_59-49_1216439889_actual.png}
+    \includegraphics[width=170px]{diagrams/26-27_86-83_59-49_1216439889_actual.png}
   \caption{Actual density at $t=1216439889$ on the 18\textsuperscript{th} floor of the event.}
   \label{fig:t1dist}
 \end{figure}
 
 \begin{figure}[h!]
   \centering
-    \includegraphics[width=120px]{diagrams/26-27_86-83_59-49_1216439889_predicted.png}
+    \includegraphics[width=170px]{diagrams/26-27_86-83_59-49_1216439889_predicted.png}
   \caption{Predicted density at $t=1216439889$ on the 18\textsuperscript{th} floor of the event.}
   \label{fig:t2dist}
 \end{figure}
 
 \begin{figure}[h!]
   \centering
-    \includegraphics[width=120px]{diagrams/26-27_86-83_59-49_1216532755_actual.png}
+    \includegraphics[width=170px]{diagrams/26-27_86-83_59-49_1216532755_actual.png}
   \caption{Actual density at $t=1216532755$ on the 18\textsuperscript{th} floor of the event.}
   \label{fig:t3dist}
 \end{figure}
 
 \begin{figure}[h!]
   \centering
-    \includegraphics[width=120px]{diagrams/26-27_86-83_59-49_1216532755_predicted.png}
+    \includegraphics[width=170px]{diagrams/26-27_86-83_59-49_1216532755_predicted.png}
   \caption{Predicted density at $t=1216532755$ on the 18\textsuperscript{th} floor of the event.}
   \label{fig:t4dist}
 \end{figure}
@@ -213,7 +211,7 @@ From the renders, we can see that the new distributions are much more expressive
 
 \begin{figure}[h!]
   \centering
-    \includegraphics[width=120px]{diagrams/26-27_86-83_59-49_1216532755_predicted.png}
+    \includegraphics[width=170px]{diagrams/1_1216440525p.png}
   \caption{Crowd density distribution through regression over $x,y,z$ coordinates.}
   \label{fig:t4dist}
 \end{figure}
