@@ -183,11 +183,20 @@ We note that since only a fraction of the people in the crowd is used in the dat
 
 We test our approach using a Attendee Meta-Data (AMD) Hope RFID Dataset from which data is collected from 1224 hackers attending The Last HOPE Conference from 18-20 July 2008, located in Hotel Pennsylvania, New York City.\\
 
-The data set details the location of the attendees through the use of RFID badges that uniquely identify and track them across the conference space over the course of the conference. A plot of one of the position data over time of one of the attendees is shown in Figure .\\
+The data set details the location of the attendees through the use of RFID badges that uniquely identify and track them across the conference space over the course of the conference.\\
 
 This dataset was used as it has some convenient properties which allow us to construct an experiment to test our model. Firstly, the position data is usually taken at regular intervals of about $30$ seconds apart. Secondly, the data provided is exhaustive (as each attendee to the conference is tagged). \\
 
-This provides enough information to find the actual number of people in each region at any point of time, by simply counting the number of people within the region, within in a time window of $[t-15,t+15)$, where $t$ is the target point of time.
+This provides enough information to find the actual number of people in each region at any point of time, by simply counting the number of people within the region, within in a time window of $[t-15,t+15)$, where $t$ is the target point of time.\\
+
+Using a set of reference points, we can generate a plot of one of the shortest-path coordinates over time. An plot for one of the attendees is shown in Figure \ref{fig:datasetshortestpaths}.\\
+
+\begin{figure}[!h]
+  \centering
+    \includegraphics[width=170px]{diagrams/datasetshortestpaths.png}
+  \caption{A plot of the shortest path coordinates of user 4235 against time, using the reference points $(26,27),(86,83),(59,49)$.}
+  \label{fig:datasetshortestpaths}
+\end{figure}
 
 \subsection{Experimental Setup}
 

@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from PIL import Image, ImageDraw
 import random
+import ast
 
 top = 980
 left = 145
@@ -73,6 +74,32 @@ def main():
     #os.startfile('output.png')
 
 
+def plotShortestPaths():
+    fileName = 'bayes_ext_temp_folder/1447379781035_A.csv'
+    data = pd.read_csv(fileName)
+    data = data.sort('TIMESTAMP')
+    data['SHORTEST_PATHS'] = data['SHORTEST_PATHS'].apply(ast.literal_eval)
+    
+    t = np.array(data['TIMESTAMP'])[:, None]
+    x = np.array(data['SHORTEST_PATHS'].apply(lambda paths: paths[0]))[:, None]
+    y = np.array(data['SHORTEST_PATHS'].apply(lambda paths: paths[2]))[:, None]
+    t = np.transpose(t)[0]
+    x = np.transpose(x)[0]
+    y = np.transpose(y)[0]
+
+    x = map(float,x)
+    y = map(float,y)
+    
+    #print(np.min(X))
+    #X -= np.min(X)
+    #Y = np.array(data[['X', 'Y']])
+    #t = np.transpose(X)[0]
+    #x = np.transpose(Y)[0]
+    #y = np.transpose(Y)[1]
+ 
+    print 'Plotting: ' + fileName
+    plotGraph(t, x, y)
+
 
 def plotGraph(t, x, y):
     fig = plt.figure()
@@ -83,4 +110,5 @@ def plotGraph(t, x, y):
 
 
 if __name__ == '__main__':
-    main()
+    #main()
+    plotShortestPaths()
