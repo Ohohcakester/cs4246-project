@@ -13,6 +13,7 @@ src/bayes_ext_temp_folder/
 img/output_draw.png
 img/locationmap.png
 src/pathfinding/maze/problems/
+src/finaldensityrenders
 *.class
 
 report/a
