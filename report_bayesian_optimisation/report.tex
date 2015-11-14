@@ -175,7 +175,6 @@ This provides enough information to find the actual number of people in each reg
 
 \subsection{Experimental Setup}
 
-
 For our experiment, $50$ time points are picked to be used for the test. These time points are chosen randomly from the time interval of the data, while ensuring a minimum gap of $200$ seconds between any two time points, and that there are at least $300$ unique active tags near that time point. This is done to avoid testing on periods where no or few people are active, like during the night, as the event spans multiple days.\\
 
 At each chosen time point $t$, we obtain an actual density distribution using the same method as before: for each grid point in the map, count how many of the 1000 people within a $5$-unit radius of the grid point, and divide it by the area of the 5-unit circle to obtain the actual crowd density at that point. We then compute the predicted density using the same process as used in the training. During the training, the $100$ conference users were divided in to a $10$-$90$ proportion. $10\%$ of the user data were used for predicting the crowd density as defined by the other $90\%$ of the data. For our experimental evaluation, we use the same $100$ users, but this time, we use all $100\%$ of the user data, to make a prediction for the crowd density at each point, of all the $1224$ hackers attending the conference. Figures \ref{fig:t1dist} to \ref{fig:t2dist} show the actual and predicted crowd density distributions for the 18\textsuperscript{th} floor at two different points of time.\\
@@ -214,6 +213,10 @@ Then, for each time point $t$, at each point $p$ in the grid, the error at point
 
 
 \subsection{Improvement}
+
+Due to time constraint, we can only run through a set of 100 individuals to do the actual prediction of the 1000 people population. However, we should improve by using all 10 sets of 100 individuals to do the actual prediction of the population.
+
+Using reference points of past events as the set of reference points to predict future events.
 
 
 \section{Conclusion}
