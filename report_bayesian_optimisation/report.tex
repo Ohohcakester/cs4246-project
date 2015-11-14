@@ -213,14 +213,18 @@ From the renders, we can see that the new distributions are much more expressive
 \begin{figure}[h!]
   \centering
     \includegraphics[width=170px]{diagrams/1_1216440525p.png}
-  \caption{Crowd density distribution through regression over $x,y,z$ coordinates.}
-  \label{fig:t4dist}
+  \caption{What the crowd density distribution looks like if we regressed over $x,y,z$ coordinates.}
+  \label{fig:xyzdist}
 \end{figure}
 
 
 \subsection{Additional Insights}
 
-We note that due to limitations of our pathfinding algorithms and lack of knowledge of how individuals travel between floors (though we strongly believe they use an elevator), we did the density prediction only over one floor. However, with sufficient knowledge and the correct pathfinding algorithms that allow navigation in three-dimensional spaces (e.g. using navigation meshes), we are able to model all the floors in an entire building with a single gaussian distribution. This will make much better path predictions, as currently, there are many gaps in the data arising from the individual not being in the current floor. Modelling an individual's movement over an entire building at once would create a more continuous path trajectory.
+We note that due to limitations of our pathfinding algorithms and lack of knowledge of how individuals travel between floors (though we strongly believe they use an elevator), we did the density prediction only over one floor. However, with sufficient knowledge and the correct pathfinding algorithms that allow navigation in three-dimensional spaces (e.g. using navigation meshes), we are able to model all the floors in an entire building with a single gaussian distribution. This will make much better path predictions, as currently, there are many gaps in the data arising from the individual not being in the current floor. Modelling an individual's movement over an entire building at once would create a more continuous path trajectory.\\
+
+However, with the shortest paths coordinates, we lose the ability to integrate the gaussian processes over any arbitrary region to compute the crowd density within that area. The regions are instead defined by the boundaries of the rectangles, which are controlled by the positions of the reference points.\\
+
+Thus, it is not easy to obtain a smooth crowd density distribution over the space without a large number of integrations over very small shortest-path coordinate rectangles.\\
 
 
 \subsection{Improvement}
