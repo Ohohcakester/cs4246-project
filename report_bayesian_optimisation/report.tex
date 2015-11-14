@@ -207,7 +207,7 @@ Then, for each time point $t$, at each point $p$ in the grid, the error at point
   \label{fig:t4dist}
 \end{figure}
 
-From the renders, we can see that the new distributions are much more expressive than those created by regressing gaussian distributions over the Cartesian $(x,y,z)$ coordinates. The shapes of the "dense" regions are able to wrap around objects, and are able to express crowds clustered at multiple locations, instead of having just one single peak value like shown in figure \ref{fig:xyzdist}.
+From the renders, we can see that the new distributions are much more expressive than those created by regressing gaussian distributions over the Cartesian $(x,y,z)$ coordinates. The shapes of the ``dense" regions are able to wrap around objects, and are able to express crowds clustered at multiple locations, instead of having just one single peak value like shown in figure \ref{fig:xyzdist}.
 
 \begin{figure}[h!]
   \centering
@@ -221,7 +221,6 @@ From the renders, we can see that the new distributions are much more expressive
 
 We note that due to limitations of our pathfinding algorithms and lack of knowledge of how individuals travel between floors (though we strongly believe they use an elevator), we did the density prediction only over one floor. However, with sufficient knowledge and the correct pathfinding algorithms that allow navigation in three-dimensional spaces (e.g. using navigation meshes), we are able to model all the floors in an entire building with a single gaussian distribution. This will make much better path predictions, as currently, there are many gaps in the data arising from the individual not being in the current floor. Modelling an individual's movement over an entire building at once would create a more continuous path trajectory.
 
-
 \subsection{Improvement}
 
 Due to time constraint, we can only run through a set of 100 individuals to do the actual prediction of the 1000 people population. However, we should improve by using all 10 sets of 100 individuals to do the actual prediction of the population.
@@ -231,7 +230,7 @@ Using reference points of past events as the set of reference points to predict 
 
 \section{Conclusion}
 
-The goal of the current work is to optimimse the set of reference points that allows for predicting of crowd density. We described a framework for modeling shortest path distance using the GP model for density and error computations, we demonstrated that our approach is able to represent the dataset a lot more closely than regressing over $x,y,z$ coordinates. we have as well as predict the population density of a known environment.
+The goal of the current work is to optimise the set of reference points that allows for predicting of crowd density. We described a framework for modeling shortest path distance using the GP model for density and error computations, we demonstrated that our approach is able to represent the dataset a lot more closely than regressing over $x,y,z$ coordinates. we have as well as predict the population density of a known environment.
 
 \section{6. Main Roles of Each Member}
 \begin{itemize}
