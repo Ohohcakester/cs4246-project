@@ -63,11 +63,11 @@ The Bayesian Optimization is done with GPyOpt library, which is run with the Low
 
 \subsection{Important Requirements}
 
-An important requirement of our task is we must have the floor plan in order to perform Bayesian Optimisation for shortest path prediction. Our experiment uses 2 different floor plans from the same event which we apply Bayesian Optimization to each floor, thus assuming statistical independence between the different floors.\\
+An important requirement of our task is we must have the floor plan in order to perform Bayesian Optimisation for shortest path prediction. Our experiment uses 2 different floor plans from the same event which we apply Bayesian Optimization to each floor.\\
 
-However, the actual coordinates are likely to have a significant correlation and structure. Thus, one possible improvement is to construct GP models with correlated output, by passing the independent GP priors through a function, such as multi-class classification, as described in a paper by {\it Antoni B.Chan} on the topic of Multivariate Generalized Gaussian Process Models \cite{achan}. \\
+As we use time-series data for the Gaussian Process, there are potentially a large amount of data points, especially for time periods that last multiple days. Also, as our bayesian optimisation process optimises a function that includes running a Gaussian Process as part of its computation, thus the efficiency of the algorithm is very important, to allows the bayesian optimisation algorithm more time to do more iterations.\\
 
-As we use time-series data for the Gaussian Process, there are potentially a large amount of data points, especially for time periods that last multiple days. Thus the efficiency of the algorithm is important. As we construct separate Gaussian Distributions for each person, the computations can be distributed over multiple machines.
+As we construct separate Gaussian Distributions for each person we can train the different gaussian processes in parallel, and so to speed things up, the computations can be distributed over multiple machines.
 
 
 \section{Technical Approach}
@@ -209,7 +209,19 @@ Then, for each time point $t$, at each point $p$ in the grid, the error at point
   \label{fig:t4dist}
 \end{figure}
 
+From the renders, we can see that the new distributions are much more expressive than those created by regressing gaussian distributions over the Cartesian $(x,y,z)$ coordinates. The shapes of the "dense" regions are able to wrap around objects, and are able to express crowds clustered at multiple locations, instead of having just one single peak value like shown in figure \ref{fig:xyzdist}.
+
+\begin{figure}[h!]
+  \centering
+    \includegraphics[width=120px]{diagrams/26-27_86-83_59-49_1216532755_predicted.png}
+  \caption{Crowd density distribution through regression over $x,y,z$ coordinates.}
+  \label{fig:t4dist}
+\end{figure}
+
+
 \subsection{Additional Insights}
+
+We note that due to limitations of our pathfinding algorithms and lack of knowledge of how individuals travel between floors (though we strongly believe they use an elevator), we did the density prediction only over one floor. However, with sufficient knowledge and the correct pathfinding algorithms that allow navigation in three-dimensional spaces (e.g. using navigation meshes), we are able to model all the floors in an entire building with a single gaussian distribution. This will make much better path predictions, as currently, there are many gaps in the data arising from the individual not being in the current floor. Modelling an individual's movement over an entire building at once would create a more continuous path trajectory.
 
 
 \subsection{Improvement}
@@ -221,7 +233,7 @@ Using reference points of past events as the set of reference points to predict 
 
 \section{Conclusion}
 
-The goal of the current work is to optimimse the set of reference points that allows for predicting of crowd density. We described a framework for modeling shortest path distance using the GP model for density and error computations, we demonstrated that our approach is able to represent the dataset we have as well as predict the population density of a known environment.
+The goal of the current work is to optimimse the set of reference points that allows for predicting of crowd density. We described a framework for modeling shortest path distance using the GP model for density and error computations, we demonstrated that our approach is able to represent the dataset a lot more closely than regressing over $x,y,z$ coordinates. we have as well as predict the population density of a known environment.
 
 \section{6. Main Roles of Each Member}
 \begin{itemize}
