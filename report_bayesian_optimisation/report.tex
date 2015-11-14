@@ -39,7 +39,7 @@ In this report, we propose the use of Bayesian Optimization with Gaussian Proces
 
 We touch on the technical details which includes how we compute the shortest path, modelling the distance using GP regression, density and error computations. We also outline the experimental plan we used to perform and evaluate the performance of Bayesian Optimization for crowd density prediction. \\
 
-The rationale behind using Bayesian Optimization for crowd density prediction is to minimise the error by predicting whether a set of reference points given an environment setup is suitable to predict the crowd density in the environment.
+The rationale behind using Bayesian Optimization for crowd density prediction is to minimise the error by predicting whether a set of reference points given an environment setup is suitable to predict the crowd density in the environment. The idea is that a small group of people can be tagged, and they will conduct their activities as per normal. By getting the data of their movements and passing it through the GP model, one can predict the expected population density of a particular area at any point of time.
 
 \section{Crowd Density Prediction}
 
@@ -176,7 +176,6 @@ Thus we have calculated a predicted density distribution of $10\%$ of individual
 
 We note that since only a fraction of the people in the crowd is used in the data, the predicted values need to be scaled accordingly to represent the total number of people within the region. This root mean square error is the value to be minimized in the Bayesian Optimisation process, where the function picks the optimal 3 points to estimate the crowd density in the hotel.
 
-
 \section{Experimental Evaluation}
 
 \subsection{Real-World Dataset}
@@ -254,10 +253,9 @@ Thus, it is not easy to obtain a smooth crowd density distribution over the spac
 
 \subsection{Improvement}
 
-Due to time constraint, we can only run through a set of 100 individuals to do the actual prediction of the 1000 people population. However, we should improve by using all 10 sets of 100 individuals to do the actual prediction of the population.
+Due to time constraint, we can only run through a set of $100$ individuals to do the actual prediction of the population. However, we should improve by using multiple sets of $100$ individuals to do the actual prediction of the population. \\
 
-Using reference points of past events as the set of reference points to predict future events.
-
+Currently, our $10-100$ data is a bit too tiny for prediction. This is as the movement habits of $10$ people is not very informative, especially since most of them have missing gaps in their data. One improvement we can make is to directly train the reference points using data from the whole population. These learned reference points can then be saved for predicting of crowd densities for future events in the same location.
 
 \section{Conclusion}
 
